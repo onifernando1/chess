@@ -11,4 +11,13 @@ class Rook < Piece
         @white_square = "   ".colorize(background: :light_cyan)
         @black_square = "   ".colorize(background: :light_magenta)
     end 
+
+    def move(x=7, y=0)
+
+        super
+    end 
+
+    def change_colour()
+        super 
+    end 
 end 

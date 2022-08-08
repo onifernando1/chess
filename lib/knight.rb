@@ -28,12 +28,17 @@ class Knight < Piece
 
     end
 
-    def move_knight(x=7, y=1)
+    def move(x=7, y=1)
 
-        if @current_board[x][y] == @black_square
-            @current_board[x][y] = @symbol.colorize(background: :light_magenta)
-        elsif @current_board[x][y] == @white_square
-            @current_board[x][y] = @symbol.colorize(background: :light_cyan)
-        end 
+        # if @current_board[x][y] == @black_square
+        #     @current_board[x][y] = @symbol.colorize(background: :light_magenta)
+        # elsif @current_board[x][y] == @white_square
+        #     @current_board[x][y] = @symbol.colorize(background: :light_cyan)
+        # end 
+        super
+    end 
+
+    def change_colour()
+        super 
     end 
 end 

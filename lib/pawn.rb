@@ -13,14 +13,12 @@ class Pawn < Piece
         @black_square = "   ".colorize(background: :light_magenta)
     end 
 
-    def move(x=6, y=2)
-
-        # if @current_board[x][y] == @black_square
-        #     @current_board[x][y] = @symbol.colorize(background: :light_magenta)
-        # elsif @current_board[x][y] == @white_square
-        #     @current_board[x][y] = @symbol.colorize(background: :light_cyan)
-        # end 
+    def move(x=6, y=0)
 
         super
+    end 
+
+    def change_colour()
+        super 
     end 
 end 
