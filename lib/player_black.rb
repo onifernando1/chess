@@ -2,6 +2,9 @@ require_relative "player.rb"
 
 class PlayerBlack < Player 
 
+    attr_accessor :name
+
+
 
     def initialize
         super 
