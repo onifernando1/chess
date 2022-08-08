@@ -67,4 +67,33 @@ black_bishop2.change_colour()
 black_bishop1.move(0,2)
 black_bishop2.move(0,5)
 
+black_pawn1 = Pawn.new(current_board, "black")
+black_pawn2 = Pawn.new(current_board, "black")
+black_pawn3 = Pawn.new(current_board, "black")
+black_pawn4 = Pawn.new(current_board, "black")
+black_pawn5 = Pawn.new(current_board, "black")
+black_pawn6 = Pawn.new(current_board, "black")
+black_pawn7 = Pawn.new(current_board, "black")
+black_pawn8 = Pawn.new(current_board, "black")
+
+black_pawn1.change_colour()
+black_pawn2.change_colour()
+black_pawn3.change_colour()
+black_pawn4.change_colour()
+black_pawn5.change_colour()
+black_pawn6.change_colour()
+black_pawn7.change_colour()
+black_pawn8.change_colour()
+
+black_pawn1.move()
+black_pawn2.move(1,1)
+black_pawn3.move(1,2)
+black_pawn4.move(1,3)
+black_pawn5.move(1,4)
+black_pawn6.move(1,5)
+black_pawn7.move(1,6)
+black_pawn8.move(1,7)
+
+
+
 current_board.show_board()

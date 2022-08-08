@@ -5,12 +5,13 @@ require 'colorize'
 
 class Knight < Piece
 
-    def initialize(current_board) 
+    def initialize(current_board, colour="white")
         @string = " \u265E " 
-        @symbol =  @string.encode("utf-8").light_white
-        @current_board = current_board.board
-        @white_square = "   ".colorize(background: :light_cyan)
-        @black_square = "   ".colorize(background: :light_magenta)
+        super 
+        # @symbol =  @string.encode("utf-8").light_white
+        # @current_board = current_board.board
+        # @white_square = "   ".colorize(background: :light_cyan)
+        # @black_square = "   ".colorize(background: :light_magenta)
     end 
 
     def possible_moves(xx, yy)
