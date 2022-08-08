@@ -24,10 +24,12 @@ require 'colorize'
 
 class Board
 
+    attr_accessor :board
+
     def initialize 
         make_board()
-        @white_square = "    ".colorize(background: :white)
-        @black_square = "    ".colorize(background: :black)
+        @white_square = "   ".colorize(background: :white)
+        @black_square = "   ".colorize(background: :black)
         colour_board()
     end 
 
@@ -69,40 +71,56 @@ class Board
         
         @numbers = [1,2,3,4,5,6,7,8]
         @numbers.each do |number|
-            @board[number-1].prepend(number.to_s + " ")
-            @board[number-1] << ( + " " + number.to_s)
+            @temp[number-1].prepend(number.to_s + " ")
+            @temp[number-1] << ( + " " + number.to_s)
         end 
+
+
+
 
     end 
 
     def add_letters_to_board
         
-        @letters = ["   A","   B","   C","   D","   E","   F","   G","   H"]
-        @board.prepend(@letters)
-        @board << @letters
+        @letters = ["   A "," B "," C "," D "," E "," F "," G "," H "]
+        @temp.prepend(@letters)
+        @temp << @letters
 
     end 
 
     def join_board
 
-        @board = @board.map do |array| 
+        @temp = @temp.map do |array| 
             array.join("")
         end 
 
 
     end 
 
+    def remove_numbers_from_board
+
+        @board = @board.each do |array|
+            array.shift()
+            array.pop()
+        end 
+    
+
+    end 
+
     def show_board
         
-        @temp = @board
-        
+        @temp = []
+        @board.each {|array| @temp << array}
+
         add_numbers_to_board()
         add_letters_to_board()
+        
         join_board()
 
-        puts @board
+        puts @temp
+        
+        remove_numbers_from_board() #don't know why numbers keep changing @board instead of @temp, cant reset board to temp at end for some reason 
 
-        @board = @temp
     end 
 
 
@@ -114,9 +132,10 @@ end
 
 class Knight 
 
-    def initialize 
+    def initialize(current_board) 
         @string = " \u265E " 
         @symbol =  @string.encode("utf-8").light_white
+        @current_board = current_board.board
     end 
 
     def possible_moves(xx, yy)
@@ -133,6 +152,10 @@ class Knight
         end 
 
     end
+
+    def move_knight(x=2, y=3)
+        @current_board[x][y] = @symbol
+    end 
 end 
 
 class Pawn 
@@ -150,5 +173,9 @@ end
 class King 
 end 
 
-board = Board.new()
-board.show_board()
+current_board = Board.new()
+current_board.show_board()
+knight = Knight.new(current_board)
+knight.move_knight()
+current_board.show_board()
+
