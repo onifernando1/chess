@@ -2,10 +2,10 @@ require 'colorize'
 # Pseudocode 
 
 #make board 8x8 DONE 
-#show board 
+#show board DONE
 # way to switch board/flip board
 #reset board to array from joined DONE 
-#Give each piece a class: eight pawns, two bishops, two knights, two rooks, one queen, and one king.
+#Give each piece a class: eight pawns, two bishops, two knights, two rooks, one queen, and one king. DONE
 # Arrays for possible moves of pieces
 #legal moves - within board limits 8x8 
 # if a player lands on a square and another piece is there, take it.
