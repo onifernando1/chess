@@ -1,5 +1,8 @@
+require_relative 'board.rb'
+require_relative 'piece.rb'
 
-class Pawn 
+
+class Pawn < Piece
     
     def initialize(current_board) 
         @string = " \u265F " 
@@ -9,12 +12,14 @@ class Pawn
         @black_square = "   ".colorize(background: :light_magenta)
     end 
 
-    def move_pawn(x=6, y=2)
+    def move(x=6, y=2)
 
-        if @current_board[x][y] == @black_square
-            @current_board[x][y] = @symbol.colorize(background: :light_magenta)
-        elsif @current_board[x][y] == @white_square
-            @current_board[x][y] = @symbol.colorize(background: :light_cyan)
-        end 
+        # if @current_board[x][y] == @black_square
+        #     @current_board[x][y] = @symbol.colorize(background: :light_magenta)
+        # elsif @current_board[x][y] == @white_square
+        #     @current_board[x][y] = @symbol.colorize(background: :light_cyan)
+        # end 
+
+        super
     end 
 end 
