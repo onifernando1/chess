@@ -23,7 +23,7 @@ class Game
         # set_up_black()
         # set_up_players()
         knight = Knight.new(@current_board,"white")
-        knight.move(7,1)
+        knight.move(5,1)
         @current_board.show_board()
         @current_player = @player_white
         intro()
@@ -148,7 +148,9 @@ class Game
     end 
     
     def get_start_coordinates
-        puts "#{@current_player.name} Please type the co-ordinates of the piece you would like to move e.g 0,2 (x,y)"
+        puts "#{@current_player.name} Please type the co-ordinates of the piece you would like to move e.g A1"
+        @player_start_coords = gets.chomp.to_i
+        #valid_input? else gets again
         #get_coords_from_notation
         #check_legal
         if @current_player == @player_white
@@ -159,9 +161,19 @@ class Game
 
     end 
 
-    def co_ordinate_converter(x,y) # convert coordinates to match the piece on the board 
+    def co_ordinate_converter(input) # convert coordinates to match the piece on the board 
 
-        # if they want 0,2 it will need to be
+        # if they type B1 The 1 must be changed to a 7 (8-input) and this is the first value inputted into move 
+        # the B refers to the 2(x- axis) this 2 must be converted to a 1 (-1) and is the second value inputted into move 
+        @co_ordinates = []
+        split_input = input.split("") # returns ["A",2]
+      
+        @co_ordinates << (8 -  split_input[1].to_i )  #moves correct coord to first place in new arr
+
+        chess_notation = {"A" => 0, "B" => 1, "C" => 2 , "D" => 3, "E" => 4, "F" => 5, "G" => 6} # 2nd value in move()
+        @co_ordinates << chess_notation.fetch(split_input[0]) # convert letter to number and move into second place
+
+        p @co_ordinates
 
     end 
 
@@ -172,3 +184,4 @@ end
 
 
 game = Game.new()
+game.co_ordinate_converter("B1")
