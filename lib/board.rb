@@ -109,5 +109,46 @@ class Board
     
 end 
 
+class Piece
+end 
+
+class Knight 
+
+    def initialize 
+        @string = " \u265E " 
+        @symbol =  @string.encode("utf-8").light_white
+    end 
+
+    def possible_moves(xx, yy)
+
+        #possible moves of knight 
+
+        x_coordinates = [+2, +2, -2, -2, +1, +1, -1, -1]
+        y_coordinates = [+1, -1, +1, -1, +2, -2, +2, -2]
+
+        for i in (0..7)
+            x = xx + x_coordinates[i]
+            y = yy + y_coordinates[i]
+            puts "#{x},#{y}"
+        end 
+
+    end
+end 
+
+class Pawn 
+end 
+
+class Rook 
+end 
+
+class Bishop 
+end 
+
+class Queen 
+end 
+
+class King 
+end 
+
 board = Board.new()
 board.show_board()
