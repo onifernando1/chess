@@ -14,7 +14,6 @@ class Rook < Piece
     end 
 
     def move(x=7, y=0)
-
         super
     end 
 

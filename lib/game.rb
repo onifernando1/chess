@@ -96,6 +96,30 @@ black_pawn6.move(1,5)
 black_pawn7.move(1,6)
 black_pawn7.move(1,7)
 
+black_rook1 = Rook.new(current_board,"black")
+black_rook2 = Rook.new(current_board,"black")
+black_rook1.change_colour()
+black_rook2.change_colour()
+black_rook1.move(0,0)
+black_rook2.move(0,7)
+
+black_knight1 = Knight.new(current_board,"black")
+black_knight2 = Knight.new(current_board,"black")
+black_knight1.change_colour()
+black_knight2.change_colour()
+black_knight1.move(0,1)
+black_knight2.move(0,6)
+
+black_queen = Queen.new(current_board,"black")
+black_queen.change_colour()
+black_queen.move(0,3)
+
+black_king = King.new(current_board, "black")
+black_king.change_colour()
+black_king.move(0,4)
+
+
+
 
 
 
