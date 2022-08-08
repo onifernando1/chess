@@ -29,6 +29,7 @@ white_pawn7 = Pawn.new(current_board)
 white_pawn8 = Pawn.new(current_board)
 
 white_pawn1.move()
+puts white_pawn1.symbol 
 white_pawn2.move(6,1)
 white_pawn3.move(6,2)
 white_pawn4.move(6,3)
@@ -86,13 +87,15 @@ black_pawn7.change_colour()
 black_pawn8.change_colour()
 
 black_pawn1.move()
+black_pawn8.move(1,0)
 black_pawn2.move(1,1)
 black_pawn3.move(1,2)
 black_pawn4.move(1,3)
 black_pawn5.move(1,4)
 black_pawn6.move(1,5)
 black_pawn7.move(1,6)
-black_pawn8.move(1,7)
+black_pawn7.move(1,7)
+
 
 
 

@@ -5,9 +5,9 @@ require 'colorize'
 
 class Rook < Piece
     def initialize(current_board, colour="white")
-        @string = " \u265C " 
         super
-        # @symbol =  @string.encode("utf-8").light_white
+        @string = " \u265C " 
+        @symbol =  @string.encode("utf-8").light_white
         # @current_board = current_board.board
         # @white_square = "   ".colorize(background: :light_cyan)
         # @black_square = "   ".colorize(background: :light_magenta)

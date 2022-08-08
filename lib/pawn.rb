@@ -4,11 +4,14 @@ require 'colorize'
 
 
 class Pawn < Piece
+
+    attr_accessor :string, :symbol
     
     def initialize(current_board, colour="white")
-        @string = " \u265F " 
         super
-        # @symbol =  @string.encode("utf-8").light_white
+
+        @string = " \u265F " 
+        @symbol =  @string.encode("utf-8").light_white
         # @current_board = current_board.board
         # @white_square = "   ".colorize(background: :light_cyan)
         # @black_square = "   ".colorize(background: :light_magenta)
@@ -20,6 +23,11 @@ class Pawn < Piece
     end 
 
     def change_colour()
-        super 
+        # if @colour == "black"
+        #     @symbol = @string.encode("utf-8").black
+        # else
+        #     puts "a" # change this 
+        # end  
+        super() 
     end 
 end 
