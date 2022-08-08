@@ -28,8 +28,8 @@ class Board
 
     def initialize 
         make_board()
-        @white_square = "   ".colorize(background: :white)
-        @black_square = "   ".colorize(background: :black)
+        @white_square = "   ".colorize(background: :light_cyan)
+        @black_square = "   ".colorize(background: :light_magenta)
         colour_board()
     end 
 
@@ -136,8 +136,8 @@ class Knight
         @string = " \u265E " 
         @symbol =  @string.encode("utf-8").light_white
         @current_board = current_board.board
-        @white_square = "   ".colorize(background: :white)
-        @black_square = "   ".colorize(background: :black)
+        @white_square = "   ".colorize(background: :light_cyan)
+        @black_square = "   ".colorize(background: :light_magenta)
     end 
 
     def possible_moves(xx, yy)
@@ -155,14 +155,13 @@ class Knight
 
     end
 
-    def move_knight(x=6, y=1)
+    def move_knight(x=7, y=1)
 
         if @current_board[x][y] == @black_square
-            @current_board[x][y] = @symbol.colorize(background: :black)
+            @current_board[x][y] = @symbol.colorize(background: :light_magenta)
         elsif @current_board[x][y] == @white_square
-            @current_board[x][y] = @symbol.colorize(background: :black)
+            @current_board[x][y] = @symbol.colorize(background: :light_cyan)
         end 
-        # @current_board[x][y] = @symbol
     end 
 end 
 
