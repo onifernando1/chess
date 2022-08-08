@@ -6,6 +6,12 @@ require_relative 'piece.rb'
 require_relative 'queen.rb'
 require_relative 'king.rb'
 require_relative 'rook.rb'
+require_relative 'player.rb'
+require_relative 'player_white.rb'
+require_relative 'player_black.rb'
+
+
+
 
 
 
@@ -13,48 +19,17 @@ class Game
 
     def initialize 
         current_board = Board.new()
-# current_board.show_board()
-        piece = Piece.new(current_board)
-        white_pawn1 = Pawn.new(current_board)
-        white_pawn2 = Pawn.new(current_board)
-        white_pawn3 = Pawn.new(current_board)
-        white_pawn4 = Pawn.new(current_board)
-        white_pawn5 = Pawn.new(current_board)
-        white_pawn6 = Pawn.new(current_board)
-        white_pawn7 = Pawn.new(current_board)
-        white_pawn8 = Pawn.new(current_board)
 
-        white_pawn1.move()
-        white_pawn2.move(6,1)
-        white_pawn3.move(6,2)
-        white_pawn4.move(6,3)
-        white_pawn5.move(6,4)
-        white_pawn6.move(6,5)
-        white_pawn7.move(6,6)
-        white_pawn8.move(6,7)
-
-        white_rook1 = Rook.new(current_board)
-        white_rook2 = Rook.new(current_board)
-        white_rook1.move()
-        white_rook2.move(7,7)
-
-        white_knight1 = Knight.new(current_board)
-        white_knight2 = Knight.new(current_board)
-        white_knight1.move(7,1)
-        white_knight2.move(7,6)
-
-        white_bishop1 = Bishop.new(current_board)
-        white_bishop2 = Bishop.new(current_board)
-        white_bishop1.move()
-        white_bishop2.move(7,5)
-
-        white_queen = Queen.new(current_board)
-        white_queen.move()
-
-        white_king = King.new(current_board)
-        white_king.move()
+        # piece = Piece.new(current_board)
+        
+        current_board.show_board()
 
 
+
+
+    end 
+
+    def set_up_black
 
         black_bishop1 = Bishop.new(current_board,"black")
         black_bishop2 = Bishop.new(current_board,"black")
@@ -112,11 +87,55 @@ class Game
         black_king = King.new(current_board, "black")
         black_king.change_colour()
         black_king.move(0,4)
+    end 
 
+    def set_up_white
+        white_pawn1 = Pawn.new(current_board)
+        white_pawn2 = Pawn.new(current_board)
+        white_pawn3 = Pawn.new(current_board)
+        white_pawn4 = Pawn.new(current_board)
+        white_pawn5 = Pawn.new(current_board)
+        white_pawn6 = Pawn.new(current_board)
+        white_pawn7 = Pawn.new(current_board)
+        white_pawn8 = Pawn.new(current_board)
 
-        current_board.show_board()
+        white_pawn1.move()
+        white_pawn2.move(6,1)
+        white_pawn3.move(6,2)
+        white_pawn4.move(6,3)
+        white_pawn5.move(6,4)
+        white_pawn6.move(6,5)
+        white_pawn7.move(6,6)
+        white_pawn8.move(6,7)
 
+        white_rook1 = Rook.new(current_board)
+        white_rook2 = Rook.new(current_board)
+        white_rook1.move()
+        white_rook2.move(7,7)
 
+        white_knight1 = Knight.new(current_board)
+        white_knight2 = Knight.new(current_board)
+        white_knight1.move(7,1)
+        white_knight2.move(7,6)
+
+        white_bishop1 = Bishop.new(current_board)
+        white_bishop2 = Bishop.new(current_board)
+        white_bishop1.move()
+        white_bishop2.move(7,5)
+
+        white_queen = Queen.new(current_board)
+        white_queen.move()
+
+        white_king = King.new(current_board)
+        white_king.move()
+
+    end 
+
+    def set_up_players
+        player_white = PlayerWhite.new()
+        player_white.get_name()
+        player_black = PlayerBlack.new()
+        player_black.get_name()
     end 
  
 
