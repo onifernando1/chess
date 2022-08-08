@@ -16,12 +16,13 @@ require_relative 'player_black.rb'
 # take players
 
 class Game 
+    attr_accessor :co_ordinates # for testing 
 
     def initialize 
         @current_board = Board.new()
-        # set_up_white()        
-        # set_up_black()
-        # set_up_players()
+        set_up_white()        
+        set_up_black()
+        set_up_players()
         knight = Knight.new(@current_board,"white")
         knight.move(5,1)
         @current_board.show_board()
@@ -149,15 +150,15 @@ class Game
     
     def get_start_coordinates
         puts "#{@current_player.name} Please type the co-ordinates of the piece you would like to move e.g A1"
-        @player_start_coords = gets.chomp.to_i
+        @player_start_coords = gets.chomp
         #valid_input? else gets again
         #get_coords_from_notation
         #check_legal
-        if @current_player == @player_white
-            @current_player = @player_black
-        elsif @current_player == @player_black
-            @current_player = @player_white
-        end 
+        # if @current_player == @player_white
+        #     @current_player = @player_black
+        # elsif @current_player == @player_black
+        #     @current_player = @player_white
+        # end 
 
     end 
 
@@ -177,6 +178,23 @@ class Game
 
     end 
 
+    def select_start_player(co_ordinates)
+        
+        p @current_board.board[co_ordinates[0]][co_ordinates[1]]
+        # find a way to reverse engineer and get player from symbol 
+        
+
+
+    end 
+
+    def round 
+
+        get_start_coordinates()
+        co_ordinate_converter(@player_start_coords)
+        select_start_player(@co_ordinates)
+
+    end 
+
     
 
 end 
@@ -184,4 +202,4 @@ end
 
 
 game = Game.new()
-game.co_ordinate_converter("B1")
+game.round()

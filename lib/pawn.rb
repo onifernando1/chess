@@ -23,11 +23,7 @@ class Pawn < Piece
     end 
 
     def change_colour()
-        # if @colour == "black"
-        #     @symbol = @string.encode("utf-8").black
-        # else
-        #     puts "a" # change this 
-        # end  
+     
         super() 
     end 
 end 
