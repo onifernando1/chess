@@ -13,3 +13,4 @@ current_board.show_board()
 knight = Knight.new(current_board)
 knight.move_knight()
 current_board.show_board()
+
