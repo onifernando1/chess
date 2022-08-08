@@ -166,21 +166,63 @@ class Knight
 end 
 
 class Pawn 
+    def initialize(current_board) 
+        @string = " \u265F " 
+        @symbol =  @string.encode("utf-8").light_white
+        @current_board = current_board.board
+        @white_square = "   ".colorize(background: :light_cyan)
+        @black_square = "   ".colorize(background: :light_magenta)
+    end 
 end 
 
 class Rook 
+    def initialize(current_board) 
+        @string = " \u265C " 
+        @symbol =  @string.encode("utf-8").light_white
+        @current_board = current_board.board
+        @white_square = "   ".colorize(background: :light_cyan)
+        @black_square = "   ".colorize(background: :light_magenta)
+    end 
 end 
 
 class Bishop 
+    def initialize(current_board) 
+        @string = " \u265D " 
+        @symbol =  @string.encode("utf-8").light_white
+        @current_board = current_board.board
+        @white_square = "   ".colorize(background: :light_cyan)
+        @black_square = "   ".colorize(background: :light_magenta)
+    end 
 end 
 
 class Queen 
+    def initialize(current_board) 
+        @string = " \u265B " 
+        @symbol =  @string.encode("utf-8").light_white
+        @current_board = current_board.board
+        @white_square = "   ".colorize(background: :light_cyan)
+        @black_square = "   ".colorize(background: :light_magenta)
+    end 
 end 
 
 class King 
+    def initialize(current_board) 
+        @string = " \u265A " 
+        @symbol =  @string.encode("utf-8").light_white
+        @current_board = current_board.board
+        @white_square = "   ".colorize(background: :light_cyan)
+        @black_square = "   ".colorize(background: :light_magenta)
+    end 
 end 
 
 class Game 
+    def initialize(current_board) 
+        @string = " \u265E " 
+        @symbol =  @string.encode("utf-8").light_white
+        @current_board = current_board.board
+        @white_square = "   ".colorize(background: :light_cyan)
+        @black_square = "   ".colorize(background: :light_magenta)
+    end 
 
 end 
 
