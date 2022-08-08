@@ -136,6 +136,8 @@ class Knight
         @string = " \u265E " 
         @symbol =  @string.encode("utf-8").light_white
         @current_board = current_board.board
+        @white_square = "   ".colorize(background: :white)
+        @black_square = "   ".colorize(background: :black)
     end 
 
     def possible_moves(xx, yy)
@@ -153,8 +155,14 @@ class Knight
 
     end
 
-    def move_knight(x=2, y=3)
-        @current_board[x][y] = @symbol
+    def move_knight(x=6, y=1)
+
+        if @current_board[x][y] == @black_square
+            @current_board[x][y] = @symbol.colorize(background: :black)
+        elsif @current_board[x][y] == @white_square
+            @current_board[x][y] = @symbol.colorize(background: :black)
+        end 
+        # @current_board[x][y] = @symbol
     end 
 end 
 
@@ -171,6 +179,10 @@ class Queen
 end 
 
 class King 
+end 
+
+class Game 
+
 end 
 
 current_board = Board.new()
