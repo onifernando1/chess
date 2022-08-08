@@ -1,8 +1,9 @@
 require_relative 'board.rb'
 require_relative 'piece.rb'
+require 'colorize'
 
 
-class Knight 
+class Knight < Piece
 
     def initialize(current_board) 
         @string = " \u265E " 

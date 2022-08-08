@@ -10,7 +10,8 @@ require_relative 'rook.rb'
 
 current_board = Board.new()
 current_board.show_board()
-knight = Knight.new(current_board)
-knight.move_knight()
+piece = Piece.new(current_board)
+pawn = Pawn.new(current_board)
+pawn.move()
 current_board.show_board()
 

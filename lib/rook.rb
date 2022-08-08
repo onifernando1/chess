@@ -1,4 +1,9 @@
-class Rook 
+require_relative 'board.rb'
+require_relative 'piece.rb'
+require 'colorize'
+
+
+class Rook < Piece
     def initialize(current_board) 
         @string = " \u265C " 
         @symbol =  @string.encode("utf-8").light_white

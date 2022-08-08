@@ -1,4 +1,9 @@
-class King 
+require_relative 'board.rb'
+require_relative 'piece.rb'
+require 'colorize'
+
+
+class King < Piece
     def initialize(current_board) 
         @string = " \u265A " 
         @symbol =  @string.encode("utf-8").light_white

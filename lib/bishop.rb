@@ -1,3 +1,8 @@
+require_relative 'board.rb'
+require_relative 'piece.rb'
+require 'colorize'
+
+
 class Bishop 
     def initialize(current_board) 
         @string = " \u265D " 
