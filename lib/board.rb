@@ -68,11 +68,11 @@ class Board
     end 
 
     def add_numbers_to_board
-        
-        @numbers = [1,2,3,4,5,6,7,8]
+        @numbers = [0,1,2,3,4,5,6,7]                 
+        @numbers_to_show = [8,7,6,5,4,3,2,1]
         @numbers.each do |number|
-            @temp[number-1].prepend(number.to_s + " ")
-            @temp[number-1] << ( + " " + number.to_s)
+            @temp[number].prepend(@numbers_to_show[number].to_s + " ")
+            @temp[number] << ( + " " + @numbers_to_show[number].to_s)
         end 
 
 

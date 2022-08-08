@@ -10,14 +10,20 @@ require_relative 'player.rb'
 require_relative 'player_white.rb'
 require_relative 'player_black.rb'
 
+# build coordinate converter 
+# move players on board
+# check if another piece is there (of the same colour )
+# take players
 
 class Game 
 
     def initialize 
         @current_board = Board.new()
-        set_up_white()        
-        set_up_black()
-        set_up_players()
+        # set_up_white()        
+        # set_up_black()
+        # set_up_players()
+        knight = Knight.new(@current_board,"white")
+        knight.move(7,1)
         @current_board.show_board()
         @current_player = @player_white
         intro()
@@ -25,12 +31,11 @@ class Game
 
     def intro
         puts "Welcome to Ruby Chess!"
-        puts "Please input your move using standard chess notation"
-        puts "King = K, Queen = Q, Bishop = B, Knight = N, Rook = R, Pawn = no notation."
-        puts "E.g At the start of the game to move a pawn from E2 to E4, you type: E4 "
-        puts "E.g: To move a king to E5 you type: KE5"
+        # puts "Please input your move using standard chess notation"
+        # puts "King = K, Queen = Q, Bishop = B, Knight = N, Rook = R, Pawn = no notation."
+        # puts "E.g At the start of the game to move a pawn from E2 to E4, you type: E4 "
+        # puts "E.g: To move a king to E5 you type: KE5"
         
-
     end 
 
     def set_up_black
@@ -142,8 +147,8 @@ class Game
         @player_black.get_name()
     end 
     
-    def get_player_move
-        puts "#{@current_player.name} Please select a move"
+    def get_start_coordinates
+        puts "#{@current_player.name} Please type the co-ordinates of the piece you would like to move e.g 0,2 (x,y)"
         #get_coords_from_notation
         #check_legal
         if @current_player == @player_white
@@ -152,8 +157,15 @@ class Game
             @current_player = @player_white
         end 
 
+    end 
+
+    def co_ordinate_converter(x,y) # convert coordinates to match the piece on the board 
+
+        # if they want 0,2 it will need to be
 
     end 
+
+    
 
 end 
 
