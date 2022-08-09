@@ -178,7 +178,7 @@ class Game
         @current_pieces << @black_queen
         @current_pieces << @black_king
 
-        puts @black_queen.current_position
+        # puts @black_queen.current_position
     end 
 
     def set_up_players
@@ -220,9 +220,19 @@ class Game
 
     def select_start_player(co_ordinates)
         
-        p @current_board.board[co_ordinates[0]][co_ordinates[1]]
-        # find a way to reverse engineer and get player from symbol 
-        # put in current position on each player? and then match coords to current position of each piece?
+       @piece_selected = []
+       @current_pieces.each do |piece|
+        if piece.current_position == co_ordinates
+            puts piece 
+            puts piece.current_position
+            puts "YAY"
+            @piece_selected = piece
+        end 
+    end 
+
+        puts "FINAL PIECE"
+        puts @piece_selected
+        puts @piece_selected.current_position
 
 
     end 
@@ -244,3 +254,4 @@ end
 game = Game.new()
 # game.round()
 game.save_current_pieces()
+game.select_start_player([0,3])
