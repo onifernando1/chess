@@ -87,7 +87,7 @@ class Game
         @black_rook1.change_colour()
         @black_rook2.change_colour()
         @black_rook1.move(0,0)
-        @black_rook2.move(0,7)
+        @black_rook2.move(0,7) 
 
         @black_knight1 = Knight.new(@current_board,"black")
         @black_knight2 = Knight.new(@current_board,"black")
@@ -126,7 +126,7 @@ class Game
 
         @white_rook1 = Rook.new(@current_board)
         @white_rook2 = Rook.new(@current_board)
-        @white_rook1.move()
+        @white_rook1.move() 
         @white_rook2.move(7,7)
 
         @white_knight1 = Knight.new(@current_board)
