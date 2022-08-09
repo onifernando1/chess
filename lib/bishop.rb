@@ -44,5 +44,9 @@ class Bishop < Piece
         super()
     end 
 
+    def find_player 
+        super 
+    end 
+
 end 
 

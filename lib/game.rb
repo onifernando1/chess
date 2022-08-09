@@ -30,8 +30,10 @@ class Game
         intro()
         @current_pieces = []
         save_current_pieces()
+        piece = Piece.new(@current_board,"white",@current_pieces)
         @valid_start_coordinates = false 
         @start_valid = false 
+        piece.find_player() #delete after method made
 
     end 
 
@@ -208,6 +210,20 @@ class Game
 
     end 
 
+    def check_valid_start
+        valid_letters = ["A","B","C","D","E","F","G","a","b","c","d","e","f","g"]    
+        valid_numbers = [1,2,3,4,5,6,7,8]
+        start_coords_to_check = @player_start_coords.split("")
+        p start_coords_to_check 
+        if valid_letters.include?(start_coords_to_check[0]) && valid_numbers.include?(start_coords_to_check[1].to_i) && start_coords_to_check.length == 2 
+            @start_valid = true 
+            puts "LOOP REACHED"
+        else 
+            puts "Oops! Try again with some valid co-ordinates!"
+        end 
+
+    end 
+
     def co_ordinate_converter(input) # convert coordinates to match the piece on the board 
 
         # if they type B1 The 1 must be changed to a 7 (8-input) and this is the first value inputted into move 
@@ -320,19 +336,7 @@ class Game
         end 
     end 
 
-    def check_valid_start
-        valid_letters = ["A","B","C","D","E","F","G","a","b","c","d","e","f","g"]    
-        valid_numbers = [1,2,3,4,5,6,7,8]
-        start_coords_to_check = @player_start_coords.split("")
-        p start_coords_to_check 
-        if valid_letters.include?(start_coords_to_check[0]) && valid_numbers.include?(start_coords_to_check[1].to_i) && start_coords_to_check.length == 2 
-            @start_valid = true 
-            puts "LOOP REACHED"
-        else 
-            puts "Oops! Try again with some valid co-ordinates!"
-        end 
-
-    end 
+  
 
     def start_of_round 
         until @start_valid == true 
@@ -365,6 +369,8 @@ class Game
             puts "Sorry, you seem to have made an illegal move"
             puts "Let's start over"
         end         
+
+        @piece_selected.find_path([7,4],[6,4], @current_player)
     end 
 
  
@@ -396,3 +402,5 @@ game.round()
     # if final coo When moving change square at original starting coords to black/whiterd with black piece on take function 
     # remoe from current pieces
     # add piece to taken pieces array (in player_white/black obj"
+
+    #add in only select own colours later 

@@ -39,4 +39,8 @@ class Queen < Piece
     def delete_old_move
         super()
     end 
+
+    def find_player 
+        super 
+    end 
 end 

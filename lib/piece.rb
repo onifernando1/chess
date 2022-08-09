@@ -4,7 +4,7 @@ require 'colorize'
 class Piece
     attr_accessor :string, :symbol, :current_position, :colour
 
-    def initialize(current_board, colour="white")
+    def initialize(current_board, colour="white", current_pieces="default")
         @current_board = current_board.board
         @colour = colour
         @white_square = "   ".colorize(background: :light_cyan)
@@ -12,6 +12,7 @@ class Piece
         @string = " \u265E " 
         @symbol =  @string.encode("utf-8").light_white
         @current_position = [4,4]
+        @current_pieces = current_pieces
 
 
     end 
@@ -53,5 +54,25 @@ class Piece
             @current_board[@current_position[0]][@current_position[1]] = @white_square
             puts "DELETED B"
         end 
+    end 
+
+    def find_player(end_co_ordinates)
+        
+            @piece = []
+            @current_pieces.each do |piece|
+             if piece.current_position == end_co_ordinates
+                 puts piece 
+                 puts piece.current_position
+                 puts "YAY"
+                 @piece = piece
+             end 
+             
+            #  end 
+     
+            #  puts "FINAL PIECE"
+            #  puts @piece_selected
+            #  puts @piece_selected.current_position
+     
+
     end 
 end 
