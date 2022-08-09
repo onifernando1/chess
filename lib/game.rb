@@ -24,7 +24,7 @@ class Game
         # set_up_black()
         set_up_players()
         knight = Knight.new(@current_board,"white")
-        knight.move(3,0)
+        knight.move(0,7)
         @current_board.show_board()
         @current_player = @player_white
         intro()
