@@ -11,32 +11,25 @@ class Piece
         @black_square = "   ".colorize(background: :light_magenta)
         @string = " \u265E " 
         @symbol =  @string.encode("utf-8").light_white
-        @current_position = [0,0]
+        @current_position = [4,4]
 
 
     end 
 
-    def move(x=3, y=3)
+    
+
+    def move(x, y) # move colour stuff into new function?
 
         if @current_board[x][y] == @black_square
+               
             @current_board[x][y] = @symbol.colorize(background: :light_magenta)
-            
-            if @current_board[@current_position[0]][@current_position[1]] == @symbol.colorize(background: :light_magenta) || @current_board[@current_position[0]][@current_position[1]] == @black_square
-                @current_board[@current_position[0]][@current_position[1]] = @black_square
-            elsif @current_board[@current_position[0]][@current_position[1]] == @symbol.colorize(background: :light_cyan) || @current_board[@current_position[0]][@current_position[1]] == @white_square
-                @current_board[@current_position[0]][@current_position[1]] = @white_square
-            end 
 
             @current_position[0] = x 
             @current_position[1] = y 
 
         elsif @current_board[x][y] == @white_square
+
             @current_board[x][y] = @symbol.colorize(background: :light_cyan)
-            if @current_board[@current_position[0]][@current_position[1]] == @symbol.colorize(background: :light_magenta) || @current_board[@current_position[0]][@current_position[1]] == @black_square
-                @current_board[@current_position[0]][@current_position[1]] = @black_square
-            elsif @current_board[@current_position[0]][@current_position[1]] == @symbol.colorize(background: :light_cyan) || @current_board[@current_position[0]][@current_position[1]] == @white_square
-                @current_board[@current_position[0]][@current_position[1]] = @white_square
-            end 
 
             @current_position[0] = x 
             @current_position[1] = y 
@@ -50,5 +43,15 @@ class Piece
             puts "a" # change this 
         end  
 
+    end 
+
+    def delete_old_move
+        if @current_board[@current_position[0]][@current_position[1]] == @symbol.colorize(background: :light_magenta)
+            @current_board[@current_position[0]][@current_position[1]] = @black_square
+            puts "DELETED A "
+        elsif @current_board[@current_position[0]][@current_position[1]] == @symbol.colorize(background: :light_cyan) 
+            @current_board[@current_position[0]][@current_position[1]] = @white_square
+            puts "DELETED B"
+        end 
     end 
 end 

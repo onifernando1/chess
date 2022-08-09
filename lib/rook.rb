@@ -33,5 +33,9 @@ class Rook < Piece
         @potential_y = [0,0,-1,+1,0,0,-2,+2,0,0,-3,+3,0,0,-4,+4,0,0,-5,+5,0,0,-6,+6,0,0,-7,+7]
     
     end 
+
+    def delete_old_move
+        super()
+    end 
 end 
 

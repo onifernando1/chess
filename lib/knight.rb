@@ -53,4 +53,8 @@ class Knight < Piece
         @potential_y = [+1, -1, +1, -1, +2, -2, +2, -2]
 
     end 
+
+    def delete_old_move
+        super()
+    end 
 end 

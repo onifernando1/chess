@@ -37,4 +37,8 @@ class Pawn < Piece
         @potential_y = [0]
 
     end 
+
+    def delete_old_move
+        super()
+    end 
 end 

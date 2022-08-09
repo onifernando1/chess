@@ -33,5 +33,9 @@ class King < Piece
         @potential_y = [0,0,-1,+1,+1,-1,+1,-1]
     
     end 
+
+    def delete_old_move
+        super()
+    end 
    
 end 

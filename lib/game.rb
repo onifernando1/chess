@@ -336,6 +336,7 @@ class Game
         end 
 
         if @legal == true 
+            @piece_selected.delete_old_move()
             @piece_selected.move(@co_ordinates[0],@co_ordinates[1])
             @current_board.show_board()
 

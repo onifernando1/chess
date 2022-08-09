@@ -40,5 +40,9 @@ class Bishop < Piece
 
     end 
 
+    def delete_old_move
+        super()
+    end 
+
 end 
 
