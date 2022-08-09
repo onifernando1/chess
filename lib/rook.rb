@@ -3,7 +3,7 @@ require_relative 'piece.rb'
 require 'colorize'
 require_relative 'bst.rb'
 
-
+#a
 
 class Rook < Piece
 
