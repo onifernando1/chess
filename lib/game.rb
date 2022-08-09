@@ -270,10 +270,18 @@ class Game
 
     end 
 
-    def check_legal?
+    def legal_moves(co_ordinates)
 
+        e.g start [7,2]
 
+        @legal_end_x = []
+        @legal__end_y = []
+        length_of_potential_array = @piece_selected.potential_x.length - 1 
 
+        for i in (0..length_of_potential_array) do 
+            @legal_end_x  << co_ordinates[0] + @piece_selected.potential_x[i]
+            @legal_end_y << co_ordinates[1] + @piece_selected.potential_y[i]
+        end 
     end 
 
     def round 
@@ -281,9 +289,9 @@ class Game
         get_start_coordinates()
         co_ordinate_converter(@player_start_coords)
         select_start_player(@co_ordinates)
+        legal_moves(@co_ordinates)
         get_end_coordinates()
         co_ordinate_converter(@player_end_coords)
-        check_legal()
         #____piece.move()
 
     end 

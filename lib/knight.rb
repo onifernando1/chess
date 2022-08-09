@@ -4,7 +4,7 @@ require 'colorize'
 
 
 class Knight < Piece
-    attr_accessor :symbol, :colour, :string, :current_position
+    attr_accessor :symbol, :colour, :string, :current_position, :potential_x, :potential_y
 
     def initialize(current_board, colour="white")
         super 

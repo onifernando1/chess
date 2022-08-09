@@ -5,7 +5,7 @@ require 'colorize'
 
 class Pawn < Piece
 
-    attr_accessor :string, :symbol, :current_position
+    attr_accessor :string, :symbol, :current_position, :potential_x, :potential_y
     
     def initialize(current_board, colour="white")
         super
