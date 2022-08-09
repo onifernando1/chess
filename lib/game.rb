@@ -280,9 +280,14 @@ class Game
         length_of_potential_array = @piece_selected.potential_x.length - 1 
        
         for i in (0..length_of_potential_array) do 
-            @legal_end_x  << @co_ordinates[0] + @piece_selected.potential_x[i]
-            @legal_end_y << @co_ordinates[1] + @piece_selected.potential_y[i]
+            move_x = @co_ordinates[0] + @piece_selected.potential_x[i]
+            move_y = @co_ordinates[1] + @piece_selected.potential_y[i]
+            if move_x <=7 && move_y <=7 && move_x >=0 && move_y >=0
+                @legal_end_x  << move_x
+                @legal_end_y << move_y
+            end 
         end 
+
 
         p @legal_end_x
         p @legal_end_y
