@@ -20,11 +20,11 @@ class Game
 
     def initialize 
         @current_board = Board.new()
-        set_up_white()        
-        set_up_black()
+        # set_up_white()        
+        # set_up_black()
         set_up_players()
         knight = Knight.new(@current_board,"white")
-        knight.move(5,1)
+        knight.move(3,0)
         @current_board.show_board()
         @current_player = @player_white
         intro()
@@ -191,10 +191,7 @@ class Game
         @player_black.get_name()
     end 
 
-    def valid_start_coordinates?
-        # @valid_start_coordinates = false 
 
-    end 
     
     def get_start_coordinates
         puts "#{@current_player.name} Please type the co-ordinates of the piece you would like to move e.g A1"
@@ -245,7 +242,26 @@ class Game
 
     end 
 
-    
+    # def valid_start_coordinates?
+    #     # if white player, can select a white piece, if it can also move!
+    #     # if black player, can select a black piece , if it can move!
+    #     if @current_player == player_white
+    #         if @piece_selected.colour != "white"
+    #             puts "Can only pick your own pieces!"
+    #         elsif 
+
+        
+        
+        
+        
+    #     elsif @current_player == player_black
+    #     end 
+
+            
+
+        
+
+    # end 
 
     def get_end_coordinates
         puts "Please enter the co-ordinates of your move E.g: 'A1'"
@@ -255,6 +271,8 @@ class Game
     end 
 
     def check_legal?
+
+
 
     end 
 
@@ -278,3 +296,16 @@ end
 game = Game.new()
 game.round()
 # game.save_current_pieces()
+
+
+#TO Do 
+#1. Add in potential moves of each piece 
+#2. Check legal moves - if potential moves fit on board , check if that square is occupied by own piece(invalid) or other piece(take)
+#3. get end coords, check legal 
+#4. Move (=take )
+#
+#
+#
+#
+#
+#

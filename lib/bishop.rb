@@ -5,7 +5,8 @@ require 'colorize'
 
 class Bishop < Piece
 
-    attr_accessor :symbol, :colour 
+    attr_accessor :symbol, :colour, :string, :current_position
+
     
     def initialize(current_board, colour="white")
         super
@@ -13,6 +14,8 @@ class Bishop < Piece
         # @colour = colour 
         @symbol =  @string.encode("utf-8").light_white
         @current_position = [0,0]
+        potential_moves()
+
 
         # @current_board = current_board.board
         # @white_square = "   ".colorize(background: :light_cyan)
@@ -28,6 +31,13 @@ class Bishop < Piece
 
     def change_colour()
      super 
+    end 
+
+    def potential_moves
+
+        @potential_x = [-1,-1,+1,+1,-2,-2,+2,+2,-3,-3,+3,+3,-4,-4,+4,+4,-5,-5,+5,+5,-6,-6,+6,+6,-7,-7,+7,+7]
+        @potential_y = [+1,-1,+1,-1,+2,-2,+2,-2,+3,-3,+3,-3,+4,-4,+4,-4,+5,-5,+5,-5,+6,-6,+6,-6,+7,-7,+7,-7]
+
     end 
 
 end 
