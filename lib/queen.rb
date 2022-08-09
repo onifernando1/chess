@@ -77,21 +77,158 @@ class Queen < Piece
 
            #get start and move base moves until destination reached, that will dform path, check all coordinates on path for pieces 
 
-           base_move_x =  [+1,-1,0,0]
-           base_move_y =[0,0,-1,+1]
-   
-           until path_x == end_x && path_y == end_y 
-               for i in (0..3)
-                   path_x = start_x + base_move_x[i]
-                   start_x = path_x
-                   path_y = start_y + base_move_y[i]
-                   start_y = path_y
-               end 
-               puts "YAY"
-           end 
-   
-           puts "YAY"
-   
-   
+           node = Node.new(starting_x,starting_y)
+           tree = Tree.new()
+           tree.min_steps(starting_x,starting_y, ending_x,ending_y)
+           @path = tree.print_path()
+
+           # check each of coordinates on path for person 
+
+           
+
+
     end 
 end 
+
+
+class Node attr_accessor :x, :y, :distance, :co_ordinates, :parent
+
+    def initialize(x=nil, y=nil, distance=0, parent=nil)
+        @x = x
+        @y =y  
+        @co_ordinates = [x,y]
+        @parent = parent
+        @distance = distance
+    end 
+
+
+end 
+
+class Tree attr_accessor :queue, :moves, :path, :continue
+
+    def initialize 
+        @queue = []
+        @moves = []
+        @path = []
+        @continue = true 
+    end 
+
+    def add_node(x, y, distance, parent=nil)
+        node = Node.new(x, y, distance, parent)
+        @queue << node 
+        node
+    end 
+
+    def move_valid? (x, y)
+
+        if x < 8 && x > 0 && y < 8 && y > 0 
+            return true 
+        else 
+            return false 
+        end 
+
+    end 
+
+    def min_steps(x_start, y_start, x_end, y_end)
+
+        #check if in board
+
+
+
+        unless move_valid?(x_start, y_start) && move_valid?(x_end, y_end)
+            puts "OUTSIDE OF BOARD"
+            @continue = false 
+            return 
+        end 
+
+   
+        #possible moves of queen base  
+
+        x_coordinates = [+1,-1,0,0]
+        y_coordinates = [0,0,-1,+1]
+
+
+
+
+        #matrix to track visited spaces
+
+        matrix = [
+                    [false,false,false,false,false,false,false,false],
+                    [false,false,false,false,false,false,false,false],
+                    [false,false,false,false,false,false,false,false],
+                    [false,false,false,false,false,false,false,false],
+                    [false,false,false,false,false,false,false,false],
+                    [false,false,false,false,false,false,false,false],
+                    [false,false,false,false,false,false,false,false],
+                    [false,false,false,false,false,false,false,false]
+        ]
+
+        visited = matrix
+
+
+        # root = add_node(x_start, y_start, 0)
+         #pointer
+         @current_node = add_node(x_start, y_start, 0) 
+         node_number = 0
+  
+        #set start root node to visited 
+        visited[x_start][y_start] = true 
+
+       
+        
+        until @current_node.x == x_end && @current_node.y == y_end 
+            
+
+            #go through possible moves 
+
+            for i in (0..3)
+
+                x = @current_node.x + x_coordinates[i]
+                y = @current_node.y + y_coordinates[i]
+
+                if move_valid?(x,y) && visited[x][y] == false 
+                    visited[x][y] = true 
+                    @moves << add_node(x,y,@current_node.distance + 1, @current_node )
+                end
+                
+
+            end 
+
+            #move to next node in @nodes
+                node_number += 1 
+                @current_node = @queue[node_number]
+                # visited = matrix
+                
+
+        end 
+        visited = matrix
+
+
+    
+    end 
+    
+    def print_path
+
+
+        current = @current_node
+
+        puts "You made it in #{@current_node.distance} moves"
+
+        for i in (0..@current_node.distance)
+            @path.prepend(current.co_ordinates)
+            current = current.parent
+        end 
+
+        p @path
+        @path
+
+    end 
+end 
+
+
+starting_x = 7
+starting_y = 4
+ending_x = 7
+ending_y = 1
+
+
