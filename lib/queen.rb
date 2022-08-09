@@ -5,7 +5,7 @@ require 'colorize'
 
 class Queen < Piece
 
-    attr_accessor :symbol, :colour, :string, :current_position, :potential_x, :potential_y
+    attr_accessor :symbol, :colour, :string, :current_position, :potential_x, :potential_y, :current_pieces
 
     def initialize(current_board, colour="white")
         super 

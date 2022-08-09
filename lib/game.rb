@@ -30,10 +30,10 @@ class Game
         intro()
         @current_pieces = []
         save_current_pieces()
-        @piece = Piece.new(@current_board,"white",@current_pieces)
+        # @piece = Piece.new(@current_board,"white",@current_pieces)
+        update_current_pieces()
         @valid_start_coordinates = false 
         @start_valid = false 
-        @white_king.current_pieces = @current_pieces
     end 
 
     def intro
@@ -184,6 +184,42 @@ class Game
         @current_pieces << @black_king
 
         # puts @black_queen.current_position
+    end 
+
+    def update_current_pieces
+         @white_pawn1.current_pieces = @current_pieces
+         @white_pawn2.current_pieces = @current_pieces
+         @white_pawn3.current_pieces = @current_pieces
+         @white_pawn4.current_pieces = @current_pieces
+         @white_pawn5.current_pieces = @current_pieces
+         @white_pawn6.current_pieces = @current_pieces
+         @white_pawn7.current_pieces = @current_pieces
+         @white_pawn8.current_pieces = @current_pieces
+         @white_knight1.current_pieces = @current_pieces
+         @white_knight2.current_pieces = @current_pieces
+         @white_rook1.current_pieces = @current_pieces
+         @white_rook2.current_pieces = @current_pieces
+         @white_bishop1.current_pieces = @current_pieces
+         @white_bishop2.current_pieces = @current_pieces
+         @white_queen.current_pieces = @current_pieces
+         @white_king.current_pieces = @current_pieces
+         @black_pawn1.current_pieces = @current_pieces
+         @black_pawn2.current_pieces = @current_pieces
+         @black_pawn3.current_pieces = @current_pieces
+         @black_pawn4.current_pieces = @current_pieces
+         @black_pawn5.current_pieces = @current_pieces
+         @black_pawn6.current_pieces = @current_pieces
+         @black_pawn7.current_pieces = @current_pieces
+         @black_pawn8.current_pieces = @current_pieces
+         @black_knight1.current_pieces = @current_pieces
+         @black_knight2.current_pieces = @current_pieces
+         @black_bishop1.current_pieces = @current_pieces
+         @black_bishop2.current_pieces = @current_pieces
+         @black_rook1.current_pieces = @current_pieces
+         @black_rook2.current_pieces = @current_pieces
+         @black_queen.current_pieces = @current_pieces
+         @black_king.current_pieces = @current_pieces
+
     end 
 
     def set_up_players
