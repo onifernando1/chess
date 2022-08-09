@@ -371,7 +371,7 @@ class Game
         end 
 
         if @legal == true 
-            @piece_selected.find_path([0,0],@end_co_ordinates,@current_player)
+            @piece_selected.find_path(@start_co_ordinates,@end_co_ordinates,@current_player)
             if @piece_selected.path_blocked == false 
                 @piece_selected.delete_old_move()
                 @piece_selected.move(@co_ordinates[0],@co_ordinates[1])

@@ -69,12 +69,6 @@ class Piece
             end 
             @piece
              
-            #  end 
-     
-            #  puts "FINAL PIECE"
-            #  puts @piece_selected
-            #  puts @piece_selected.current_position
-     
 
     end 
 end 
