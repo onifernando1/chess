@@ -339,6 +339,7 @@ class Game
             @piece_selected.delete_old_move()
             @piece_selected.move(@co_ordinates[0],@co_ordinates[1])
             @current_board.show_board()
+            @legal = false #necessary?
 
         elsif @legal == false 
             puts "Sorry, you seem to have made an illegal move"
@@ -355,6 +356,7 @@ end
 
 game = Game.new()
 game.round()
+
 
 
 #TO Do 
@@ -374,5 +376,3 @@ game.round()
     # if final coo When moving change square at original starting coords to black/whiterd with black piece on take function 
     # remoe from current pieces
     # add piece to taken pieces array (in player_white/black obj"
-# Remove piece from old position once moved
-# in move function?
