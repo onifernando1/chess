@@ -213,6 +213,7 @@ class Game
         # the B refers to the 2(x- axis) this 2 must be converted to a 1 (-1) and is the second value inputted into move 
         @co_ordinates = []
         split_input = input.split("") # returns ["A",2]
+        split_input[0].upcase()
       
         @co_ordinates << (8 -  split_input[1].to_i )  #moves correct coord to first place in new arr
 
