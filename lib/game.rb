@@ -31,6 +31,7 @@ class Game
         @current_pieces = []
         save_current_pieces()
         @valid_start_coordinates = false 
+        @start_valid = false 
 
     end 
 
@@ -213,7 +214,7 @@ class Game
         # the B refers to the 2(x- axis) this 2 must be converted to a 1 (-1) and is the second value inputted into move 
         @co_ordinates = []
         split_input = input.split("") # returns ["A",2]
-        split_input[0].upcase()
+        split_input[0] = split_input[0].upcase()
       
         @co_ordinates << (8 -  split_input[1].to_i )  #moves correct coord to first place in new arr
 
@@ -319,9 +320,27 @@ class Game
         end 
     end 
 
-    def start_of_round 
+    def check_valid_start
+        valid_letters = ["A","B","C","D","E","F","G","a","b","c","d","e","f","g"]    
+        valid_numbers = [1,2,3,4,5,6,7,8]
+        start_coords_to_check = @player_start_coords.split("")
+        p start_coords_to_check 
+        if valid_letters.include?(start_coords_to_check[0]) && valid_numbers.include?(start_coords_to_check[1].to_i) && start_coords_to_check.length == 2 
+            @start_valid = true 
+            puts "LOOP REACHED"
+        else 
+            puts "Oops! Try again with some valid co-ordinates!"
+        end 
 
-        get_start_coordinates()
+    end 
+
+    def start_of_round 
+        until @start_valid == true 
+            get_start_coordinates()
+            check_valid_start()
+        end 
+        puts "ESCAPED LOOP"
+        @start_valid = false #reset
         co_ordinate_converter(@player_start_coords)
         select_start_player(@co_ordinates)
         legal_move_generator(@co_ordinates)
