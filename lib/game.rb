@@ -327,8 +327,11 @@ class Game
         get_end_coordinates()
         co_ordinate_converter(@player_end_coords)
         legal_move(@co_ordinates,@legal_end_x, @legal_end_y)
+        if @legal == true 
+            @piece_selected.move(@co_ordinates[0],@co_ordinates[1])
+        end 
+        @current_board.show_board()
 
-        #____piece.move()
 
     end 
     
