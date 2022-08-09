@@ -29,6 +29,9 @@ class Game
         @current_player = @player_white
         intro()
         @current_pieces = []
+        save_current_pieces()
+        @valid_start_coordinates = false 
+
     end 
 
     def intro
@@ -187,6 +190,11 @@ class Game
         @player_black = PlayerBlack.new()
         @player_black.get_name()
     end 
+
+    def valid_start_coordinates?
+        # @valid_start_coordinates = false 
+
+    end 
     
     def get_start_coordinates
         puts "#{@current_player.name} Please type the co-ordinates of the piece you would like to move e.g A1"
@@ -237,14 +245,30 @@ class Game
 
     end 
 
+    
+
+    def get_end_coordinates
+        puts "Please enter the co-ordinates of your move E.g: 'A1'"
+        @player_end_coords = gets.chomp()
+
+
+    end 
+
+    def check_legal?
+
+    end 
+
     def round 
 
         get_start_coordinates()
         co_ordinate_converter(@player_start_coords)
         select_start_player(@co_ordinates)
+        get_end_coordinates()
+        co_ordinate_converter(@player_end_coords)
+        check_legal()
+        #____piece.move()
 
     end 
-
     
 
 end 
@@ -252,6 +276,5 @@ end
 
 
 game = Game.new()
-# game.round()
-game.save_current_pieces()
-game.select_start_player([0,3])
+game.round()
+# game.save_current_pieces()
