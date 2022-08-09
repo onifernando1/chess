@@ -20,11 +20,11 @@ class Game
 
     def initialize 
         @current_board = Board.new()
-        # set_up_white()        
-        # set_up_black()
+        set_up_white()        
+        set_up_black()
         set_up_players()
-        knight = Knight.new(@current_board,"white")
-        knight.move(0,7)
+        # knight = Knight.new(@current_board,"white")
+        # knight.move(0,7)
         @current_board.show_board()
         @current_player = @player_white
         intro()
@@ -233,7 +233,8 @@ class Game
             puts "YAY"
             @piece_selected = piece
         end 
-    end 
+        
+        end 
 
         puts "FINAL PIECE"
         puts @piece_selected
@@ -270,18 +271,29 @@ class Game
 
     end 
 
-    def legal_moves(co_ordinates)
+    def legal_move_generator(co_ordinates)
 
-        e.g start [7,2]
-
+        # e.g start [7,2]
+        @co_ordinates = co_ordinates
         @legal_end_x = []
-        @legal__end_y = []
+        @legal_end_y = []
         length_of_potential_array = @piece_selected.potential_x.length - 1 
-
+       
         for i in (0..length_of_potential_array) do 
-            @legal_end_x  << co_ordinates[0] + @piece_selected.potential_x[i]
-            @legal_end_y << co_ordinates[1] + @piece_selected.potential_y[i]
+            @legal_end_x  << @co_ordinates[0] + @piece_selected.potential_x[i]
+            @legal_end_y << @co_ordinates[1] + @piece_selected.potential_y[i]
         end 
+
+        p @legal_end_x
+        p @legal_end_y
+
+         
+    end 
+
+    def legal_move?
+
+        
+
     end 
 
     def round 
@@ -289,9 +301,9 @@ class Game
         get_start_coordinates()
         co_ordinate_converter(@player_start_coords)
         select_start_player(@co_ordinates)
-        legal_moves(@co_ordinates)
-        get_end_coordinates()
-        co_ordinate_converter(@player_end_coords)
+        legal_move_generator(@co_ordinates)
+        # get_end_coordinates()
+        # co_ordinate_converter(@player_end_coords)
         #____piece.move()
 
     end 
