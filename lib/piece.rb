@@ -20,11 +20,24 @@ class Piece
 
         if @current_board[x][y] == @black_square
             @current_board[x][y] = @symbol.colorize(background: :light_magenta)
+            
+            if @current_board[@current_position[0]][@current_position[1]] == @symbol.colorize(background: :light_magenta) || @current_board[@current_position[0]][@current_position[1]] == @black_square
+                @current_board[@current_position[0]][@current_position[1]] = @black_square
+            elsif @current_board[@current_position[0]][@current_position[1]] == @symbol.colorize(background: :light_cyan) || @current_board[@current_position[0]][@current_position[1]] == @white_square
+                @current_board[@current_position[0]][@current_position[1]] = @white_square
+            end 
+
             @current_position[0] = x 
             @current_position[1] = y 
 
         elsif @current_board[x][y] == @white_square
             @current_board[x][y] = @symbol.colorize(background: :light_cyan)
+            if @current_board[@current_position[0]][@current_position[1]] == @symbol.colorize(background: :light_magenta) || @current_board[@current_position[0]][@current_position[1]] == @black_square
+                @current_board[@current_position[0]][@current_position[1]] = @black_square
+            elsif @current_board[@current_position[0]][@current_position[1]] == @symbol.colorize(background: :light_cyan) || @current_board[@current_position[0]][@current_position[1]] == @white_square
+                @current_board[@current_position[0]][@current_position[1]] = @white_square
+            end 
+
             @current_position[0] = x 
             @current_position[1] = y 
         end 

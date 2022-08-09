@@ -342,7 +342,6 @@ class Game
         elsif @legal == false 
             puts "Sorry, you seem to have made an illegal move"
             puts "Let's start over"
-            start_of_round()
         end         
     end 
 
@@ -355,7 +354,6 @@ end
 
 game = Game.new()
 game.round()
-# game.save_current_pieces()
 
 
 #TO Do 
@@ -364,4 +362,16 @@ game.round()
     #Thoughts: 
     # need a way to plot path 
     # and see if another piece is in the way 
+    # maybe i make move just a display move function 
+    #say the start position is 7,2 and legal end coords is 5,2 (moving up 2 )
+    # add basic move to each piece?
+    #then i make that piece move to that spot in increments 
+    # e.g until currentpos == 5,2 move up via the legal movement +1,0,
+    # if its empty, it can move there, if another piece is there, it cant move there (or it can take!)
+    # if piece == white move = not legal 
+    # if piece = black it cant move if its not final dest
+    # if final coo When moving change square at original starting coords to black/whiterd with black piece on take function 
+    # remoe from current pieces
+    # add piece to taken pieces array (in player_white/black obj"
 # Remove piece from old position once moved
+# in move function?
