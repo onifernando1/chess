@@ -194,7 +194,7 @@ class Game
 
     
     def get_start_coordinates
-        puts "#{@current_player.name} Please type the co-ordinates of the piece you would like to move e.g A1"
+        puts "#{@current_player.name} 1.Please type the co-ordinates of the piece you would like to move e.g A1"
         @player_start_coords = gets.chomp
         #valid_input? else gets again
         #get_coords_from_notation
@@ -265,7 +265,7 @@ class Game
     # end 
 
     def get_end_coordinates
-        puts "Please enter the co-ordinates of your move E.g: 'A1'"
+        puts "2.Please enter the co-ordinates of your move E.g: 'A1'"
         @player_end_coords = gets.chomp()
 
 
@@ -318,7 +318,7 @@ class Game
         end 
     end 
 
-    def round 
+    def start_of_round 
 
         get_start_coordinates()
         co_ordinate_converter(@player_start_coords)
@@ -327,13 +327,26 @@ class Game
         get_end_coordinates()
         co_ordinate_converter(@player_end_coords)
         legal_move(@co_ordinates,@legal_end_x, @legal_end_y)
+    end 
+
+    def round 
+        until @legal == true 
+            start_of_round()
+            
+        end 
+
         if @legal == true 
             @piece_selected.move(@co_ordinates[0],@co_ordinates[1])
-        end 
-        @current_board.show_board()
+            @current_board.show_board()
 
-
+        elsif @legal == false 
+            puts "Sorry, you seem to have made an illegal move"
+            puts "Let's start over"
+            start_of_round()
+        end         
     end 
+
+ 
     
 
 end 
@@ -346,14 +359,9 @@ game.round()
 
 
 #TO Do 
-#1. Add in potential moves of each piece 
-#2. Check legal moves - if potential moves fit on board , check if that square is occupied by own piece(invalid) or other piece(take)
-#3. get end coords, check legal 
-#4. Move (=take )
-#
-#
-#
-#
-#
-#castle cant move through players! No piece can! 
-# pawn moves not working 
+
+# Stop pieces moving through players (except knight)
+    #Thoughts: 
+    # need a way to plot path 
+    # and see if another piece is in the way 
+# Remove piece from old position once moved
