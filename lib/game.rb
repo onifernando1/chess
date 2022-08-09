@@ -178,6 +178,7 @@ class Game
         @current_pieces << @black_queen
         @current_pieces << @black_king
 
+        puts @black_queen.current_position
     end 
 
     def set_up_players
