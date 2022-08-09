@@ -32,7 +32,7 @@ class Pawn < Piece
 
     def potential_moves
         # note swapped later because of 
-        @potential_x = [+1]
+        @potential_x = [-1]
 
         @potential_y = [0]
 
