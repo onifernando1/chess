@@ -58,7 +58,7 @@ class Knight < Piece
         super()
     end 
 
-    def find_player 
+    def find_player(end_co_ordinates)
         super 
     end 
 end 
