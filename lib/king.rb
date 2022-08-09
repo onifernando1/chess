@@ -5,7 +5,7 @@ require 'colorize'
 
 class King < Piece
 
-    attr_accessor :current_position, :potential_x, :potential_y, :path_blocked, :current_pieces
+    attr_accessor :current_position, :potential_x, :potential_y, :path_blocked, :current_pieces, :path_blocked
 
     def initialize(current_board, colour="white")
         super 
