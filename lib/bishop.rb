@@ -5,7 +5,7 @@ require 'colorize'
 
 class Bishop < Piece
 
-    attr_accessor :symbol, :colour, :string, :current_position, :potential_x, :potential_y
+    attr_accessor :symbol, :colour, :string, :current_position, :potential_x, :potential_y, :path_blocked
 
     
     def initialize(current_board, colour="white")
@@ -45,7 +45,7 @@ class Bishop < Piece
     end 
 
     def find_player 
-        super 
+        super()
     end 
 
 end 

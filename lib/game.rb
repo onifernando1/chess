@@ -30,11 +30,10 @@ class Game
         intro()
         @current_pieces = []
         save_current_pieces()
-        piece = Piece.new(@current_board,"white",@current_pieces)
+        @piece = Piece.new(@current_board,"white",@current_pieces)
         @valid_start_coordinates = false 
         @start_valid = false 
-        piece.find_player() #delete after method made
-
+        @white_king.current_pieces = @current_pieces
     end 
 
     def intro
@@ -237,7 +236,7 @@ class Game
         chess_notation = {"A" => 0, "B" => 1, "C" => 2 , "D" => 3, "E" => 4, "F" => 5, "G" => 6, "H" =>7} # 2nd value in move()
         @co_ordinates << chess_notation.fetch(split_input[0]) # convert letter to number and move into second place
 
-        p @co_ordinates
+        @co_ordinates
 
     end 
 
@@ -336,6 +335,13 @@ class Game
         end 
     end 
 
+    # def find_if_path_is_blocked
+        
+            
+        
+
+    # end 
+
   
 
     def start_of_round 
@@ -345,12 +351,17 @@ class Game
         end 
         puts "ESCAPED LOOP"
         @start_valid = false #reset
-        co_ordinate_converter(@player_start_coords)
-        select_start_player(@co_ordinates)
-        legal_move_generator(@co_ordinates)
+        @start_co_ordinates = co_ordinate_converter(@player_start_coords)
+        select_start_player(@start_co_ordinates)
+        legal_move_generator(@start_co_ordinates)
         get_end_coordinates()
-        co_ordinate_converter(@player_end_coords)
-        legal_move(@co_ordinates,@legal_end_x, @legal_end_y)
+        @end_co_ordinates = co_ordinate_converter(@player_end_coords)
+        legal_move(@end_co_ordinates,@legal_end_x, @legal_end_y)
+        
+        # @destination = @piece_selected.find_player(@end_co_ordinates)
+
+
+
     end 
 
     def round 
@@ -360,9 +371,13 @@ class Game
         end 
 
         if @legal == true 
-            @piece_selected.delete_old_move()
-            @piece_selected.move(@co_ordinates[0],@co_ordinates[1])
+            @piece_selected.find_path([0,0],@end_co_ordinates,@current_player)
+            if @piece_selected.path_blocked == false 
+                @piece_selected.delete_old_move()
+                @piece_selected.move(@co_ordinates[0],@co_ordinates[1])
+            end 
             @current_board.show_board()
+
             @legal = false #necessary?
 
         elsif @legal == false 
@@ -370,7 +385,7 @@ class Game
             puts "Let's start over"
         end         
 
-        @piece_selected.find_path([7,4],[6,4], @current_player)
+        # @piece_selected.find_path([7,4],[6,4], @current_player)
     end 
 
  

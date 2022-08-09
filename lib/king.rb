@@ -5,7 +5,7 @@ require 'colorize'
 
 class King < Piece
 
-    attr_accessor :current_position, :potential_x, :potential_y, :path_blocked
+    attr_accessor :current_position, :potential_x, :potential_y, :path_blocked, :current_pieces
 
     def initialize(current_board, colour="white")
         super 
@@ -14,6 +14,7 @@ class King < Piece
         @current_position = [0,0]
         potential_moves()
         @path_blocked = false 
+        # @current_pieces = []
         # @current_board = current_board.board
         # @white_square = "   ".colorize(background: :light_cyan)
         # @black_square = "   ".colorize(background: :light_magenta)
@@ -39,7 +40,7 @@ class King < Piece
         super()
     end 
 
-    def find_player 
+    def find_player(end_co_ordinates)
         super 
     end 
 
@@ -52,11 +53,17 @@ class King < Piece
         start_y = start_co_ordinates[1]
         end_x = end_co_ordinates[0]
         end_y = end_co_ordinates[1]  
-        
+
+        if @current_board[end_x][end_y] != @black_square || @current_board[end_x][end_y] != @white_square
+
+            @destination_player = find_player(end_co_ordinates)  
+          
+        end 
+
          
         if @current_board[end_x][end_y] == @black_square || @current_board[end_x][end_y] == @white_square
             @path_blocked = false 
-        elsif @current_board[end_x][end_y].colour == current_player.colour 
+        elsif @destination_player.colour == current_player.colour  # find piece 
             @path_blocked = true 
         else # take 
             puts "TIME TO TAKE PIECE"

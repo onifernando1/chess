@@ -58,7 +58,7 @@ class Piece
 
     def find_player(end_co_ordinates)
         
-            @piece = []
+            @piece = ""
             @current_pieces.each do |piece|
              if piece.current_position == end_co_ordinates
                  puts piece 
@@ -66,6 +66,8 @@ class Piece
                  puts "YAY"
                  @piece = piece
              end 
+            end 
+            @piece
              
             #  end 
      
