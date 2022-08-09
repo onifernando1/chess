@@ -216,7 +216,7 @@ class Game
       
         @co_ordinates << (8 -  split_input[1].to_i )  #moves correct coord to first place in new arr
 
-        chess_notation = {"A" => 0, "B" => 1, "C" => 2 , "D" => 3, "E" => 4, "F" => 5, "G" => 6} # 2nd value in move()
+        chess_notation = {"A" => 0, "B" => 1, "C" => 2 , "D" => 3, "E" => 4, "F" => 5, "G" => 6, "H" =>7} # 2nd value in move()
         @co_ordinates << chess_notation.fetch(split_input[0]) # convert letter to number and move into second place
 
         p @co_ordinates
@@ -295,10 +295,27 @@ class Game
          
     end 
 
-    def legal_move?
+    def legal_move(co_ordinates, legal_end_x, legal_end_y)
 
-        
 
+        @co_ordinates = co_ordinates
+
+        @legal = false 
+
+        legal_move_array_length = legal_end_x.length - 1 
+
+        for i in (0..legal_move_array_length) do 
+            puts i 
+            
+            if legal_end_x[i] == @co_ordinates[0] && legal_end_y[i] == @co_ordinates[1]
+
+                puts "MOVE ALLOWED MATCH"
+                @legal = true 
+
+            end 
+
+
+        end 
     end 
 
     def round 
@@ -307,8 +324,10 @@ class Game
         co_ordinate_converter(@player_start_coords)
         select_start_player(@co_ordinates)
         legal_move_generator(@co_ordinates)
-        # get_end_coordinates()
-        # co_ordinate_converter(@player_end_coords)
+        get_end_coordinates()
+        co_ordinate_converter(@player_end_coords)
+        legal_move(@co_ordinates,@legal_end_x, @legal_end_y)
+
         #____piece.move()
 
     end 
@@ -333,4 +352,5 @@ game.round()
 #
 #
 #
-#
+#castle cant move through players! No piece can! 
+# pawn moves not working 

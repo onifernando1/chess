@@ -50,7 +50,7 @@ class Knight < Piece
     def potential_moves
 
         @potential_x = [+2, +2, -2, -2, +1, +1, -1, -1]
-        @potential_x = [+1, -1, +1, -1, +2, -2, +2, -2]
+        @potential_y = [+1, -1, +1, -1, +2, -2, +2, -2]
 
     end 
 end 
