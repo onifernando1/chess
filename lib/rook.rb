@@ -1,6 +1,8 @@
 require_relative 'board.rb'
 require_relative 'piece.rb'
 require 'colorize'
+require_relative 'bst.rb'
+
 
 
 class Rook < Piece
