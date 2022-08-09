@@ -28,6 +28,7 @@ class Game
         @current_board.show_board()
         @current_player = @player_white
         intro()
+        @current_pieces = []
     end 
 
     def intro
@@ -141,6 +142,44 @@ class Game
 
     end 
 
+    def save_current_pieces
+
+        @current_pieces << @white_pawn1
+        @current_pieces << @white_pawn2
+        @current_pieces << @white_pawn3
+        @current_pieces << @white_pawn4
+        @current_pieces << @white_pawn5
+        @current_pieces << @white_pawn6
+        @current_pieces << @white_pawn7
+        @current_pieces << @white_pawn8
+        @current_pieces << @white_knight1
+        @current_pieces << @white_knight2
+        @current_pieces << @white_rook1
+        @current_pieces << @white_rook2
+        @current_pieces << @white_bishop1
+        @current_pieces << @white_bishop2
+        @current_pieces << @white_queen
+        @current_pieces << @white_king
+
+        @current_pieces << @black_pawn1
+        @current_pieces << @black_pawn2
+        @current_pieces << @black_pawn3
+        @current_pieces << @black_pawn4
+        @current_pieces << @black_pawn5
+        @current_pieces << @black_pawn6
+        @current_pieces << @black_pawn7
+        @current_pieces << @black_pawn8
+        @current_pieces << @black_knight1
+        @current_pieces << @black_knight2
+        @current_pieces << @black_bishop1
+        @current_pieces << @black_bishop2
+        @current_pieces << @black_rook1
+        @current_pieces << @black_rook2
+        @current_pieces << @black_queen
+        @current_pieces << @black_king
+
+    end 
+
     def set_up_players
         @player_white = PlayerWhite.new()
         @player_white.get_name()
@@ -182,7 +221,7 @@ class Game
         
         p @current_board.board[co_ordinates[0]][co_ordinates[1]]
         # find a way to reverse engineer and get player from symbol 
-        
+        # put in current position on each player? and then match coords to current position of each piece?
 
 
     end 
@@ -202,4 +241,5 @@ end
 
 
 game = Game.new()
-game.round()
+# game.round()
+game.save_current_pieces()
