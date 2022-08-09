@@ -9,6 +9,8 @@ class Queen < Piece
 
         @string = " \u265B " 
         @symbol =  @string.encode("utf-8").light_white
+        @current_position = [0,0]
+
         # @current_board = current_board.board
         # @white_square = "   ".colorize(background: :light_cyan)
         # @black_square = "   ".colorize(background: :light_magenta)
