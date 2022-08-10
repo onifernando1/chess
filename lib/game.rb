@@ -359,17 +359,17 @@ class Game
         @end_co_ordinates = co_ordinate_converter(@player_end_coords)
         if @piece_selected.string == " \u265B " 
             @piece_selected.plot_path(@start_co_ordinates[0],@start_co_ordinates[1],@end_co_ordinates[0],@end_co_ordinates[1])
-            if @piece_selected.path_blocked == true 
-                @legal = false 
-                puts "Looks like someone is in your way!"
-                @current_board.show_board()
-            else 
-                @legal = true 
-            end 
-        end
-        if @legal == true 
+        end 
+        if @piece_selected.path_blocked == true 
+            @legal = false 
+            puts "Looks like someone is in your way!"
+            @current_board.show_board()
+        else 
+            @legal = true 
+        end 
+        # if @legal == true 
             legal_move(@end_co_ordinates,@legal_end_x, @legal_end_y)
-        end
+        # end
         
 
     end 

@@ -46,7 +46,11 @@ class Bishop < Piece
     end 
 
     def find_player(end_co_ordinates)
-        super()
+        super(end_co_ordinates)
+    end 
+
+    def check_destination(end_co_ordinates, current_player) 
+        super(end_co_ordinates, current_player  )
     end 
 
 end 
