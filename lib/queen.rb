@@ -15,7 +15,7 @@ class Queen < Piece
         @symbol =  @string.encode("utf-8").light_white
         @current_position = [0,0]
         potential_moves()
-        @path_blocked = true 
+        @path_blocked = nil 
 
     end 
 
@@ -48,41 +48,53 @@ class Queen < Piece
         super(end_co_ordinates, current_player  )
     end 
 
+    def set_up_path(starting_x,starting_y, ending_x,ending_y)
+    
+        tree = Tree.new()
+        tree.min_steps(starting_x,starting_y, ending_x,ending_y)
+        @path = tree.print_path()
+    end 
+
+    def check_if_piece_blocking_path
+
+
+        @path_blocked_array = []
+        @path.each do |move|
+
+             move_x = move[0]
+             move_y = move[1]
+
+
+             if @current_board[move_x][move_y] != @black_square || @current_board[move_x][move_y] != @white_square
+            
+                    @destination_player = find_player(move)
+             end 
+
+            
+     
+             
+            if @current_board[move_x][move_y] == @black_square || @current_board[move_x][move_y] == @white_square
+
+                 @path_blocked_array << false 
+             else
+                 @path_blocked_array << true 
+             end  
+         end 
+
+
+
+         if @path_blocked_array.include?(true)
+             @path_blocked = true 
+         end 
+
+    end 
+
     def plot_path(starting_x,starting_y,ending_x,ending_y)
 
-           #get start and move base moves until destination reached, that will dform path, check all coordinates on path for pieces 
-
-           tree = Tree.new()
-           tree.min_steps(starting_x,starting_y, ending_x,ending_y)
-           @path = tree.print_path()
-
+        set_up_path(starting_x,starting_y, ending_x,ending_y)
            # check each of coordinates on path for person 
 
-           @path_blocked_array = []
-
-           @path.each do |move|
-
-                move_x = move[0]
-                move_y = move[1]
-
-                if @current_board[move_x][move_y] != @black_square || @current_board[move_x][move_y] != @white_square
-
-                    @destination_player = find_player(move)  
-                
-                end 
-        
-                
-                if @current_board[move_x][move_y] == @black_square || @current_board[move_x][move_y] == @white_square
-                    @path_blocked_array << false 
-                else
-                    @path_blocked_array << true 
-                end  
-            end 
-
-            if @path_blocked_array.include?(true)
-                @path_blocked = true 
-            end 
-
+        check_if_piece_blocking_path()
 
            
 
@@ -121,7 +133,7 @@ class Tree attr_accessor :queue, :moves, :path, :continue, :distance, :current_n
 
     def move_valid? (x, y)
 
-        if x < 8 && x > 0 && y < 8 && y > 0 
+        if x < 8 && x >= 0 && y < 8 && y >= 0 
             return true 
         else 
             return false 
@@ -167,11 +179,15 @@ class Tree attr_accessor :queue, :moves, :path, :continue, :distance, :current_n
         visited[x_start][y_start] = true 
 
         
-        until @current_node.x == x_end ||@current_node.x > 7 || @current_node.x < 0  && @current_node.y == y_end  ||@current_node.y > 7 || @current_node.y < 0 
-    
+        until @current_node.x == x_end  && @current_node.y == y_end  #||@current_node.y > 7 && @current_node.y < 0 && @current_node.x < 0 && @current_node.x > 7 
+            
+           
+            
             #go through possible moves 
 
-            for i in (0..3)
+            length_of_potential_moves = x_coordinates.length - 1 
+
+            for i in (0..length_of_potential_moves)
 
                 x = @current_node.x + x_coordinates[i]
                 y = @current_node.y + y_coordinates[i]
@@ -181,14 +197,15 @@ class Tree attr_accessor :queue, :moves, :path, :continue, :distance, :current_n
                     @moves << add_node(x,y,@current_node.distance + 1, @current_node )
                 end
                 
-
+                # puts "#{@current_node.x},#{@current_node.y}"
             end 
 
             #move to next node in @nodes
                 node_number += 1 
                 @current_node = @queue[node_number]
                 # visited = matrix
-                
+
+           
 
         end 
         visited = matrix
@@ -212,9 +229,10 @@ class Tree attr_accessor :queue, :moves, :path, :continue, :distance, :current_n
 
         # remove first (starting) move
         @path.shift()
-        # remove end move (dealt with in findpathfunction)
-        @path.pop()
-        # p @path
+        # # remove end move (dealt with in findpathfunction)
+        if @path.length > 1 
+            @path.pop()
+        end 
 
 
         @path

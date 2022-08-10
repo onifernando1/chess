@@ -105,7 +105,7 @@ class Game
 
         @white_pawn1.move()
         @white_pawn2.move(6,1)
-        @white_pawn3.move(6,2) 
+        # @white_pawn3.move(6,2) # 6,2
         @white_pawn4.move(6,3)
         @white_pawn5.move(6,4)
         @white_pawn6.move(6,5)
@@ -221,15 +221,7 @@ class Game
     def get_start_coordinates
         puts "#{@current_player.name} 1.Please type the co-ordinates of the piece you would like to move e.g A1"
         @player_start_coords = gets.chomp
-        #valid_input? else gets again
-        #get_coords_from_notation
-        #check_legal
-        # if @current_player == @player_white
-        #     @current_player = @player_black
-        # elsif @current_player == @player_black
-        #     @current_player = @player_white
-        # end 
-
+       
     end 
 
     def check_valid_start
@@ -244,18 +236,18 @@ class Game
 
     end 
 
-    def co_ordinate_converter(input) # convert coordinates to match the piece on the board 
+    def co_ordinate_converter(input) 
 
         # if they type B1 The 1 must be changed to a 7 (8-input) and this is the first value inputted into move 
         # the B refers to the 2(x- axis) this 2 must be converted to a 1 (-1) and is the second value inputted into move 
         @co_ordinates = []
-        split_input = input.split("") # returns ["A",2]
+        split_input = input.split("") 
         split_input[0] = split_input[0].upcase()
       
         @co_ordinates << (8 -  split_input[1].to_i )  #moves correct coord to first place in new arr
 
-        chess_notation = {"A" => 0, "B" => 1, "C" => 2 , "D" => 3, "E" => 4, "F" => 5, "G" => 6, "H" =>7} # 2nd value in move()
-        @co_ordinates << chess_notation.fetch(split_input[0]) # convert letter to number and move into second place
+        chess_notation = {"A" => 0, "B" => 1, "C" => 2 , "D" => 3, "E" => 4, "F" => 5, "G" => 6, "H" =>7} 
+        @co_ordinates << chess_notation.fetch(split_input[0]) 
 
         @co_ordinates
 
@@ -272,34 +264,13 @@ class Game
         end 
 
 
-
     end 
-
-    # def valid_start_coordinates?
-    #     # if white player, can select a white piece, if it can also move!
-    #     # if black player, can select a black piece , if it can move!
-    #     if @current_player == player_white
-    #         if @piece_selected.colour != "white"
-    #             puts "Can only pick your own pieces!"
-    #         elsif 
-
-        
-        
-        
-        
-    #     elsif @current_player == player_black
-    #     end 
-
-            
-
-        
-
-    # end 
+ 
 
     def get_end_coordinates
+
         puts "2.Please enter the co-ordinates of your move E.g: 'A1'"
         @player_end_coords = gets.chomp()
-
 
     end 
 
@@ -326,7 +297,6 @@ class Game
 
     def legal_move(co_ordinates, legal_end_x, legal_end_y)
 
-
         @co_ordinates = co_ordinates
 
         @legal = false 
@@ -337,13 +307,27 @@ class Game
             
             if legal_end_x[i] == @co_ordinates[0] && legal_end_y[i] == @co_ordinates[1]
 
-                # puts "MOVE ALLOWED MATCH"
                 @legal = true 
 
             end 
 
 
         end 
+    end 
+
+    def check_for_any_blocks
+        if @piece_selected.string == " \u265B " 
+            @piece_selected.plot_path(@start_co_ordinates[0],@start_co_ordinates[1],@end_co_ordinates[0],@end_co_ordinates[1])
+        end 
+        if @piece_selected.path_blocked == true 
+            @legal = false 
+            puts "Looks like someone is in your way!"
+            @current_board.show_board()
+        else 
+            @legal = true 
+         
+            legal_move(@end_co_ordinates,@legal_end_x, @legal_end_y)
+        end
     end 
   
     def start_of_round 
@@ -357,20 +341,8 @@ class Game
         legal_move_generator(@start_co_ordinates)
         get_end_coordinates()
         @end_co_ordinates = co_ordinate_converter(@player_end_coords)
-        if @piece_selected.string == " \u265B " 
-            @piece_selected.plot_path(@start_co_ordinates[0],@start_co_ordinates[1],@end_co_ordinates[0],@end_co_ordinates[1])
-        end 
-        if @piece_selected.path_blocked == true 
-            @legal = false 
-            puts "Looks like someone is in your way!"
-            @current_board.show_board()
-        else 
-            @legal = true 
-         
-            legal_move(@end_co_ordinates,@legal_end_x, @legal_end_y)
-        end
-        # end
-        
+        check_for_any_blocks()
+   
 
     end 
 
@@ -429,3 +401,4 @@ game.round()
     # add piece to taken pieces array (in player_white/black obj"
 
     #add in only select own colours later 
+    # change player 

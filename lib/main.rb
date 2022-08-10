@@ -6,6 +6,6 @@ require_relative 'piece.rb'
 require_relative 'queen.rb'
 require_relative 'king.rb'
 require_relative 'rook.rb'
-starting_x,starting_y, ending_x,ending_y
+
 
 
