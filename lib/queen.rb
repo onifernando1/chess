@@ -6,7 +6,7 @@ require 'colorize'
 
 class Queen < Piece
 
-    attr_accessor :symbol, :colour, :string, :current_position, :potential_x, :potential_y, :current_pieces, :path_blocked
+    attr_accessor :symbol, :colour, :string, :current_position, :potential_x, :potential_y, :current_pieces, :path_blocked, :string 
 
     def initialize(current_board, colour="white")
         super 
@@ -73,16 +73,36 @@ class Queen < Piece
         
     end 
 
-    def plot_path
+    def plot_path(starting_x,starting_y,ending_x,ending_y)
 
            #get start and move base moves until destination reached, that will dform path, check all coordinates on path for pieces 
 
-           node = Node.new(starting_x,starting_y)
            tree = Tree.new()
            tree.min_steps(starting_x,starting_y, ending_x,ending_y)
            @path = tree.print_path()
 
            # check each of coordinates on path for person 
+
+           @path.each do |move|
+
+                move_x = move[0]
+                move_y = move[1]
+
+                if @current_board[move_x][move_y] != @black_square || @current_board[move_x][move_y] != @white_square
+
+                    @destination_player = find_player(move)  
+                
+                end 
+        
+                
+                if @current_board[move_x][move_y] == @black_square || @current_board[move_x][move_y] == @white_square
+                    @path_blocked = false 
+                else #@destination_player.colour == current_player.colour  # find piece 
+                    @path_blocked = true 
+                    puts "PATH BLOCKED NONONO"
+                end  
+            end 
+
 
            
 
@@ -95,7 +115,7 @@ class Node attr_accessor :x, :y, :distance, :co_ordinates, :parent
 
     def initialize(x=nil, y=nil, distance=0, parent=nil)
         @x = x
-        @y =y  
+        @y = y  
         @co_ordinates = [x,y]
         @parent = parent
         @distance = distance
@@ -104,7 +124,7 @@ class Node attr_accessor :x, :y, :distance, :co_ordinates, :parent
 
 end 
 
-class Tree attr_accessor :queue, :moves, :path, :continue
+class Tree attr_accessor :queue, :moves, :path, :continue, :distance, :current_node, :node
 
     def initialize 
         @queue = []
@@ -135,17 +155,17 @@ class Tree attr_accessor :queue, :moves, :path, :continue
 
 
 
-        unless move_valid?(x_start, y_start) && move_valid?(x_end, y_end)
-            puts "OUTSIDE OF BOARD"
-            @continue = false 
-            return 
-        end 
+        # unless move_valid?(x_start, y_start) && move_valid?(x_end, y_end)
+        #     puts "OUTSIDE OF BOARD"
+        #     @continue = false 
+        #     return 
+        # end 
 
    
-        #possible moves of queen base  
+        #possible moves of queen base  # if it starts using diagonals to cut, if x increase then do these moves: etc. 
 
-        x_coordinates = [+1,-1,0,0]
-        y_coordinates = [0,0,-1,+1]
+        x_coordinates = [+1,-1,0,0,-1,-1,+1,+1]
+        y_coordinates = [0,0,-1,+1,+1,-1,+1,-1]
 
 
 
@@ -174,10 +194,14 @@ class Tree attr_accessor :queue, :moves, :path, :continue
         #set start root node to visited 
         visited[x_start][y_start] = true 
 
-       
+        puts "CNCNCNNCNCNC#{@current_node}CNCNCNCNCNC"
+        puts "CNX#{@current_node.x}CNX"
+
         
-        until @current_node.x == x_end && @current_node.y == y_end 
-            
+        until @current_node.x == x_end ||@current_node.x > 7 || @current_node.x < 0  && @current_node.y == y_end  ||@current_node.y > 7 || @current_node.y < 0 
+            puts "Until#{@current_node}CNCNCNCNCNC"
+            puts "Until CNX#{@current_node.x}CNX"
+
 
             #go through possible moves 
 
@@ -219,16 +243,33 @@ class Tree attr_accessor :queue, :moves, :path, :continue
             current = current.parent
         end 
 
+
+        # remove first (starting) move
+        @path.shift()
+        # remove end move (dealt with in findpathfunction)
+        @path.pop()
         p @path
+
+
         @path
 
     end 
 end 
 
 
-starting_x = 7
-starting_y = 4
-ending_x = 7
-ending_y = 1
+# starting_x = 7
+# starting_y = 4
+# ending_x = 7
+# ending_y = 1
 
+# # class Board 
 
+# #     def initialize 
+# #         @current_board = []
+# #     end 
+
+# # end 
+
+# # board = Board.new()
+# # queen = Queen.new(board)
+# # queen.plot_path(starting_x,starting_y,ending_x,ending_y)

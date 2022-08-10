@@ -407,6 +407,10 @@ class Game
         end 
 
         if @legal == true 
+            if @piece_selected.string == " \u265B " 
+                puts "YEEHA"
+                @piece_selected.plot_path(@start_co_ordinates[0],@start_co_ordinates[1],@end_co_ordinates[0],@end_co_ordinates[1])
+            end
             @piece_selected.find_path(@start_co_ordinates,@end_co_ordinates,@current_player)
             if @piece_selected.path_blocked == false 
                 @piece_selected.delete_old_move()
