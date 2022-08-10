@@ -43,7 +43,7 @@ class Queen < Piece
         super 
     end 
 
-    def find_path(start_co_ordinates, end_co_ordinates, current_player)
+    def check_destination(end_co_ordinates, current_player) 
         #e.g youre given start coordinates E1
         # end coordinates E2 
         # piece in your way ;. cant move 
@@ -98,9 +98,8 @@ class Queen < Piece
                 
                 if @current_board[move_x][move_y] == @black_square || @current_board[move_x][move_y] == @white_square
                     @path_blocked_array << false 
-                else #@destination_player.colour == current_player.colour  # find piece 
+                else
                     @path_blocked_array << true 
-                    # puts "PATH BLOCKED!"
                 end  
             end 
 
