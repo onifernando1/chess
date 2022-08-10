@@ -13,7 +13,7 @@ class Piece
         @symbol =  @string.encode("utf-8").light_white
         @current_position = [4,4]
         @current_pieces = current_pieces
-
+        
 
     end 
 
@@ -91,7 +91,7 @@ class Piece
         elsif @destination_player.colour == current_player.colour  # find piece 
             @path_blocked = true 
         else # take 
-            puts "TIME TO TAKE PIECE"
+            puts "Piece taken !"
             @path_blocked = false 
         end  
         

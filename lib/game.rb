@@ -26,6 +26,7 @@ class Game
         update_current_pieces()
         @valid_start_coordinates = false 
         @start_valid = false 
+        @game_end = false 
     end 
 
     def intro
@@ -323,9 +324,7 @@ class Game
 
                 @legal = true 
 
-            else 
-                puts "Silly goose! Try again :)"
-            end 
+            end
 
 
         end 
@@ -358,6 +357,7 @@ class Game
             select_start_player(@start_co_ordinates)
             legal_move_generator(@start_co_ordinates)
         end 
+        @valid_piece = false #reset
         get_end_coordinates()
         @end_co_ordinates = co_ordinate_converter(@player_end_coords)
         check_for_any_blocks()
@@ -365,7 +365,7 @@ class Game
 
     end 
 
-    def round 
+    def single_round 
         until @legal == true 
             start_of_round()
             
@@ -379,13 +379,22 @@ class Game
                 @piece_selected.move(@co_ordinates[0],@co_ordinates[1])
             end 
             @current_board.show_board()
-
-            # @legal = false #necessary?
+            @current_player = @player_black
+            @legal = false 
+            start_of_round()
 
         elsif @legal == false 
             puts "Sorry, you seem to have made an illegal move"
             puts "Let's start over"
         end         
+
+    end 
+
+    def game 
+
+        # until @game_end == true 
+            single_round()
+        # end 
 
     end 
 
@@ -397,7 +406,7 @@ end
 
 
 game = Game.new()
-game.round()
+game.game()
 
 
 
