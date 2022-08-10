@@ -105,7 +105,7 @@ class Game
 
         @white_pawn1.move()
         @white_pawn2.move(6,1)
-        # @white_pawn3.move(6,2) # 6,2
+        @white_pawn3.move(6,2)
         @white_pawn4.move(6,3)
         @white_pawn5.move(6,4)
         @white_pawn6.move(6,5)
@@ -236,6 +236,10 @@ class Game
 
     end 
 
+    def check_player_is_at_start # ensure only selects own player 
+
+    end 
+
     def co_ordinate_converter(input) 
 
         # if they type B1 The 1 must be changed to a 7 (8-input) and this is the first value inputted into move 
@@ -254,14 +258,17 @@ class Game
     end 
 
     def select_start_player(co_ordinates)
-        
+        # @valid_piece = nil
        @piece_selected = []
        @current_pieces.each do |piece|
         if piece.current_position == co_ordinates
             @piece_selected = piece
+            # @valid_piece = true 
+            # puts @piece_selected
+
         end 
-        
         end 
+
 
 
     end 
@@ -279,14 +286,21 @@ class Game
         @co_ordinates = co_ordinates
         @legal_end_x = []
         @legal_end_y = []
-        length_of_potential_array = @piece_selected.potential_x.length - 1 
-       
-        for i in (0..length_of_potential_array) do 
-            move_x = @co_ordinates[0] + @piece_selected.potential_x[i]
-            move_y = @co_ordinates[1] + @piece_selected.potential_y[i]
-            if move_x <=7 && move_y <=7 && move_x >=0 && move_y >=0
-                @legal_end_x  << move_x
-                @legal_end_y << move_y
+        
+        if  @piece_selected == [] #|| @piece_selected.colour != @current_player.colour
+            @valid_piece = false 
+            puts "Silly goose. Pick a proper player"
+        else 
+            @valid_piece = true 
+            length_of_potential_array = @piece_selected.potential_x.length - 1 
+        
+            for i in (0..length_of_potential_array) do 
+                move_x = @co_ordinates[0] + @piece_selected.potential_x[i]
+                move_y = @co_ordinates[1] + @piece_selected.potential_y[i]
+                if move_x <=7 && move_y <=7 && move_x >=0 && move_y >=0
+                    @legal_end_x  << move_x
+                    @legal_end_y << move_y
+                end 
             end 
         end 
 
@@ -331,14 +345,17 @@ class Game
     end 
   
     def start_of_round 
-        until @start_valid == true 
-            get_start_coordinates()
-            check_valid_start()
+
+        until @valid_piece == true 
+            until @start_valid == true 
+                get_start_coordinates()
+                check_valid_start()
+            end 
+            @start_valid = false #reset
+            @start_co_ordinates = co_ordinate_converter(@player_start_coords)
+            select_start_player(@start_co_ordinates)
+            legal_move_generator(@start_co_ordinates)
         end 
-        @start_valid = false #reset
-        @start_co_ordinates = co_ordinate_converter(@player_start_coords)
-        select_start_player(@start_co_ordinates)
-        legal_move_generator(@start_co_ordinates)
         get_end_coordinates()
         @end_co_ordinates = co_ordinate_converter(@player_end_coords)
         check_for_any_blocks()

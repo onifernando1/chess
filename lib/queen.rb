@@ -92,8 +92,6 @@ class Queen < Piece
     def plot_path(starting_x,starting_y,ending_x,ending_y)
 
         set_up_path(starting_x,starting_y, ending_x,ending_y)
-           # check each of coordinates on path for person 
-
         check_if_piece_blocking_path()
 
            
@@ -239,21 +237,3 @@ class Tree attr_accessor :queue, :moves, :path, :continue, :distance, :current_n
 
     end 
 end 
-
-
-# starting_x = 7
-# starting_y = 4
-# ending_x = 7
-# ending_y = 1
-
-# # class Board 
-
-# #     def initialize 
-# #         @current_board = []
-# #     end 
-
-# # end 
-
-# # board = Board.new()
-# # queen = Queen.new(board)
-# # queen.plot_path(starting_x,starting_y,ending_x,ending_y)

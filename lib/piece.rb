@@ -49,10 +49,8 @@ class Piece
     def delete_old_move
         if @current_board[@current_position[0]][@current_position[1]] == @symbol.colorize(background: :light_magenta)
             @current_board[@current_position[0]][@current_position[1]] = @black_square
-            puts "DELETED A "
         elsif @current_board[@current_position[0]][@current_position[1]] == @symbol.colorize(background: :light_cyan) 
             @current_board[@current_position[0]][@current_position[1]] = @white_square
-            puts "DELETED B"
         end 
     end 
 
