@@ -10,27 +10,19 @@ require_relative 'player.rb'
 require_relative 'player_white.rb'
 require_relative 'player_black.rb'
 
-# build coordinate converter 
-# move players on board
-# check if another piece is there (of the same colour )
-# take players
-
 class Game 
-    attr_accessor :co_ordinates # for testing 
+    attr_accessor :co_ordinates 
 
     def initialize 
         @current_board = Board.new()
         set_up_white()        
         set_up_black()
         set_up_players()
-        # knight = Knight.new(@current_board,"white")
-        # knight.move(0,7)
         @current_board.show_board()
         @current_player = @player_white
         intro()
         @current_pieces = []
         save_current_pieces()
-        # @piece = Piece.new(@current_board,"white",@current_pieces)
         update_current_pieces()
         @valid_start_coordinates = false 
         @start_valid = false 
@@ -38,10 +30,6 @@ class Game
 
     def intro
         puts "Welcome to Ruby Chess!"
-        # puts "Please input your move using standard chess notation"
-        # puts "King = K, Queen = Q, Bishop = B, Knight = N, Rook = R, Pawn = no notation."
-        # puts "E.g At the start of the game to move a pawn from E2 to E4, you type: E4 "
-        # puts "E.g: To move a king to E5 you type: KE5"
         
     end 
 
@@ -183,7 +171,6 @@ class Game
         @current_pieces << @black_queen
         @current_pieces << @black_king
 
-        # puts @black_queen.current_position
     end 
 
     def update_current_pieces
@@ -326,7 +313,6 @@ class Game
 
     def legal_move_generator(co_ordinates)
 
-        # e.g start [7,2]
         @co_ordinates = co_ordinates
         @legal_end_x = []
         @legal_end_y = []
@@ -370,16 +356,7 @@ class Game
 
         end 
     end 
-
-    # def find_if_path_is_blocked
-        
-            
-        
-
-    # end 
-
   
-
     def start_of_round 
         until @start_valid == true 
             get_start_coordinates()
@@ -410,9 +387,6 @@ class Game
             legal_move(@end_co_ordinates,@legal_end_x, @legal_end_y)
         end
         
-        # @destination = @piece_selected.find_player(@end_co_ordinates)
-
-
 
     end 
 
@@ -422,18 +396,6 @@ class Game
             
         end 
 
-        # if @piece_selected.string == " \u265B " 
-        #     puts "YEEHA"
-        #     @piece_selected.plot_path(@start_co_ordinates[0],@start_co_ordinates[1],@end_co_ordinates[0],@end_co_ordinates[1])
-        #     puts @piece_selected.path_blocked()
-        #     puts "ABOCE PC BLOCKED OR NOT "
-        #     if @piece_selected.path_blocked == true 
-        #         @legal = false 
-        #         puts "Looks like someone is in your way!"
-        #         @current_board.show_board()
-        #     end 
-        # end
-
         if @legal == true 
             @piece_selected.find_path(@start_co_ordinates,@end_co_ordinates,@current_player)
             if @piece_selected.path_blocked == false 
@@ -442,14 +404,13 @@ class Game
             end 
             @current_board.show_board()
 
-            @legal = false #necessary?
+            # @legal = false #necessary?
 
         elsif @legal == false 
             puts "Sorry, you seem to have made an illegal move"
             puts "Let's start over"
         end         
 
-        # @piece_selected.find_path([7,4],[6,4], @current_player)
     end 
 
  
