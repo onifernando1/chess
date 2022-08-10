@@ -287,7 +287,7 @@ class Game
         @legal_end_x = []
         @legal_end_y = []
         
-        if  @piece_selected == [] #|| @piece_selected.colour != @current_player.colour
+        if  @piece_selected == [] || @piece_selected.colour != @current_player.colour
             @valid_piece = false 
             puts "Silly goose. Pick a proper player"
         else 
@@ -330,7 +330,7 @@ class Game
     end 
 
     def check_for_any_blocks
-        if @piece_selected.string == " \u265B " 
+        if @piece_selected.string == " \u265B " || @piece_selected.string == " \u265D " || @piece_selected.string == " \u265C " #if queen/bishop/rook / add in pawn first move stuff later
             @piece_selected.plot_path(@start_co_ordinates[0],@start_co_ordinates[1],@end_co_ordinates[0],@end_co_ordinates[1])
         end 
         if @piece_selected.path_blocked == true 

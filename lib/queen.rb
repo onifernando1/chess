@@ -94,9 +94,6 @@ class Queen < Piece
         set_up_path(starting_x,starting_y, ending_x,ending_y)
         check_if_piece_blocking_path()
 
-           
-
-
     end 
 end 
 
@@ -195,7 +192,6 @@ class Tree attr_accessor :queue, :moves, :path, :continue, :distance, :current_n
                     @moves << add_node(x,y,@current_node.distance + 1, @current_node )
                 end
                 
-                # puts "#{@current_node.x},#{@current_node.y}"
             end 
 
             #move to next node in @nodes
@@ -217,7 +213,6 @@ class Tree attr_accessor :queue, :moves, :path, :continue, :distance, :current_n
 
         current = @current_node
 
-        # puts "You made it in #{@current_node.distance} moves"
 
         for i in (0..@current_node.distance)
             @path.prepend(current.co_ordinates)
