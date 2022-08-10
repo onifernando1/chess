@@ -15,6 +15,7 @@ class Queen < Piece
         @symbol =  @string.encode("utf-8").light_white
         @current_position = [0,0]
         potential_moves()
+        @path_blocked = true 
 
         # @current_board = current_board.board
         # @white_square = "   ".colorize(background: :light_cyan)
@@ -83,6 +84,8 @@ class Queen < Piece
 
            # check each of coordinates on path for person 
 
+           @path_blocked_array = []
+
            @path.each do |move|
 
                 move_x = move[0]
@@ -96,11 +99,15 @@ class Queen < Piece
         
                 
                 if @current_board[move_x][move_y] == @black_square || @current_board[move_x][move_y] == @white_square
-                    @path_blocked = false 
+                    @path_blocked_array << false 
                 else #@destination_player.colour == current_player.colour  # find piece 
-                    @path_blocked = true 
+                    @path_blocked_array << true 
                     puts "PATH BLOCKED NONONO"
                 end  
+            end 
+
+            if @path_blocked_array.include?(true)
+                @path_blocked = true 
             end 
 
 

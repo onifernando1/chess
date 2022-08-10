@@ -117,7 +117,7 @@ class Game
 
         @white_pawn1.move()
         @white_pawn2.move(6,1)
-        @white_pawn3.move(6,2)
+        @white_pawn3.move(6,2) 
         @white_pawn4.move(6,3)
         @white_pawn5.move(6,4)
         @white_pawn6.move(6,5)
@@ -289,9 +289,9 @@ class Game
         
         end 
 
-        puts "FINAL PIECE"
-        puts @piece_selected
-        puts @piece_selected.current_position
+        # puts "FINAL PIECE"
+        # puts @piece_selected
+        # puts @piece_selected.current_position
 
 
     end 
@@ -390,9 +390,25 @@ class Game
         @start_co_ordinates = co_ordinate_converter(@player_start_coords)
         select_start_player(@start_co_ordinates)
         legal_move_generator(@start_co_ordinates)
+        puts "SATRT COORDS #{@start_co_ordinates}"
         get_end_coordinates()
         @end_co_ordinates = co_ordinate_converter(@player_end_coords)
-        legal_move(@end_co_ordinates,@legal_end_x, @legal_end_y)
+        if @piece_selected.string == " \u265B " 
+            puts "YEEHA"
+            @piece_selected.plot_path(@start_co_ordinates[0],@start_co_ordinates[1],@end_co_ordinates[0],@end_co_ordinates[1])
+            puts @piece_selected.path_blocked()
+            puts "ABOCE PC BLOCKED OR NOT "
+            if @piece_selected.path_blocked == true 
+                @legal = false 
+                puts "Looks like someone is in your way!"
+                @current_board.show_board()
+            else 
+                @legal = true 
+            end 
+        end
+        if @legal == true 
+            legal_move(@end_co_ordinates,@legal_end_x, @legal_end_y)
+        end
         
         # @destination = @piece_selected.find_player(@end_co_ordinates)
 
@@ -406,11 +422,19 @@ class Game
             
         end 
 
+        # if @piece_selected.string == " \u265B " 
+        #     puts "YEEHA"
+        #     @piece_selected.plot_path(@start_co_ordinates[0],@start_co_ordinates[1],@end_co_ordinates[0],@end_co_ordinates[1])
+        #     puts @piece_selected.path_blocked()
+        #     puts "ABOCE PC BLOCKED OR NOT "
+        #     if @piece_selected.path_blocked == true 
+        #         @legal = false 
+        #         puts "Looks like someone is in your way!"
+        #         @current_board.show_board()
+        #     end 
+        # end
+
         if @legal == true 
-            if @piece_selected.string == " \u265B " 
-                puts "YEEHA"
-                @piece_selected.plot_path(@start_co_ordinates[0],@start_co_ordinates[1],@end_co_ordinates[0],@end_co_ordinates[1])
-            end
             @piece_selected.find_path(@start_co_ordinates,@end_co_ordinates,@current_player)
             if @piece_selected.path_blocked == false 
                 @piece_selected.delete_old_move()
