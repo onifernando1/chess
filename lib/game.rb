@@ -334,13 +334,17 @@ class Game
         if @piece_selected.string == " \u265B " || @piece_selected.string == " \u265D " || @piece_selected.string == " \u265C "
             @piece_selected.plot_path(@start_co_ordinates[0],@start_co_ordinates[1],@end_co_ordinates[0],@end_co_ordinates[1])
         end 
+
         if @piece_selected.path_blocked == true 
+            puts "IN PATH BLOCKED LOOP IF"
             @legal = false 
             puts "Looks like someone is in your way!"
             @current_board.show_board()
         else 
+            puts "IN PATH BLOCKED LOOP ELSE"
+
             @legal = true 
-         
+            puts "#LEGAL IN CHECK BLOCK ELSE LOOP _= #{@legal}"
             legal_move(@end_co_ordinates,@legal_end_x, @legal_end_y)
         end
     end 
@@ -353,23 +357,45 @@ class Game
                 check_valid_start()
             end 
             @start_valid = false #reset
+            puts "GETS TO BELOW START VALID"
+            puts "#LEGAL IN BELOW START VAL= #{@legal}"
+
             @start_co_ordinates = co_ordinate_converter(@player_start_coords)
+            puts "GETS TO BELOW START COORD "
+            puts "#LEGAL IN BELOW START COORD= #{@legal}"
+
             select_start_player(@start_co_ordinates)
+            puts "GETS TO BELOW SEL START PLAYER"
+            puts "#LEGAL IN BELOW SELECT START PLA= #{@legal}"
+
             legal_move_generator(@start_co_ordinates)
+            puts "GETS TO BELOW LEGAL MVOE GEN"
+            puts "#LEGAL IN BELOW LEGAL MOVE GEN #{@legal}"
+
         end 
+
+
         @valid_piece = false #reset
         get_end_coordinates()
+        puts "GET END COORDS"
         @end_co_ordinates = co_ordinate_converter(@player_end_coords)
+        puts "BELOW EN COORDS ="
         check_for_any_blocks()
+        puts "BELOW CHECK FOR BLOCKS"
    
 
     end 
 
     def single_round 
         until @legal == true 
+            puts "IN LEGAL LOOP"
             start_of_round()
+            puts "GETS OUT OF START OF ROUND "
+            puts "@LEGAL : #{@legal}"
             
         end 
+
+        puts "GETS OUT OF AT LEGAL LOOP"
 
         if @legal == true 
 
@@ -379,9 +405,9 @@ class Game
                 @piece_selected.move(@co_ordinates[0],@co_ordinates[1])
             end 
             @current_board.show_board()
-            @legal = false # reset 
-            # start_of_round()
+            # @legal = false # reset 
             swap_player()
+
 
 
         elsif @legal == false 
@@ -389,15 +415,27 @@ class Game
             puts "Let's start over"
         end         
 
+
+
+    end 
+
+    def reset 
+        @piece_selected.path_blocked = nil 
+        @legal = false 
+        @valid_piece = false 
     end 
 
     def swap_player 
 
         if @current_player == @player_black
             @current_player = @player_white
+            @legal = false #reset
+            reset()
             puts "SWAP"
         else 
             @current_player = @player_black
+            @legal = false #reset
+            reset()
             puts "SWAP"
 
         end 
@@ -407,6 +445,7 @@ class Game
     def game 
 
         until @game_end == true 
+
             single_round()
 
         end 
