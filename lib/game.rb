@@ -323,6 +323,8 @@ class Game
 
                 @legal = true 
 
+            else 
+                puts "Silly goose! Try again :)"
             end 
 
 
@@ -330,7 +332,7 @@ class Game
     end 
 
     def check_for_any_blocks
-        if @piece_selected.string == " \u265B " || @piece_selected.string == " \u265D " || @piece_selected.string == " \u265C " #if queen/bishop/rook / add in pawn first move stuff later
+        if @piece_selected.string == " \u265B " || @piece_selected.string == " \u265D " || @piece_selected.string == " \u265C "
             @piece_selected.plot_path(@start_co_ordinates[0],@start_co_ordinates[1],@end_co_ordinates[0],@end_co_ordinates[1])
         end 
         if @piece_selected.path_blocked == true 

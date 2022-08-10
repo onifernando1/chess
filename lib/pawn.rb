@@ -32,9 +32,13 @@ class Pawn < Piece
 
     def potential_moves
         # note swapped later because of 
-        @potential_x = [-1]
-
-        @potential_y = [0]
+        if @first_move == true 
+            @potential_x = [-1,-2]
+            @potential_y = [0,0]
+        else 
+            @potential_x = [-1]
+            @potential_y = [0]
+        end 
 
     end 
 
