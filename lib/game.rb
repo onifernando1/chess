@@ -379,9 +379,10 @@ class Game
                 @piece_selected.move(@co_ordinates[0],@co_ordinates[1])
             end 
             @current_board.show_board()
-            @current_player = @player_black
-            @legal = false 
-            start_of_round()
+            @legal = false # reset 
+            # start_of_round()
+            swap_player()
+
 
         elsif @legal == false 
             puts "Sorry, you seem to have made an illegal move"
@@ -390,11 +391,25 @@ class Game
 
     end 
 
+    def swap_player 
+
+        if @current_player == @player_black
+            @current_player = @player_white
+            puts "SWAP"
+        else 
+            @current_player = @player_black
+            puts "SWAP"
+
+        end 
+
+    end 
+
     def game 
 
-        # until @game_end == true 
+        until @game_end == true 
             single_round()
-        # end 
+
+        end 
 
     end 
 
