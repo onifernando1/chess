@@ -366,9 +366,9 @@ class Game
             @current_board.show_board()
         else 
             @legal = true 
-        end 
-        # if @legal == true 
+         
             legal_move(@end_co_ordinates,@legal_end_x, @legal_end_y)
+        end
         # end
         
 

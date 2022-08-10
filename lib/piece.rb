@@ -76,8 +76,8 @@ class Piece
         # piece in your way ;. cant move 
         # start coords unecessaary but for ease of using method all the time keep all methods the same 
         # take out once sorted if x== queen / rook / bishop
-        start_x = start_co_ordinates[0]
-        start_y = start_co_ordinates[1]
+        # start_x = start_co_ordinates[0]
+        # start_y = start_co_ordinates[1]
         end_x = end_co_ordinates[0]
         end_y = end_co_ordinates[1]  
 
