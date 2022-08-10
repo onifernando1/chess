@@ -236,10 +236,8 @@ class Game
         valid_letters = ["A","B","C","D","E","F","G","a","b","c","d","e","f","g"]    
         valid_numbers = [1,2,3,4,5,6,7,8]
         start_coords_to_check = @player_start_coords.split("")
-        p start_coords_to_check 
         if valid_letters.include?(start_coords_to_check[0]) && valid_numbers.include?(start_coords_to_check[1].to_i) && start_coords_to_check.length == 2 
             @start_valid = true 
-            puts "LOOP REACHED"
         else 
             puts "Oops! Try again with some valid co-ordinates!"
         end 
@@ -268,17 +266,11 @@ class Game
        @piece_selected = []
        @current_pieces.each do |piece|
         if piece.current_position == co_ordinates
-            puts piece 
-            puts piece.current_position
-            puts "YAY"
             @piece_selected = piece
         end 
         
         end 
 
-        # puts "FINAL PIECE"
-        # puts @piece_selected
-        # puts @piece_selected.current_position
 
 
     end 
@@ -328,8 +320,6 @@ class Game
         end 
 
 
-        p @legal_end_x
-        p @legal_end_y
 
          
     end 
@@ -344,11 +334,10 @@ class Game
         legal_move_array_length = legal_end_x.length - 1 
 
         for i in (0..legal_move_array_length) do 
-            puts i 
             
             if legal_end_x[i] == @co_ordinates[0] && legal_end_y[i] == @co_ordinates[1]
 
-                puts "MOVE ALLOWED MATCH"
+                # puts "MOVE ALLOWED MATCH"
                 @legal = true 
 
             end 
@@ -362,19 +351,14 @@ class Game
             get_start_coordinates()
             check_valid_start()
         end 
-        puts "ESCAPED LOOP"
         @start_valid = false #reset
         @start_co_ordinates = co_ordinate_converter(@player_start_coords)
         select_start_player(@start_co_ordinates)
         legal_move_generator(@start_co_ordinates)
-        puts "SATRT COORDS #{@start_co_ordinates}"
         get_end_coordinates()
         @end_co_ordinates = co_ordinate_converter(@player_end_coords)
         if @piece_selected.string == " \u265B " 
-            puts "YEEHA"
             @piece_selected.plot_path(@start_co_ordinates[0],@start_co_ordinates[1],@end_co_ordinates[0],@end_co_ordinates[1])
-            puts @piece_selected.path_blocked()
-            puts "ABOCE PC BLOCKED OR NOT "
             if @piece_selected.path_blocked == true 
                 @legal = false 
                 puts "Looks like someone is in your way!"
@@ -397,6 +381,7 @@ class Game
         end 
 
         if @legal == true 
+
             @piece_selected.find_path(@start_co_ordinates,@end_co_ordinates,@current_player)
             if @piece_selected.path_blocked == false 
                 @piece_selected.delete_old_move()

@@ -61,9 +61,6 @@ class Piece
             @piece = ""
             @current_pieces.each do |piece|
              if piece.current_position == end_co_ordinates
-                 puts piece 
-                 puts piece.current_position
-                 puts "YAY"
                  @piece = piece
              end 
             end 

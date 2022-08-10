@@ -48,6 +48,7 @@ class Queen < Piece
         # end coordinates E2 
         # piece in your way ;. cant move 
         # start coords unecessaary but for ease of using method all the time keep all methods the same 
+        # take out once sorted if x== queen / rook / bishop
         start_x = start_co_ordinates[0]
         start_y = start_co_ordinates[1]
         end_x = end_co_ordinates[0]
@@ -99,7 +100,7 @@ class Queen < Piece
                     @path_blocked_array << false 
                 else #@destination_player.colour == current_player.colour  # find piece 
                     @path_blocked_array << true 
-                    puts "PATH BLOCKED NONONO"
+                    # puts "PATH BLOCKED!"
                 end  
             end 
 
@@ -155,15 +156,7 @@ class Tree attr_accessor :queue, :moves, :path, :continue, :distance, :current_n
 
     def min_steps(x_start, y_start, x_end, y_end)
 
-        #check if in board
-
-
-
-        # unless move_valid?(x_start, y_start) && move_valid?(x_end, y_end)
-        #     puts "OUTSIDE OF BOARD"
-        #     @continue = false 
-        #     return 
-        # end 
+        
 
    
         #possible moves of queen base  # if it starts using diagonals to cut, if x increase then do these moves: etc. 
@@ -198,15 +191,9 @@ class Tree attr_accessor :queue, :moves, :path, :continue, :distance, :current_n
         #set start root node to visited 
         visited[x_start][y_start] = true 
 
-        puts "CNCNCNNCNCNC#{@current_node}CNCNCNCNCNC"
-        puts "CNX#{@current_node.x}CNX"
-
         
         until @current_node.x == x_end ||@current_node.x > 7 || @current_node.x < 0  && @current_node.y == y_end  ||@current_node.y > 7 || @current_node.y < 0 
-            puts "Until#{@current_node}CNCNCNCNCNC"
-            puts "Until CNX#{@current_node.x}CNX"
-
-
+    
             #go through possible moves 
 
             for i in (0..3)
@@ -240,7 +227,7 @@ class Tree attr_accessor :queue, :moves, :path, :continue, :distance, :current_n
 
         current = @current_node
 
-        puts "You made it in #{@current_node.distance} moves"
+        # puts "You made it in #{@current_node.distance} moves"
 
         for i in (0..@current_node.distance)
             @path.prepend(current.co_ordinates)
@@ -252,7 +239,7 @@ class Tree attr_accessor :queue, :moves, :path, :continue, :distance, :current_n
         @path.shift()
         # remove end move (dealt with in findpathfunction)
         @path.pop()
-        p @path
+        # p @path
 
 
         @path
