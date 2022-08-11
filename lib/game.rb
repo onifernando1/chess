@@ -226,7 +226,6 @@ class Game
     end 
 
     def check_valid_start_input
-
         valid_letters = ["A","B","C","D","E","F","G","a","b","c","d","e","f","g"]    
         valid_numbers = [1,2,3,4,5,6,7,8]
         start_coords_to_check = @player_start_coords.split("")
@@ -283,25 +282,26 @@ class Game
 
     def legal_move_generator(co_ordinates)
 
+
         @co_ordinates = co_ordinates
         @legal_end_x = []
         @legal_end_y = []
 
-        @legal_move_gen_valid = false  # new addition
         
         if  @piece_selected == [] || @piece_selected.colour != @current_player.colour
-            # @@legal_move_gen_valid = false 
             # puts "Silly goose. Pick a proper player"
         else 
-            # @@legal_move_gen_valid = true 
+            @piece_selected.potential_moves()
+
             length_of_potential_array = @piece_selected.potential_x.length - 1 
-        
             for i in (0..length_of_potential_array) do 
                 move_x = @co_ordinates[0] + @piece_selected.potential_x[i]
                 move_y = @co_ordinates[1] + @piece_selected.potential_y[i]
                 if move_x <=7 && move_y <=7 && move_x >=0 && move_y >=0
                     @legal_end_x  << move_x
                     @legal_end_y << move_y
+                    p @legal_end_x
+                    p @legal_end_y
                 end 
             end 
         end 
@@ -322,7 +322,7 @@ class Game
         for i in (0..legal_move_array_length) do 
             
             if legal_end_x[i] == @co_ordinates[0] && legal_end_y[i] == @co_ordinates[1]
-
+                puts "IF "
                 @legal_move = true 
 
             # else 
@@ -354,10 +354,11 @@ class Game
     
     def start_of_round 
 
-        
-            until @valid_piece == true 
+
+            until @valid_piece == true
 
                 until @start_valid == true 
+
                     get_start_coordinates()
 
                     check_valid_start_input()      
@@ -376,7 +377,8 @@ class Game
                 end 
 
             end 
-          
+            
+
         legal_move_generator(@start_co_ordinates) #legal_move_gen_valid 
 
         until @block == false && @legal_move == true 
@@ -384,16 +386,18 @@ class Game
             get_end_coordinates()
 
             @end_co_ordinates = co_ordinate_converter(@player_end_coords)
-            
             check_for_any_blocks() # legal move() in this 
+            puts "#BLOCK #{@block}"
+            puts "LEGMOVE #{@legal_move}"
         end 
+
 
         if @piece_selected.string == " \u265B " || @piece_selected.string == " \u265D "|| @piece_selected.string == " \u265C "
             @piece_selected.check_destination(@end_co_ordinates,@current_player)
         end 
 
         if @piece_selected.path_blocked == false 
-            # @piece_selected.delete_old_move()
+            @piece_selected.delete_old_move()
             @piece_selected.move(@co_ordinates[0],@co_ordinates[1])
             @current_board.show_board()
         else 
@@ -404,69 +408,31 @@ class Game
 
     end 
 
-    # def single_round 
-    #     until @legal == true 
+    def reset 
+        @valid_piece = false 
+        @start_valid = false 
+        @block = true 
+        @legal_move = false 
 
-    #         start_of_round()
-           
-            
-    #     end 
+    end 
 
-
-    #     # if @legal == true 
-
-    #         @piece_selected.check_destination(@end_co_ordinates,@current_player)
-    #         if @piece_selected.path_blocked == false 
-    #             @piece_selected.delete_old_move()
-    #             @piece_selected.move(@co_ordinates[0],@co_ordinates[1])
-    #         end 
-    #         @current_board.show_board()
-    #         # @legal = false # reset 
-    #         swap_player()
-
-
-
-    #     elsif @legal == false 
-    #         puts "Sorry, you seem to have made an illegal move"
-    #         puts "Let's start over"
-    #     end         
-
-
-
-    # end 
-
-    # def reset 
-    #     @piece_selected.path_blocked = nil 
-    #     @legal = false 
-    #     @legal_move = false 
-    #     @valid_piece = false #unecessary
-    # end 
 
     def swap_player 
-
         if @current_player == @player_black
             @current_player = @player_white
-            @legal = false #reset
-            # reset()
-            puts "SWAP"
+
         else 
             @current_player = @player_black
-            @legal = false #reset
-            # reset()
-            puts "SWAP"
 
         end 
 
     end 
 
     def game 
-
-        until @game_end == true 
-
-            single_round()
-
-        end 
-
+        start_of_round()
+        swap_player()
+        reset()
+        start_of_round()
     end 
 
  
@@ -477,7 +443,7 @@ end
 
 
 game = Game.new()
-game.start_of_round()
+game.game()
 
 
 
@@ -501,3 +467,9 @@ game.start_of_round()
 
     #add in only select own colours later 
     # change player 
+
+
+    # now , the moves are programmed to only go up (e.g pawn can only move up, so when player swaps it doesnt work)
+    # i can either program the moves to be different if they colour of the player is different
+    # or i can flip the board 
+    # however obu pawns is a n isdsu?
