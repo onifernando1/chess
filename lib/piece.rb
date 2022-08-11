@@ -21,9 +21,11 @@ class Piece
 
     def move(x, y) # move colour stuff into new function?
 
+        delete_old_move()
+
         if @current_board[x][y] == @black_square
-               
             @current_board[x][y] = @symbol.colorize(background: :light_magenta)
+
 
             @current_position[0] = x 
             @current_position[1] = y 
