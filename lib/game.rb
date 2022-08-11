@@ -105,7 +105,7 @@ class Game
         @white_pawn8 = Pawn.new(@current_board)
 
         @white_pawn1.move()
-        @white_pawn2.move(6,1)
+        @white_pawn2.move(5,1) #6,1 
         @white_pawn3.move(6,2)
         @white_pawn4.move(6,3)
         @white_pawn5.move(6,4)
@@ -310,17 +310,20 @@ class Game
     end 
 
     def legal_move(co_ordinates, legal_end_x, legal_end_y)
-
         @co_ordinates = co_ordinates
-
         @legal_move = false 
 
         legal_move_array_length = legal_end_x.length - 1 
 
+        p legal_end_x
+        p legal_end_y
+        p co_ordinates
+
         for i in (0..legal_move_array_length) do 
             
-            if legal_end_x[i] == @co_ordinates[0] && legal_end_y[i] == @co_ordinates[1]
+            if legal_end_x[i] == co_ordinates[0] && legal_end_y[i] == co_ordinates[1] # @ commented out 
                 @legal_move = true 
+                puts "#{@legal_move} l;egal move "
 
             # else 
                 # @legal_move = false 
@@ -334,8 +337,17 @@ class Game
 
         @block = true 
 
-        if @piece_selected.string == " \u265B " || @piece_selected.string == " \u265D " || @piece_selected.string == " \u265C "
-            @piece_selected.plot_path(@start_co_ordinates[0],@start_co_ordinates[1],@end_co_ordinates[0],@end_co_ordinates[1])
+        if @piece_selected.string == " \u265B " || @piece_selected.string == " \u265D " || @piece_selected.string == " \u265C " 
+            check_piece_distance(@piece_selected)
+           
+            if @need_to_check_path == true 
+                @piece_selected.plot_path(@start_co_ordinates[0],@start_co_ordinates[1],@end_co_ordinates[0],@end_co_ordinates[1])
+            else 
+                @piece_selected.path_blocked = false # unecessary?
+                puts "YAY"
+            end 
+
+
         end 
 
         if @piece_selected.class == Pawn && @piece_selected.first_move == true 
@@ -353,8 +365,10 @@ class Game
             puts "Someone is in your way :("
             puts "Try again"
         else 
-            @block = false 
+            # @block = false 
             legal_move(@end_co_ordinates,@legal_end_x, @legal_end_y)
+            @block = false 
+
         end
     end 
 
@@ -363,15 +377,27 @@ class Game
         @need_to_check_path = false 
 
         end_x = @end_co_ordinates[0]
-        # end_y = @end_co_ordinates[1]
 
         current_x = current_piece.current_position[0]
-        # current_x = @current_piece.current_position[1]
 
-        if end_x - current_x == -2 ||  end_x - current_x == 2 
+        if end_x - current_x <= -2 ||  end_x - current_x >= 2 
             @need_to_check_path = true 
         end 
 
+    end 
+
+    def check_piece_distance(current_piece)
+        @need_to_check_path = false 
+
+        end_x = @end_co_ordinates[0]
+        end_y = @end_co_ordinates[1]
+
+        current_x = current_piece.current_position[0]
+        current_y = current_piece.current_position[1]
+
+        if end_x - current_x <= -3 ||  end_x - current_x >= 3|| end_x - current_x <= -3||  end_x - current_x >= 3
+            @need_to_check_path = true 
+        end 
     end 
 
     
@@ -419,17 +445,9 @@ class Game
         end 
 
 
-        # if @piece_selected.string == " \u265B " || @piece_selected.string == " \u265D "|| @piece_selected.string == " \u265C "
-            @piece_selected.check_destination(@end_co_ordinates,@current_player)
-        # end 
+        @piece_selected.check_destination(@end_co_ordinates,@current_player)
 
-        # if @piece_selected.class == Pawn && @piece_selected.first_move == true 
-        #     check_pawn_distance(@piece_selected)
-        #     if @need_to_check_path == true 
-        #         @piece_selected.plot_path()
-        #         @piece_selected.check_if_piece_blocking_path()
-        #     end
-        # end
+     
         
         if @piece_selected.path_blocked == false 
             @piece_selected.delete_old_move()
@@ -519,3 +537,5 @@ game.game()
     # i can either program the moves to be different if they colour of the player is different
     # or i can flip the board 
     # however obu pawns is a n isdsu?
+
+    # bishop not moving right 

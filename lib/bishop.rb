@@ -54,51 +54,88 @@ class Bishop < Piece
     end 
 
     def set_up_path(starting_x,starting_y, ending_x,ending_y)
-    
         tree = Tree.new()
-        tree.min_steps(starting_x,starting_y, ending_x,ending_y)
+        p "TREE MADE "
+        tree.mini_steps(starting_x,starting_y, ending_x,ending_y)
         @path = tree.print_path()
     end 
 
     def check_if_piece_blocking_path
 
-
         @path_blocked_array = []
-        @path.each do |move|
 
-             move_x = move[0]
-             move_y = move[1]
+        if @path.length > 2 
+            @path.each do |move|
+            
+                move_x = move[0]
+                move_y = move[1]
 
 
-             if @current_board[move_x][move_y] != @black_square || @current_board[move_x][move_y] != @white_square
+                if @current_board[move_x][move_y] != @black_square || @current_board[move_x][move_y] != @white_square
+                
+                        @destination_player = find_player(move)
+                end 
+
+                
+        
+                
+                if @current_board[move_x][move_y] == @black_square || @current_board[move_x][move_y] == @white_square
+
+                    @path_blocked_array << false 
+                else
+                    @path_blocked_array << true 
+                end  
+            end 
+
+
+
+            if @path_blocked_array.include?(true)
+                @path_blocked = true 
+            end 
+
+        else# @path.length == 2 
+
+        
+
+            move_x = @path[0][0]
+            move_y = @path[0][1]
+            p @path
+            p move_x
+            p move_y
+            puts "ABOVEM E"
+            
+
+            if @current_board[move_x][move_y] != @black_square || @current_board[move_x][move_y] != @white_square
             
                     @destination_player = find_player(move)
-             end 
+            end 
 
             
-     
-             
+    
+            
             if @current_board[move_x][move_y] == @black_square || @current_board[move_x][move_y] == @white_square
 
-                 @path_blocked_array << false 
-             else
-                 @path_blocked_array << true 
-             end  
-         end 
+                @path_blocked_array << false 
+            else
+                @path_blocked_array << true 
+            end   
 
 
 
-         if @path_blocked_array.include?(true)
-             @path_blocked = true 
-         end 
+            if @path_blocked_array.include?(true)
+                @path_blocked = true 
+            end 
+        end 
+        # what to do for one move?
+
 
     end 
 
     def plot_path(starting_x,starting_y,ending_x,ending_y)
-        
         set_up_path(starting_x,starting_y, ending_x,ending_y)
+        # if @path.length > 1 
         check_if_piece_blocking_path()
-
+        # end 
     end 
 end 
 
@@ -141,9 +178,7 @@ class Tree attr_accessor :queue, :moves, :path, :continue, :distance, :current_n
 
     end 
 
-    def min_steps(x_start, y_start, x_end, y_end)
-
-        
+    def mini_steps(x_start, y_start, x_end, y_end)
 
    
         #possible moves of bishop base  # if it starts using diagonals to cut, if x increase then do these moves: etc. 
@@ -232,8 +267,12 @@ class Tree attr_accessor :queue, :moves, :path, :continue, :distance, :current_n
             @path.pop()
         end 
 
-
         @path
 
     end 
+
+
 end 
+
+
+# doesnt like name min_steps wtf mini steps works!
