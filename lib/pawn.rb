@@ -65,7 +65,7 @@ class Pawn < Piece
     def check_destination(end_co_ordinates, current_player) 
 
         super(end_co_ordinates, current_player  )
-        
+
     end 
 
     def plot_path()
@@ -76,7 +76,6 @@ class Pawn < Piece
 
         @path << current_x + @potential_x[0] 
         @path << current_y + @potential_y[0]
-        p @path
         @path
 
     end 
@@ -97,10 +96,8 @@ class Pawn < Piece
         if @current_board[move_x][move_y] == @black_square || @current_board[move_x][move_y] == @white_square
 
                 @path_blocked_array << false 
-                puts "FALSE "
             else
                 @path_blocked_array << true 
-                puts "TRUE "
             end  
 
 

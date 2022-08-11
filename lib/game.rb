@@ -274,7 +274,7 @@ class Game
 
     def get_end_coordinates
 
-        puts "2.Please enter the co-ordinates of your move E.g: 'A1'(type back to go back)"
+        puts "#{@current_player.name} 2.Please enter the co-ordinates of your move E.g: 'A1'(type back to go back)"
         @player_end_coords = gets.chomp()
 
     end 
@@ -315,15 +315,10 @@ class Game
 
         legal_move_array_length = legal_end_x.length - 1 
 
-        p legal_end_x
-        p legal_end_y
-        p co_ordinates
-
         for i in (0..legal_move_array_length) do 
             
             if legal_end_x[i] == co_ordinates[0] && legal_end_y[i] == co_ordinates[1] # @ commented out 
                 @legal_move = true 
-                puts "#{@legal_move} l;egal move "
 
             # else 
                 # @legal_move = false 
@@ -344,7 +339,6 @@ class Game
                 @piece_selected.plot_path(@start_co_ordinates[0],@start_co_ordinates[1],@end_co_ordinates[0],@end_co_ordinates[1])
             else 
                 @piece_selected.path_blocked = false # unecessary?
-                puts "YAY"
             end 
 
 
@@ -430,6 +424,11 @@ class Game
 
             select_start_player(@start_co_ordinates)
 
+            if @piece_selected.class == Array 
+                reset()
+                start_of_round()
+            end 
+
             if @valid_piece == false 
                 puts "Please pick a valid piece!"
                 get_start_coordinates
@@ -447,13 +446,11 @@ class Game
 
         if @piece_selected.class == Pawn 
             @piece_selected.potential_moves()
-            puts @piece_selected.first_move 
-            puts "ABVOE ME FIRST MOVE"
         end 
 
         legal_move_generator(@start_co_ordinates) #legal_move_gen_valid 
 
-        until @block == false && @legal_move == true 
+        # until @block == false && @legal_move == true 
 
             get_end_coordinates()
 
@@ -465,6 +462,12 @@ class Game
             @end_co_ordinates = co_ordinate_converter(@player_end_coords)
             check_for_any_blocks() # legal move() in this 
            
+        # end 
+
+        if @block == true || @legal_move == false 
+            puts "Hmm.. not quite right. Try again silly."
+            reset()
+                start_of_round()
         end 
 
 
@@ -479,7 +482,6 @@ class Game
             if @piece_selected.class == Pawn 
                 @piece_selected.potential_moves()
                 @piece_selected.first_move = false 
-                puts "NO MORE MOVEY PAWN!"
             end 
         else 
             puts "Sorry, you seem to have made an illegal move"
@@ -616,3 +618,4 @@ game.game()
 # check pawn stuff 
     # check illegal move - changes to next player for some reason 
     # add in takes 
+    # player not swapping 
