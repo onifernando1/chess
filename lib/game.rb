@@ -338,6 +338,16 @@ class Game
             @piece_selected.plot_path(@start_co_ordinates[0],@start_co_ordinates[1],@end_co_ordinates[0],@end_co_ordinates[1])
         end 
 
+        if @piece_selected.class == Pawn && @piece_selected.first_move == true 
+            check_pawn_distance(@piece_selected)
+            if @need_to_check_path == true 
+                @piece_selected.plot_path()
+                @piece_selected.check_if_piece_blocking_path() 
+            else 
+                @piece_selected.path_blocked = false # unecessary?
+            end 
+        end
+
         if @piece_selected.path_blocked == true 
             @block = true  
             puts "Someone is in your way :("
@@ -404,18 +414,18 @@ class Game
         end 
 
 
-        if @piece_selected.string == " \u265B " || @piece_selected.string == " \u265D "|| @piece_selected.string == " \u265C "
+        # if @piece_selected.string == " \u265B " || @piece_selected.string == " \u265D "|| @piece_selected.string == " \u265C "
             @piece_selected.check_destination(@end_co_ordinates,@current_player)
-        end 
+        # end 
 
-        if @piece_selected.class == Pawn && @piece_selected.first_move == true 
-            check_pawn_distance(@piece_selected)
-            if @need_to_check_path == true 
-                @piece_selected.plot_path()
-                @piece_selected.check_if_piece_blocking_path()
-            end 
-        end
-
+        # if @piece_selected.class == Pawn && @piece_selected.first_move == true 
+        #     check_pawn_distance(@piece_selected)
+        #     if @need_to_check_path == true 
+        #         @piece_selected.plot_path()
+        #         @piece_selected.check_if_piece_blocking_path()
+        #     end
+        # end
+        
         if @piece_selected.path_blocked == false 
             @piece_selected.delete_old_move()
             @piece_selected.move(@co_ordinates[0],@co_ordinates[1])

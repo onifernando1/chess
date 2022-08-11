@@ -66,8 +66,8 @@ class Pawn < Piece
         super(end_co_ordinates, current_player  )
     end 
 
-    def plot_path
-
+    def plot_path()
+        potential_moves()
         @path = []
 
         current_x = @current_position[0] 
@@ -75,40 +75,38 @@ class Pawn < Piece
 
         @path << current_x + @potential_x[0] 
         @path << current_y + @potential_y[0]
+        p @path
+        @path
 
     end 
 
-    def check_if_piece_blocking_path(move)
-
+    def check_if_piece_blocking_path
 
         @path_blocked_array = []
-        @path.each do |move|
+                     
+        move_x = @path[0]
+        move_y = @path[1]
+   
 
-             move_x = move[0]
-             move_y = move[1]
-
-
-             if @current_board[move_x][move_y] != @black_square || @current_board[move_x][move_y] != @white_square
+        if @current_board[move_x][move_y] != @black_square || @current_board[move_x][move_y] != @white_square
+    
+            @destination_player = find_player(move)
+        end 
             
-                    @destination_player = find_player(move)
-             end 
+        if @current_board[move_x][move_y] == @black_square || @current_board[move_x][move_y] == @white_square
 
-            
-     
-             
-            if @current_board[move_x][move_y] == @black_square || @current_board[move_x][move_y] == @white_square
-
-                 @path_blocked_array << false 
-             else
-                 @path_blocked_array << true 
-             end  
-         end 
+                @path_blocked_array << false 
+                puts "FALSE "
+            else
+                @path_blocked_array << true 
+                puts "TRUE "
+            end  
 
 
 
-         if @path_blocked_array.include?(true)
-             @path_blocked = true 
-         end 
+            if @path_blocked_array.include?(true)
+                @path_blocked = true 
+            end 
 
-    end 
+        end 
 end 
