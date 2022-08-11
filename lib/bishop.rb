@@ -99,10 +99,6 @@ class Bishop < Piece
 
             move_x = @path[0][0]
             move_y = @path[0][1]
-            p @path
-            p move_x
-            p move_y
-            puts "ABOVEM E"
             
 
             if @current_board[move_x][move_y] != @black_square || @current_board[move_x][move_y] != @white_square
@@ -133,9 +129,7 @@ class Bishop < Piece
 
     def plot_path(starting_x,starting_y,ending_x,ending_y)
         set_up_path(starting_x,starting_y, ending_x,ending_y)
-        # if @path.length > 1 
         check_if_piece_blocking_path()
-        # end 
     end 
 end 
 

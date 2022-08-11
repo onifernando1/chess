@@ -105,7 +105,7 @@ class Game
         @white_pawn8 = Pawn.new(@current_board)
 
         @white_pawn1.move()
-        @white_pawn2.move(5,1) #6,1 
+        @white_pawn2.move(5,0) # 6,1 
         @white_pawn3.move(6,2)
         @white_pawn4.move(6,3)
         @white_pawn5.move(6,4)
@@ -395,7 +395,7 @@ class Game
         current_x = current_piece.current_position[0]
         current_y = current_piece.current_position[1]
 
-        if end_x - current_x <= -3 ||  end_x - current_x >= 3|| end_x - current_x <= -3||  end_x - current_x >= 3
+        if end_x - current_x <= -3 ||  end_x - current_x >= 3|| end_x - current_x <= -3||  end_x - current_x >= 3 || end_y - current_y <= -3 ||  end_y - current_y >= 3|| end_y - current_y <= -3||  end_y - current_y >= 3 
             @need_to_check_path = true 
         end 
     end 
@@ -538,4 +538,4 @@ game.game()
     # or i can flip the board 
     # however obu pawns is a n isdsu?
 
-    # bishop not moving right 
+    # check illegal move - changes to next player for some reason 
