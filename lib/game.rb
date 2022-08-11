@@ -129,7 +129,7 @@ class Game
         @white_bishop2.move(7,5)
 
         @white_queen = Queen.new(@current_board)
-        @white_queen.move()
+        @white_queen.move() 
 
         @white_king = King.new(@current_board)
         @white_king.move()
@@ -334,11 +334,16 @@ class Game
 
         if @piece_selected.string == " \u265B " || @piece_selected.string == " \u265D " || @piece_selected.string == " \u265C " 
             check_piece_distance(@piece_selected)
-           
-            if @need_to_check_path == true 
+           puts "OUTER IF "
+            if @need_to_check_path == true  
+                puts "NEED TO CHECK PATH IF "
+                puts @piece_selected
                 @piece_selected.plot_path(@start_co_ordinates[0],@start_co_ordinates[1],@end_co_ordinates[0],@end_co_ordinates[1])
+
             else 
                 @piece_selected.path_blocked = false # unecessary?
+                puts "ELSEH"
+
             end 
 
 
@@ -348,7 +353,7 @@ class Game
             check_pawn_distance(@piece_selected)
             if @need_to_check_path == true 
                 @piece_selected.plot_path()
-                @piece_selected.check_if_piece_blocking_path() 
+                # @piece_selected.check_if_piece_blocking_path()  # in plot patg 
             else 
                 @piece_selected.path_blocked = false # unecessary?
             end 
@@ -450,7 +455,7 @@ class Game
 
         legal_move_generator(@start_co_ordinates) #legal_move_gen_valid 
 
-        # until @block == false && @legal_move == true 
+        until @block == false && @legal_move == true 
 
             get_end_coordinates()
 
@@ -461,14 +466,20 @@ class Game
 
             @end_co_ordinates = co_ordinate_converter(@player_end_coords)
             check_for_any_blocks() # legal move() in this 
-           
-        # end 
 
-        if @block == true || @legal_move == false 
-            puts "Hmm.. not quite right. Try again silly."
-            reset()
-                start_of_round()
+            # if @block == true || @legal_move == false 
+            #     puts "Hmm.. not quite right. Try again silly."
+            #     # reset()
+            #     # start_of_round()
+            # end 
+           
         end 
+
+        # if @block == true || @legal_move == false 
+        #     puts "Hmm.. not quite right. Try again silly."
+        #     # reset()
+        #     # start_of_round()
+        # end 
 
 
         @piece_selected.check_destination(@end_co_ordinates,@current_player)
@@ -506,10 +517,10 @@ class Game
     def swap_player 
         if @current_player == @player_black
             @current_player = @player_white
-
-        else 
+            puts "SWAP"
+        elsif @current_player == @player_white
             @current_player = @player_black
-
+            puts "SWAP"
         end 
 
     end 
@@ -519,62 +530,27 @@ class Game
         swap_player()
         reset()
         start_of_round()
-        reset()
         swap_player()
+        reset()
         start_of_round()
-        reset()
         swap_player()
-        start_of_round()
         reset()
-        swap_player()
-        start_of_round()
-        reset()
-        swap_player()
         start_of_round()
         swap_player()
         reset()
         start_of_round()
-        reset()
         swap_player()
+        reset()
         start_of_round()
-        reset()
         swap_player()
-        start_of_round()
         reset()
-        swap_player()
-        start_of_round()
-        reset()
-        swap_player()
         start_of_round()
         swap_player()
         reset()
         start_of_round()
-        reset()
-        swap_player()
-        start_of_round()
-        reset()
-        swap_player()
-        start_of_round()
-        reset()
-        swap_player()
-        start_of_round()
-        reset()
-        swap_player()
-        start_of_round()
         swap_player()
         reset()
-        start_of_round()
-        reset()
-        swap_player()
-        start_of_round()
-        reset()
-        swap_player()
-        start_of_round()
-        reset()
-        swap_player()
-        start_of_round()
-        reset()
-        swap_player()
+  
     end 
 
  
@@ -618,4 +594,14 @@ game.game()
 # check pawn stuff 
     # check illegal move - changes to next player for some reason 
     # add in takes 
-    # player not swapping 
+    # player not swapping - think its fine 
+
+
+    # add in takes 
+# bishop not moving left diag cant take 
+# queen cant move forward 3 after prev move hmmm siklly 
+# stuck in player 2 but queen moving 
+# change min steps to mini steps oops in queen 
+# lets queen take straight but not diag  - someone in way :( try again hmm..silly)
+
+# queen doesnt move diag - gonna need to fix shortest path to ensure only moves in one direction!
