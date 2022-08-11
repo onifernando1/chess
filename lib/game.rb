@@ -226,7 +226,7 @@ class Game
     end 
 
     def check_valid_start_input
-        valid_letters = ["A","B","C","D","E","F","G","a","b","c","d","e","f","g"]    
+        valid_letters = ["A","B","C","D","E","F","G", "H, "a","b","c","d","e","f","g","h"]    
         valid_numbers = [1,2,3,4,5,6,7,8]
         start_coords_to_check = @player_start_coords.split("")
         if valid_letters.include?(start_coords_to_check[0]) && valid_numbers.include?(start_coords_to_check[1].to_i) && start_coords_to_check.length == 2 
