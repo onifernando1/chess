@@ -441,8 +441,15 @@ class Game
                 reset()
                 start_of_round()
             end 
+
         end 
             
+
+        if @piece_selected.class == Pawn 
+            @piece_selected.potential_moves()
+            puts @piece_selected.first_move 
+            puts "ABVOE ME FIRST MOVE"
+        end 
 
         legal_move_generator(@start_co_ordinates) #legal_move_gen_valid 
 
@@ -469,6 +476,11 @@ class Game
             @piece_selected.delete_old_move()
             @piece_selected.move(@co_ordinates[0],@co_ordinates[1])
             @current_board.show_board()
+            if @piece_selected.class == Pawn 
+                @piece_selected.potential_moves()
+                @piece_selected.first_move = false 
+                puts "NO MORE MOVEY PAWN!"
+            end 
         else 
             puts "Sorry, you seem to have made an illegal move"
             puts "Let's start over"
@@ -604,4 +616,3 @@ game.game()
 # check pawn stuff 
     # check illegal move - changes to next player for some reason 
     # add in takes 
-    # only pick own colour 

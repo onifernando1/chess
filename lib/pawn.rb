@@ -63,11 +63,12 @@ class Pawn < Piece
 
 
     def check_destination(end_co_ordinates, current_player) 
+
         super(end_co_ordinates, current_player  )
+        
     end 
 
     def plot_path()
-        potential_moves()
         @path = []
 
         current_x = @current_position[0] 

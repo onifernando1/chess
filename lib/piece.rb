@@ -72,6 +72,8 @@ class Piece
 
 
     def check_destination(end_co_ordinates, current_player) 
+
+        potential_moves()
         #e.g youre given start coordinates E1
         # end coordinates E2 
         # piece in your way ;. cant move 
