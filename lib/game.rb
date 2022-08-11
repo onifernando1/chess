@@ -263,7 +263,6 @@ class Game
         if piece.current_position == co_ordinates
             @piece_selected = piece
             @valid_piece = true 
-            # puts @piece_selected
 
         end 
         end 
@@ -300,8 +299,7 @@ class Game
                 if move_x <=7 && move_y <=7 && move_x >=0 && move_y >=0
                     @legal_end_x  << move_x
                     @legal_end_y << move_y
-                    p @legal_end_x
-                    p @legal_end_y
+                    
                 end 
             end 
         end 
@@ -322,7 +320,6 @@ class Game
         for i in (0..legal_move_array_length) do 
             
             if legal_end_x[i] == @co_ordinates[0] && legal_end_y[i] == @co_ordinates[1]
-                puts "IF "
                 @legal_move = true 
 
             # else 
@@ -349,6 +346,22 @@ class Game
             @block = false 
             legal_move(@end_co_ordinates,@legal_end_x, @legal_end_y)
         end
+    end 
+
+    def check_pawn_distance(current_piece)
+
+        @need_to_check_path = false 
+
+        end_x = @end_co_ordinates[0]
+        # end_y = @end_co_ordinates[1]
+
+        current_x = current_piece.current_position[0]
+        # current_x = @current_piece.current_position[1]
+
+        if end_x - current_x == -2 ||  end_x - current_x == 2 
+            @need_to_check_path = true 
+        end 
+
     end 
 
     
@@ -387,14 +400,21 @@ class Game
 
             @end_co_ordinates = co_ordinate_converter(@player_end_coords)
             check_for_any_blocks() # legal move() in this 
-            puts "#BLOCK #{@block}"
-            puts "LEGMOVE #{@legal_move}"
+           
         end 
 
 
         if @piece_selected.string == " \u265B " || @piece_selected.string == " \u265D "|| @piece_selected.string == " \u265C "
             @piece_selected.check_destination(@end_co_ordinates,@current_player)
         end 
+
+        if @piece_selected.class == Pawn && @piece_selected.first_move == true 
+            check_pawn_distance(@piece_selected)
+            if @need_to_check_path == true 
+                @piece_selected.plot_path()
+                @piece_selected.check_if_piece_blocking_path()
+            end 
+        end
 
         if @piece_selected.path_blocked == false 
             @piece_selected.delete_old_move()

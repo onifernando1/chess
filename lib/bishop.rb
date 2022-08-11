@@ -95,7 +95,7 @@ class Bishop < Piece
     end 
 
     def plot_path(starting_x,starting_y,ending_x,ending_y)
-
+        
         set_up_path(starting_x,starting_y, ending_x,ending_y)
         check_if_piece_blocking_path()
 

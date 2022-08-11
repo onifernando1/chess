@@ -5,7 +5,7 @@ require 'colorize'
 
 class Pawn < Piece
 
-    attr_accessor :string, :symbol, :current_position, :potential_x, :potential_y, :current_pieces, :path_blocked
+    attr_accessor :string, :symbol, :current_position, :potential_x, :potential_y, :current_pieces, :path_blocked, :first_move
     
     def initialize(current_board, colour="white")
         super
@@ -34,7 +34,6 @@ class Pawn < Piece
     def potential_moves
         # note swapped later because of 
         if @colour == "white"
-            puts "WHITE"
             if @first_move == true 
                 @potential_x = [-1,-2]
                 @potential_y = [0,0]
@@ -65,5 +64,51 @@ class Pawn < Piece
 
     def check_destination(end_co_ordinates, current_player) 
         super(end_co_ordinates, current_player  )
+    end 
+
+    def plot_path
+
+        @path = []
+
+        current_x = @current_position[0] 
+        current_y = @current_position[1]
+
+        @path << current_x + @potential_x[0] 
+        @path << current_y + @potential_y[0]
+
+    end 
+
+    def check_if_piece_blocking_path(move)
+
+
+        @path_blocked_array = []
+        @path.each do |move|
+
+             move_x = move[0]
+             move_y = move[1]
+
+
+             if @current_board[move_x][move_y] != @black_square || @current_board[move_x][move_y] != @white_square
+            
+                    @destination_player = find_player(move)
+             end 
+
+            
+     
+             
+            if @current_board[move_x][move_y] == @black_square || @current_board[move_x][move_y] == @white_square
+
+                 @path_blocked_array << false 
+             else
+                 @path_blocked_array << true 
+             end  
+         end 
+
+
+
+         if @path_blocked_array.include?(true)
+             @path_blocked = true 
+         end 
+
     end 
 end 
