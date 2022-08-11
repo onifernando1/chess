@@ -274,7 +274,7 @@ class Game
 
     def get_end_coordinates
 
-        puts "2.Please enter the co-ordinates of your move E.g: 'A1'"
+        puts "2.Please enter the co-ordinates of your move E.g: 'A1'(type back to go back)"
         @player_end_coords = gets.chomp()
 
     end 
@@ -408,6 +408,11 @@ class Game
 
             get_end_coordinates()
 
+            if @player_end_coords == "back"
+                reset()
+                start_of_round()
+            end 
+
             @end_co_ordinates = co_ordinate_converter(@player_end_coords)
             check_for_any_blocks() # legal move() in this 
            
@@ -463,6 +468,17 @@ class Game
         swap_player()
         reset()
         start_of_round()
+        reset()
+        swap_player()
+        start_of_round()
+        reset()
+        swap_player()
+        start_of_round()
+        reset()
+        swap_player()
+        start_of_round()
+        reset()
+        swap_player()
     end 
 
  
