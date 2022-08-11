@@ -105,7 +105,7 @@ class Game
         @white_pawn8 = Pawn.new(@current_board)
 
         @white_pawn1.move()
-        @white_pawn2.move(5,0) # 6,1 
+        @white_pawn2.move(6,1) 
         @white_pawn3.move(6,2)
         @white_pawn4.move(6,3)
         @white_pawn5.move(6,4)
@@ -400,32 +400,48 @@ class Game
         end 
     end 
 
+    def check_colour 
+
+        @correct_colour = false 
+        if @current_player.colour == @piece_selected.colour 
+            @correct_colour= true 
+        else 
+            puts "Must pick own colour! cheeky!"
+        end 
+
+    end 
+
     
     def start_of_round 
 
 
-            until @valid_piece == true
+        until @valid_piece == true
 
-                until @start_valid == true 
+            until @start_valid == true 
 
-                    get_start_coordinates()
+                get_start_coordinates()
 
-                    check_valid_start_input()      
-                end       
+                check_valid_start_input()      
+            end       
 
 
-                @start_co_ordinates = co_ordinate_converter(@player_start_coords)
-                
+            @start_co_ordinates = co_ordinate_converter(@player_start_coords)
+            
 
-                select_start_player(@start_co_ordinates)
+            select_start_player(@start_co_ordinates)
 
-                if @valid_piece == false 
-                    puts "Please pick a valid piece!"
-                    get_start_coordinates
-                    check_valid_start_input
-                end 
-
+            if @valid_piece == false 
+                puts "Please pick a valid piece!"
+                get_start_coordinates
+                check_valid_start_input
             end 
+
+            check_colour()
+            if @correct_colour == false 
+                reset()
+                start_of_round()
+            end 
+        end 
             
 
         legal_move_generator(@start_co_ordinates) #legal_move_gen_valid 
@@ -468,6 +484,7 @@ class Game
         @start_valid = false 
         @block = true 
         @legal_move = false 
+        @correct_colour = false 
 
     end 
 
@@ -484,6 +501,51 @@ class Game
     end 
 
     def game 
+        start_of_round()
+        swap_player()
+        reset()
+        start_of_round()
+        reset()
+        swap_player()
+        start_of_round()
+        reset()
+        swap_player()
+        start_of_round()
+        reset()
+        swap_player()
+        start_of_round()
+        reset()
+        swap_player()
+        start_of_round()
+        swap_player()
+        reset()
+        start_of_round()
+        reset()
+        swap_player()
+        start_of_round()
+        reset()
+        swap_player()
+        start_of_round()
+        reset()
+        swap_player()
+        start_of_round()
+        reset()
+        swap_player()
+        start_of_round()
+        swap_player()
+        reset()
+        start_of_round()
+        reset()
+        swap_player()
+        start_of_round()
+        reset()
+        swap_player()
+        start_of_round()
+        reset()
+        swap_player()
+        start_of_round()
+        reset()
+        swap_player()
         start_of_round()
         swap_player()
         reset()
@@ -539,5 +601,7 @@ game.game()
     # i can either program the moves to be different if they colour of the player is different
     # or i can flip the board 
     # however obu pawns is a n isdsu?
-
+# check pawn stuff 
     # check illegal move - changes to next player for some reason 
+    # add in takes 
+    # only pick own colour 
