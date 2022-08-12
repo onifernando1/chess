@@ -58,7 +58,6 @@ class Piece
 
     def find_player(end_co_ordinates)
         
-        @piece = ""
         @current_pieces.each do |piece|
             if piece.current_position == end_co_ordinates
                 @piece = piece
@@ -107,22 +106,26 @@ class Piece
         end_x = end_co_ordinates[0]
         end_y = end_co_ordinates[1]  
 
-        if @current_board[end_x][end_y] != @black_square || @current_board[end_x][end_y] != @white_square
 
+        if @current_board[end_x][end_y] != @black_square && @current_board[end_x][end_y] != @white_square
             @destination_player = find_player(end_co_ordinates)  
+
+            if @destination_player.colour == current_player.colour  # find piece 
+                @path_blocked = true 
+            elsif @destination_player.colour != current_player.colour # take 
+                puts "Piece taken !"
+                @path_blocked = false 
+                @take = true 
+            end  
+            
           
         end 
 
          
         if @current_board[end_x][end_y] == @black_square || @current_board[end_x][end_y] == @white_square
             @path_blocked = false 
-        elsif @destination_player.colour == current_player.colour  # find piece 
-            @path_blocked = true 
-        else # take 
-            puts "Piece taken !"
-            @path_blocked = false 
-            @take = true 
-        end  
-        
+        end 
+
+     
     end 
 end 

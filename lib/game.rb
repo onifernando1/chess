@@ -260,11 +260,10 @@ class Game
         @valid_piece = false
        @piece_selected = []
        @current_pieces.each do |piece|
-        if piece.current_position == co_ordinates
-            @piece_selected = piece
-            @valid_piece = true 
-
-        end 
+            if piece.current_position == co_ordinates
+                @piece_selected = piece
+                @valid_piece = true
+            end 
         end 
 
 
@@ -301,7 +300,7 @@ class Game
 
         
         if  @piece_selected == [] || @piece_selected.colour != @current_player.colour
-            # puts "Silly goose. Pick a proper player"
+            puts "Silly goose. Pick a proper player"
         else 
             @piece_selected.potential_moves()
 
@@ -322,7 +321,7 @@ class Game
          
     end 
 
-    def legal_move(co_ordinates, legal_end_x, legal_end_y)
+    def legal_move(co_ordinates, legal_end_x, legal_end_y) # returns @legal_move
         @co_ordinates = co_ordinates
         @legal_move = false 
 
@@ -332,33 +331,22 @@ class Game
             
             if legal_end_x[i] == co_ordinates[0] && legal_end_y[i] == co_ordinates[1] # @ commented out 
                 @legal_move = true 
-
-            # else 
-                # @legal_move = false 
             end 
-
-
         end 
     end 
 
-    def check_for_any_blocks
+    def check_for_any_blocks # returns @block
 
         @block = true 
 
         if @piece_selected.string == " \u265B " || @piece_selected.string == " \u265D " || @piece_selected.string == " \u265C " 
             check_piece_distance(@piece_selected)
-           puts "OUTER IF "
             if @need_to_check_path == true  
-                puts "NEED TO CHECK PATH IF "
-                puts @piece_selected
                 @piece_selected.plot_path(@start_co_ordinates[0],@start_co_ordinates[1],@end_co_ordinates[0],@end_co_ordinates[1])
 
             else 
-                @piece_selected.path_blocked = false # unecessary?
-                puts "ELSEH"
-
+                @piece_selected.path_blocked = false 
             end 
-
 
         end 
 
@@ -366,7 +354,6 @@ class Game
             check_pawn_distance(@piece_selected)
             if @need_to_check_path == true 
                 @piece_selected.plot_path()
-                # @piece_selected.check_if_piece_blocking_path()  # in plot patg 
             else 
                 @piece_selected.path_blocked = false # unecessary?
             end 
@@ -377,14 +364,13 @@ class Game
             puts "Someone is in your way :("
             puts "Try again"
         else 
-            # @block = false 
             legal_move(@end_co_ordinates,@legal_end_x, @legal_end_y)
             @block = false 
 
         end
     end 
 
-    def check_pawn_distance(current_piece)
+    def check_pawn_distance(current_piece) # returns need_to_check_path
 
         @need_to_check_path = false 
 
@@ -398,7 +384,7 @@ class Game
 
     end 
 
-    def check_piece_distance(current_piece)
+    def check_piece_distance(current_piece) # returns need to check path
         @need_to_check_path = false 
 
         end_x = @end_co_ordinates[0]
@@ -412,7 +398,7 @@ class Game
         end 
     end 
 
-    def check_colour 
+    def check_colour # returns correct colour 
 
         @correct_colour = false 
         if @current_player.colour == @piece_selected.colour 
@@ -424,118 +410,87 @@ class Game
     end 
 
     
-    def start_of_round 
+    # def start_of_round 
 
 
-        until @valid_piece == true
+        # until @valid_piece == true
 
-            until @start_valid == true 
+        #     until @start_valid == true 
 
-                get_start_coordinates()
+        #         get_start_coordinates()
 
-                check_valid_start_input()      
-            end       
+        #         check_valid_start_input()      
+        #     end       
 
 
-            @start_co_ordinates = co_ordinate_converter(@player_start_coords)
+        #     @start_co_ordinates = co_ordinate_converter(@player_start_coords)
             
 
-            select_start_player(@start_co_ordinates)
+        #     select_start_player(@start_co_ordinates)
 
-            if @piece_selected.class == Array 
-                reset()
-                start_of_round()
-            end 
+        #     if @piece_selected.class == Array 
+        #         reset()
+        #         start_of_round()
+        #     end 
 
-            if @valid_piece == false 
-                puts "Please pick a valid piece!"
-                get_start_coordinates
-                check_valid_start_input
-            end 
+        #     if @valid_piece == false 
+        #         puts "Please pick a valid piece!"
+        #         reset()
+        #         start_of_round()
+        #     end 
 
-            check_colour()
-            if @correct_colour == false 
-                reset()
-                start_of_round()
-            end 
+        #     check_colour()
 
-        end 
+        #     if @correct_colour == false 
+        #         reset()
+        #         start_of_round()
+        #     end 
+
+        # end 
             
 
-        if @piece_selected.class == Pawn 
-            @piece_selected.potential_moves()
-        end 
-
-        legal_move_generator(@start_co_ordinates) #legal_move_gen_valid 
-
-        until @block == false && @legal_move == true 
-
-            get_end_coordinates()
-
-            if @player_end_coords == "back"
-                reset()
-                start_of_round()
-            end 
-
-            @end_co_ordinates = co_ordinate_converter(@player_end_coords)
-            check_for_any_blocks() # legal move() in this 
-
-            # if @block == true || @legal_move == false 
-            #     puts "Hmm.. not quite right. Try again silly."
-            #     # reset()
-            #     # start_of_round()
-            # end 
-           
-        end 
-
-        # if @block == true || @legal_move == false 
-        #     puts "Hmm.. not quite right. Try again silly."
-        #     # reset()
-        #     # start_of_round()
+        # if @piece_selected.class == Pawn 
+        #     @piece_selected.potential_moves()
         # end 
 
+        # legal_move_generator(@start_co_ordinates) #legal_move_gen_valid 
 
-        @piece_selected.check_destination(@end_co_ordinates,@current_player)
+        # until @block == false && @legal_move == true && @piece_selected.path_blocked == false
 
-     
+        #     get_end_coordinates()
+
+        #     if @player_end_coords == "back"
+        #         reset()
+        #         start_of_round()
+        #     end 
+
+        #     @end_co_ordinates = co_ordinate_converter(@player_end_coords)
+        #     check_for_any_blocks() # legal move() in this 
+        #     @piece_selected.check_destination(@end_co_ordinates,@current_player)
+
+        # end 
+
+        # if @piece_selected.class == Pawn 
+        #     @piece_selected.potential_moves()
+        #     @piece_selected.first_move = false 
+        # end 
         
-        if @piece_selected.path_blocked == false 
-            @piece_selected.delete_old_move()
-            if @piece_selected.take == true 
-                # @piece_selected.delete_destination(@end_co_ordinates)
-                @end_piece = select_end_player(@end_co_ordinates)
-                p @current_pieces.length
-                @current_pieces.delete(@end_piece)
-                p @current_pieces.length
-                @end_piece.delete_destination(@end_co_ordinates)
-                # remove piece from current_pieces
-               
-                puts "IN TAKE LOOP "
-                @piece_selected.take = false #reset take
-            end 
-            puts "PATH BLOCKED FALSE IF"
-            @piece_selected.move(@co_ordinates[0],@co_ordinates[1])
-            @current_board.show_board()
-            puts "SHOW BOARD ABOVE"
-            if @piece_selected.class == Pawn 
-                @piece_selected.potential_moves()
-                @piece_selected.first_move = false 
-            end 
-        elsif @piece_selected.path_blocked == true && @piece_selected.take == false 
-            puts "PIECE SELECTED#{@piece_selected}"
-            puts "PIECE SELECTED#{@piece_selected.path_block}"
-            puts "#{@current_board.board[@end_co_ordinates[0]][@end_co_ordinates[1]]}"
-            p "#{@current_board.board[@end_co_ordinates[0]][@end_co_ordinates[1]]}"
-            
+        #     @piece_selected.delete_old_move()
 
-            puts "Sorry, you seem to have made an illegal move"
-            puts "Let's start over"
-            reset()
-            start_of_round()
-        end 
+        #     if @piece_selected.take == true 
+        #         @end_piece = select_end_player(@end_co_ordinates)
+        #         @current_pieces.delete(@end_piece)
+        #         @end_piece.delete_destination(@end_co_ordinates)               
+        #         @piece_selected.take = false #reset take
+        #     end 
+
+        #     @piece_selected.move(@end_co_ordinates[0],@end_co_ordinates[1])
+
+        #     @current_board.show_board()
+       
     
 
-    end 
+    # end 
 
     def reset 
         @valid_piece = false 
@@ -558,38 +513,117 @@ class Game
 
     end 
 
+    def get_valid_input
+
+        until @start_valid == true 
+
+            get_start_coordinates()
+
+            check_valid_start_input()      
+        end       
+
+    end
+
+    def report_start_errors
+
+        if @piece_selected.class == Array 
+            puts "Hmm not quite..."
+            reset()
+        else
+
+            if @valid_piece == false 
+                puts "Please pick a valid piece!"
+                p "PS#{@piece_selected}"
+                p "CC#{@valid_piece}"
+               
+
+                reset()
+
+            end 
+
+            check_colour()
+
+            if @correct_colour == false 
+                puts "Select the correct colour!"
+                reset()
+
+            end 
+        end
+    end 
+
+    def start_of_round 
+
+        until @valid_piece == true  && @correct_colour == true && @piece_selected.class != Array
+
+            get_valid_input()
+
+            @start_co_ordinates = co_ordinate_converter(@player_start_coords)
+            
+            select_start_player(@start_co_ordinates)
+
+            report_start_errors()
+
+        end 
+    end 
+
+    def end_of_round
+        if @piece_selected.class == Pawn 
+            @piece_selected.potential_moves()
+        end 
+
+        legal_move_generator(@start_co_ordinates) #legal_move_gen_valid 
+
+        until @block == false && @legal_move == true && @piece_selected.path_blocked == false
+
+            get_end_coordinates()
+
+            if @player_end_coords == "back" || @player_end_coords == "BACK"
+                reset()
+                start_of_round()
+            end 
+
+            @end_co_ordinates = co_ordinate_converter(@player_end_coords)
+            check_for_any_blocks() # legal move() in this 
+            @piece_selected.check_destination(@end_co_ordinates,@current_player)
+
+        end 
+
+        if @piece_selected.class == Pawn 
+            @piece_selected.potential_moves()
+            @piece_selected.first_move = false 
+        end 
+    
+        @piece_selected.delete_old_move()
+
+        if @piece_selected.take == true 
+            @end_piece = select_end_player(@end_co_ordinates)
+            @current_pieces.delete(@end_piece)
+            @end_piece.delete_destination(@end_co_ordinates)               
+            @piece_selected.take = false #reset take
+        end 
+
+        @piece_selected.move(@end_co_ordinates[0],@end_co_ordinates[1])
+
+        @current_board.show_board()
+       
+    end
+
+    def round 
+        start_of_round()
+        end_of_round()
+    end 
+
     def game 
-        start_of_round()
+        round()
         swap_player()
         reset()
-        start_of_round()
+        round()
         swap_player()
         reset()
-        start_of_round()
+        round()
         swap_player()
         reset()
-        start_of_round()
-        swap_player()
-        reset()
-        start_of_round()
-        swap_player()
-        reset()
-        start_of_round()
-        swap_player()
-        reset()
-        start_of_round()
-        swap_player()
-        reset()
-        start_of_round()
-        swap_player()
-        reset()
-        start_of_round()
-        swap_player()
-        reset()
-        puts "END"
-        start_of_round()
-        swap_player()
-        reset()
+       
     end 
 
  

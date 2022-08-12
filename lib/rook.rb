@@ -36,17 +36,7 @@ class Rook < Piece
     
     end 
 
-    def delete_old_move
-        super()
-    end 
 
-    def find_player(end_co_ordinates)
-        super(end_co_ordinates) 
-    end 
-
-    def check_destination(end_co_ordinates, current_player) 
-        super(end_co_ordinates, current_player  )
-    end 
 
     def set_up_path(starting_x,starting_y, ending_x,ending_y)
         tree = Tree.new()
@@ -88,7 +78,7 @@ class Rook < Piece
                 @path_blocked = true 
             end 
 
-        else# @path.length == 2 
+        elsif @path.length == 2 
 
         
 

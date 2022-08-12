@@ -53,20 +53,7 @@ class Pawn < Piece
 
     end 
 
-    def delete_old_move
-        super()
-    end 
 
-    def find_player(end_co_ordinates)
-        super(end_co_ordinates)
-    end 
-
-
-    def check_destination(end_co_ordinates, current_player) 
-
-        super(end_co_ordinates, current_player  )
-
-    end 
 
     def plot_path()
         @path = []
