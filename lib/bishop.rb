@@ -179,13 +179,13 @@ class Tree attr_accessor :queue, :moves, :path, :continue, :distance, :current_n
    
         #possible moves of bishop base  # if it starts using diagonals to cut, if x increase then do these moves: etc. 
 
-        x_coordinates = [-1,-1,+1,+1]
-        y_coordinates = [+1,-1,+1,-1]
+        @x_coordinates = [-1,-1,+1,+1]
+        @y_coordinates = [+1,-1,+1,-1]
 
 
         puts "x_coordinates"
-        p "#{x_coordinates}"
-        puts "#{x_coordinates.length}"
+        p "#{@x_coordinates}"
+        puts "#{@x_coordinates.length}"
 
 
         #matrix to track visited spaces
@@ -219,7 +219,7 @@ class Tree attr_accessor :queue, :moves, :path, :continue, :distance, :current_n
             
             #go through possible moves 
 
-            length_of_potential_moves = x_coordinates.length - 1 
+            length_of_potential_moves = @y_coordinates.length - 1 
 
             for i in (0..length_of_potential_moves)
 

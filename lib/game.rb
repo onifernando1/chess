@@ -504,8 +504,14 @@ class Game
             if @piece_selected.take == true 
                 # @piece_selected.delete_destination(@end_co_ordinates)
                 @end_piece = select_end_player(@end_co_ordinates)
+                p @current_pieces.length
+                @current_pieces.delete(@end_piece)
+                p @current_pieces.length
                 @end_piece.delete_destination(@end_co_ordinates)
+                # remove piece from current_pieces
+               
                 puts "IN TAKE LOOP "
+                @piece_selected.take = false #reset take
             end 
             puts "PATH BLOCKED FALSE IF"
             @piece_selected.move(@co_ordinates[0],@co_ordinates[1])
@@ -515,7 +521,7 @@ class Game
                 @piece_selected.potential_moves()
                 @piece_selected.first_move = false 
             end 
-        else 
+        elsif @piece_selected.path_blocked == true && @piece_selected.take == false 
             puts "Sorry, you seem to have made an illegal move"
             puts "Let's start over"
             reset()
@@ -592,32 +598,6 @@ game.game()
 
 
 
-#TO Do 
-
-# Stop pieces moving through players (except knight)
-    #Thoughts: 
-    # need a way to plot path 
-    # and see if another piece is in the way 
-    # maybe i make move just a display move function 
-    #say the start position is 7,2 and legal end coords is 5,2 (moving up 2 )
-    # add basic move to each piece?
-    #then i make that piece move to that spot in increments 
-    # e.g until currentpos == 5,2 move up via the legal movement +1,0,
-    # if its empty, it can move there, if another piece is there, it cant move there (or it can take!)
-    # if piece == white move = not legal 
-    # if piece = black it cant move if its not final dest
-    # if final coo When moving change square at original starting coords to black/whiterd with black piece on take function 
-    # remoe from current pieces
-    # add piece to taken pieces array (in player_white/black obj"
-
-    #add in only select own colours later 
-    # change player 
-
-
-    # now , the moves are programmed to only go up (e.g pawn can only move up, so when player swaps it doesnt work)
-    # i can either program the moves to be different if they colour of the player is different
-    # or i can flip the board 
-    # however obu pawns is a n isdsu?
 # check pawn stuff 
     # check illegal move - changes to next player for some reason 
 
@@ -626,3 +606,7 @@ game.game()
 #check all pieces taking and moving fine 
 # check pawns cant move more than two after first move 
 #add in check, checkmate, etc.
+# bishop diag down right not taking - x_coords.length nil 
+# thinks pawns first move is illegal for some reason (if it moves 2 )
+# now its working! (havent changed anything)
+# black pawn a5 to a4  sorry you seem to have made an illega lmove lets start over
