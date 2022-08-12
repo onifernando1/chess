@@ -522,6 +522,12 @@ class Game
                 @piece_selected.first_move = false 
             end 
         elsif @piece_selected.path_blocked == true && @piece_selected.take == false 
+            puts "PIECE SELECTED#{@piece_selected}"
+            puts "PIECE SELECTED#{@piece_selected.path_block}"
+            puts "#{@current_board.board[@end_co_ordinates[0]][@end_co_ordinates[1]]}"
+            p "#{@current_board.board[@end_co_ordinates[0]][@end_co_ordinates[1]]}"
+            
+
             puts "Sorry, you seem to have made an illegal move"
             puts "Let's start over"
             reset()
@@ -610,3 +616,6 @@ game.game()
 # thinks pawns first move is illegal for some reason (if it moves 2 )
 # now its working! (havent changed anything)
 # black pawn a5 to a4  sorry you seem to have made an illega lmove lets start over
+
+# in a row, black pawn tikes white pawn, white rook takes black pawn - illegal move 
+# now it works - nothing changed
