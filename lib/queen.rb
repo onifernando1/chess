@@ -53,7 +53,7 @@ def set_up_path(starting_x,starting_y, ending_x,ending_y)
     puts "SUP"
     tree = Tree.new()
     p "TREE MADE "
-    tree.mini_steps(starting_x,starting_y, ending_x,ending_y)
+    tree.minim_steps(starting_x,starting_y, ending_x,ending_y)
     @path = tree.print_path()
     puts "SUP DONE "
 end 
@@ -178,14 +178,51 @@ def move_valid? (x, y)
 
 end 
 
-def mini_steps(x_start, y_start, x_end, y_end)
+def minim_steps(x_start, y_start, x_end, y_end)
 
 
-    #possible moves of bishop base  # if it starts using diagonals to cut, if x increase then do these moves: etc. 
+    #possible moves of queen base  # if it starts using diagonals to cut, if x increase then do these moves: etc. 
 
-  
-        x_coordinates = [+1,-1,0,0,-1,-1,+1,+1]
-        y_coordinates = [0,0,-1,+1,+1,-1,+1,-1]
+    # if diagonal 
+
+    # if up or down or left or right 
+    
+    puts "IN MINI STEPS "
+    x_change = x_end - x_start
+    y_change = y_end - y_start   
+
+    diagonal_x_movements = [-1,-1,+1,+1,-2,-2,+2,+2,-3,-3,+3,+3,-4,-4,+4,+4,-5,-5,+5,+5,-6,-6,+6,+6,-7,-7,+7,+7]
+    diagonal_y_movements = [+1,-1,+1,-1,+2,-2,+2,-2,+3,-3,+3,-3,+4,-4,+4,-4,+5,-5,+5,-5,+6,-6,+6,-6,+7,-7,+7,-7]
+    cross_x_movements = [+1,-1,0,0,+2,-2,0,0,+3,-3,0,0,+4,-4,0,0,+5,-5,0,0,+6,-6,0,0,+7,-7,0,0]
+    cross_y_movements = [0,0,-1,+1,0,0,-2,+2,0,0,-3,+3,0,0,-4,+4,0,0,-5,+5,0,0,-6,+6,0,0,-7,+7]
+    
+
+    for i in (0..diagonal_x_movements.length - 1 )
+        puts "In diag for loop"
+        if diagonal_x_movements[i] == x_change && diagonal_y_movements[i] == y_change
+            @diagonal = true 
+            puts "In diag if "        
+        end  
+    end 
+
+    for i in (0..cross_x_movements.length - 1 )
+        if cross_x_movements[i] == x_change && cross_y_movements[i] == y_change
+            @cross = true 
+        else
+            @cross = false
+        end  
+    end 
+
+    if @cross == true 
+        x_coordinates = [+1,-1,0,0]
+        y_coordinates = [0,0,-1,+1]
+    end 
+    
+    if  @diagonal == true  
+        "Puts in diag true elsif "
+        x_coordinates = [-1,-1,+1,+1]
+        y_coordinates = [+1,-1,+1,-1]
+    end 
 
 
 
@@ -274,3 +311,7 @@ end
 
 
 end 
+
+
+
+#minim steps only works if i change the name frome mini to minim wtf 
