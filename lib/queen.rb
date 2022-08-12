@@ -137,6 +137,10 @@ def plot_path(starting_x,starting_y,ending_x,ending_y)
     puts "ABOVE ME PATH"
     check_if_piece_blocking_path()
 end 
+
+    def delete_destination(piece_selected)
+        super(piece_selected)
+    end 
 end 
 
 

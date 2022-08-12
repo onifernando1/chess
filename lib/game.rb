@@ -270,6 +270,19 @@ class Game
 
 
     end 
+
+    def select_end_player(co_ordinates)
+       @end_piece = []
+       @current_pieces.each do |piece|
+        if piece.current_position == co_ordinates
+            @end_piece = piece
+
+        end 
+        end 
+
+        @end_piece
+
+    end 
  
 
     def get_end_coordinates
@@ -488,8 +501,16 @@ class Game
         
         if @piece_selected.path_blocked == false 
             @piece_selected.delete_old_move()
+            if @piece_selected.take == true 
+                # @piece_selected.delete_destination(@end_co_ordinates)
+                @end_piece = select_end_player(@end_co_ordinates)
+                @end_piece.delete_destination(@end_co_ordinates)
+                puts "IN TAKE LOOP "
+            end 
+            puts "PATH BLOCKED FALSE IF"
             @piece_selected.move(@co_ordinates[0],@co_ordinates[1])
             @current_board.show_board()
+            puts "SHOW BOARD ABOVE"
             if @piece_selected.class == Pawn 
                 @piece_selected.potential_moves()
                 @piece_selected.first_move = false 

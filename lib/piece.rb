@@ -2,7 +2,7 @@ require_relative "board.rb"
 require 'colorize'
 
 class Piece
-    attr_accessor :string, :symbol, :current_position, :colour
+    attr_accessor :string, :symbol, :current_position, :colour, :take 
 
     def initialize(current_board, colour="white", current_pieces="default")
         @current_board = current_board.board
@@ -69,8 +69,33 @@ class Piece
 
     end 
 
+    def delete_destination(destination_co_ords)
+
+        destination_x = destination_co_ords[0]
+        destination_y = destination_co_ords[1]
+
+
+        puts "DELETE DEST CALLED "
+        puts @current_board[destination_x][destination_y]
+        p @current_board[destination_x][destination_y]
+
+        if @current_board[destination_x][destination_y] == @symbol.colorize(background: :light_magenta)
+            puts "IF "
+            @current_board[destination_x][destination_y] = @black_square
+
+        elsif @current_board[destination_x][destination_y] == @symbol.colorize(background: :light_cyan) 
+            puts "ELSFI"
+            @current_board[destination_x][destination_y] = @white_square
+        end 
+
+    end 
+
+  
+
 
     def check_destination(end_co_ordinates, current_player) 
+
+        @take = false 
 
         #e.g youre given start coordinates E1
         # end coordinates E2 
@@ -96,6 +121,7 @@ class Piece
         else # take 
             puts "Piece taken !"
             @path_blocked = false 
+            @take = true 
         end  
         
     end 
