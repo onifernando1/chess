@@ -620,15 +620,9 @@ game.game()
     # however obu pawns is a n isdsu?
 # check pawn stuff 
     # check illegal move - changes to next player for some reason 
-    # add in takes 
-    # player not swapping - think its fine 
 
-
-    # add in takes 
-# bishop not moving left diag cant take 
-# queen cant move forward 3 after prev move hmmm siklly 
-# stuck in player 2 but queen moving 
-# change min steps to mini steps oops in queen 
-# lets queen take straight but not diag  - someone in way :( try again hmm..silly)
-
-# queen doesnt move diag - gonna need to fix shortest path to ensure only moves in one direction!
+# to do 
+# pawns can take diagonally 
+#check all pieces taking and moving fine 
+# check pawns cant move more than two after first move 
+#add in check, checkmate, etc.
