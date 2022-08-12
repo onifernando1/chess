@@ -571,7 +571,13 @@ class Game
         start_of_round()
         swap_player()
         reset()
-  
+        start_of_round()
+        swap_player()
+        reset()
+        puts "END"
+        start_of_round()
+        swap_player()
+        reset()
     end 
 
  

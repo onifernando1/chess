@@ -56,7 +56,7 @@ class Bishop < Piece
     def set_up_path(starting_x,starting_y, ending_x,ending_y)
         tree = Tree.new()
         p "TREE MADE "
-        tree.mini_steps(starting_x,starting_y, ending_x,ending_y)
+        tree.minim_steps(starting_x,starting_y, ending_x,ending_y)
         @path = tree.print_path()
     end 
 
@@ -79,7 +79,7 @@ class Bishop < Piece
                 
         
                 
-                if @current_board[move_x][move_y] == @black_square || @current_board[move_x][move_y] == @white_square
+                if @current_board[move_x][move_y] == @black_square || @current_board[move_x][move_y] == @white_square 
 
                     @path_blocked_array << false 
                 else
@@ -128,8 +128,10 @@ class Bishop < Piece
     end 
 
     def plot_path(starting_x,starting_y,ending_x,ending_y)
+        puts "PP START"
         set_up_path(starting_x,starting_y, ending_x,ending_y)
         check_if_piece_blocking_path()
+        puts "PP END "
     end 
 end 
 
@@ -172,7 +174,7 @@ class Tree attr_accessor :queue, :moves, :path, :continue, :distance, :current_n
 
     end 
 
-    def mini_steps(x_start, y_start, x_end, y_end)
+    def minim_steps(x_start, y_start, x_end, y_end)
 
    
         #possible moves of bishop base  # if it starts using diagonals to cut, if x increase then do these moves: etc. 
@@ -181,6 +183,9 @@ class Tree attr_accessor :queue, :moves, :path, :continue, :distance, :current_n
         y_coordinates = [+1,-1,+1,-1]
 
 
+        puts "x_coordinates"
+        p "#{x_coordinates}"
+        puts "#{x_coordinates.length}"
 
 
         #matrix to track visited spaces
@@ -261,6 +266,9 @@ class Tree attr_accessor :queue, :moves, :path, :continue, :distance, :current_n
             @path.pop()
         end 
 
+        @path
+        p @path
+        puts "PRINT PATH "
         @path
 
     end 
