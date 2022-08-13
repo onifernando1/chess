@@ -112,6 +112,7 @@ class Piece
 
             if @destination_player.colour == current_player.colour  # find piece 
                 @path_blocked = true 
+                "Puts path blocked :("
             elsif @destination_player.colour != current_player.colour # take 
                 puts "Piece taken !"
                 @path_blocked = false 

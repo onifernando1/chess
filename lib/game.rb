@@ -230,7 +230,7 @@ class Game
         valid_letters = ["A","B","C","D","E","F","G", "H", "a","b","c","d","e","f","g","h"]    
         valid_numbers = [1,2,3,4,5,6,7,8]
         start_coords_to_check = co_ordinates.split("")
-        if valid_letters.include?(start_coords_to_check[0]) && valid_numbers.include?(start_coords_to_check[1].to_i) && start_coords_to_check.length == 2 
+        if valid_letters.include?(start_coords_to_check[0]) && valid_numbers.include?(start_coords_to_check[1].to_i) && start_coords_to_check.length == 2
             @start_valid = true 
         else 
             puts "Oops! Try again with some valid co-ordinates!"
@@ -553,6 +553,10 @@ class Game
 
     def start_of_round 
 
+        puts "CALLS START "
+        @valid_piece = false 
+        @correct_colour = false 
+
         until @valid_piece == true  && @correct_colour == true && @piece_selected.class != Array
 
             get_valid_input()
@@ -585,7 +589,11 @@ class Game
 
             get_end_coordinates()
 
-            if @player_end_coords != "back" || @player_end_coords != "BACK"
+            if @player_end_coords == "back" ||@player_end_coords == "BACK" ||
+                reset()
+                start_of_round()
+            else 
+
                 check_valid_start_input(@player_end_coords)
             end 
         end 
@@ -604,7 +612,8 @@ class Game
             end 
 
             @end_co_ordinates = co_ordinate_converter(@player_end_coords)
-            check_for_any_blocks() # legal move() in this 
+            check_for_any_blocks() # legal move() in this "
+
             @piece_selected.check_destination(@end_co_ordinates, @current_player)
 
             error_messages()
@@ -711,5 +720,5 @@ game.game()
 # in a row, black pawn tikes white pawn, white rook takes black pawn - illegal move 
 # now it works - nothing changed
 
-#king crashing 1 move forawrd
-#queen crashing moving three diag if blocked from start 
+#king crashing 1 move forawrd # didnt change but now fine ?
+#queen crashing moving three up d1 d3  if blocked from start fixed 
