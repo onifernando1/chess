@@ -518,53 +518,76 @@ class Game
     end 
     
     
-    def check_if_pawn_can_take 
+    def check_if_pawn_can_take(co_ordinates)
+    
     
         if @piece_selected.class == Pawn && @piece_selected.colour == "white"
             current_position = @piece_selected.current_position 
             current_position_x = current_position[0]
             current_position_y = current_position[1]
-    
-            #check up right 
+
             up_right_x = current_position_x - 1 
             up_right_y = current_position_y + 1 
             up_right_co_ords = []
             up_right_co_ords << up_right_x
             up_right_co_ords << up_right_y
-    
-    
-            if @current_board.board[up_right_x][up_right_y] != @piece_selected.black_square && @current_board.board[up_right_x][up_right_y] != @piece_selected.white_square
-                @pawn_attack_piece_up = find_pawn_players(up_right_co_ords)
-                if @pawn_attack_piece.colour == @current_player.colour 
-                    #blocked 
-                    puts "#blocked"
-                else 
-                    #take()
-                    puts "#take"
-                end 
-            end 
-    
-    
-            #check up left
+
             up_left_x = current_position_x - 1 
             up_left_y = current_position_y - 1    
             up_left_co_ords = []
             up_left_co_ords << up_left_x
-            up_left_co_ords << up_left_y      
-            # cp6,3
-             # 5,4-up right  5,2 - up left
+            up_left_co_ords << up_left_y  
 
-             if @current_board.board[up_left_x][up_left_y] != @piece_selected.black_square && @current_board.board[up_left_x][up_left_y] != @piece_selected.white_square
-                @pawn_attack_piece_up = find_pawn_players(up_left_co_ords)
-                if @pawn_attack_piece.colour == @current_player.colour 
-                    #blocked 
-                    puts "#blocked"
-                else 
-                    #take()
-                    puts "#take"
+            if up_right_co_ords == co_ordinates 
+
+    
+    
+                if @current_board.board[up_right_x][up_right_y] != @piece_selected.black_square && @current_board.board[up_right_x][up_right_y] != @piece_selected.white_square
+                    @pawn_attack_piece_up = find_pawn_players(up_right_co_ords)
+                    if @pawn_attack_piece.colour == @current_player.colour 
+                        #blocked 
+                        puts "#blocked"
+                    else 
+                        #take()
+                        puts "#take"
+                        @block = false 
+                    end 
+                elsif @current_board.board[up_right_x][up_right_y] == @piece_selected.black_square || @current_board.board[up_right_x][up_right_y] == @piece_selected.white_square
+                    @block = true 
+                    puts "IN ELSIF"
+                    puts "BLOCK #{@block}"
+                end 
+                    
+            
+            elsif up_left_co_ords == co_ordinates
+
+
+                if @current_board.board[up_left_x][up_left_y] != @piece_selected.black_square && @current_board.board[up_left_x][up_left_y] != @piece_selected.white_square
+                    @pawn_attack_piece_up = find_pawn_players(up_left_co_ords)
+                    if @pawn_attack_piece.colour == @current_player.colour 
+                        #blocked 
+                        puts "#blocked"
+                    else 
+                        #take()
+                        puts "#take"
+                        @block = false 
+
+                    end 
+                elsif @current_board.board[up_left_x][up_left_y] == @piece_selected.black_square || @current_board.board[up_left_x][up_left_y] == @piece_selected.white_square
+                    @block = true 
+                    puts "IN ELSIF 2"
                 end 
             end 
+
+
+
+
+
+
+
+
         end 
+        
     end 
 ## end of pawn stuff 
 
@@ -596,15 +619,16 @@ class Game
 
             @end_co_ordinates = co_ordinate_converter(@player_end_coords)
 
-### pawn stuff 
-            check_if_pawn_can_take()
-
-### end of pawn stuff 
-
 
             check_for_any_blocks() # legal move() in this "
 
+### pawn stuff 
+            check_if_pawn_can_take(@end_co_ordinates)
+            puts "BLOCK AFTER CHECK IF PAWN CAN TAKE #{@block}"
+
+### end of pawn stuff 
             @piece_selected.check_destination(@end_co_ordinates, @current_player)
+            puts "BLOCK AFTER CHECK DEST #{@block}"
 
             error_messages()
 
@@ -725,4 +749,5 @@ game.game()
 # Then it can move there 
 # It can take there 
 # stop pawn taking in front of it 
+# pawns taking but can now move diag
 
