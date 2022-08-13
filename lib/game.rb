@@ -585,7 +585,9 @@ class Game
 
             get_end_coordinates()
 
-            check_valid_start_input(@player_end_coords)
+            if @player_end_coords != "back" || @player_end_coords != "BACK"
+                check_valid_start_input(@player_end_coords)
+            end 
         end 
 
     end 
@@ -593,7 +595,6 @@ class Game
     def get_valid_end_co_ords
 
         until @block == false && @legal_move == true && @piece_selected.path_blocked == false
-
 
             get_valid_end_input()
 
@@ -710,4 +711,5 @@ game.game()
 # in a row, black pawn tikes white pawn, white rook takes black pawn - illegal move 
 # now it works - nothing changed
 
-#rook hopping a1 a3 
+#king crashing 1 move forawrd
+#queen crashing moving three diag if blocked from start 

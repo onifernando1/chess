@@ -180,7 +180,8 @@ end
 
 def minim_steps(x_start, y_start, x_end, y_end)
 
-
+    @cross = false 
+    @diagonal = false 
     #possible moves of queen base  # if it starts using diagonals to cut, if x increase then do these moves: etc. 
 
     # if diagonal 
@@ -198,18 +199,16 @@ def minim_steps(x_start, y_start, x_end, y_end)
     
 
     for i in (0..diagonal_x_movements.length - 1 )
-        puts "In diag for loop"
+    
         if diagonal_x_movements[i] == x_change && diagonal_y_movements[i] == y_change
             @diagonal = true 
-            puts "In diag if "        
         end  
     end 
 
     for i in (0..cross_x_movements.length - 1 )
+
         if cross_x_movements[i] == x_change && cross_y_movements[i] == y_change
             @cross = true 
-        else
-            @cross = false
         end  
     end 
 
