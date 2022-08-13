@@ -2,7 +2,7 @@ require_relative "board.rb"
 require 'colorize'
 
 class Piece
-    attr_accessor :string, :symbol, :current_position, :colour, :take 
+    attr_accessor :string, :symbol, :current_position, :colour, :take, :black_square, :white_square
 
     def initialize(current_board, colour="white", current_pieces="default")
         @current_board = current_board.board

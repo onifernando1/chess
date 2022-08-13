@@ -5,7 +5,7 @@ require 'colorize'
 
 class Pawn < Piece
 
-    attr_accessor :string, :symbol, :current_position, :potential_x, :potential_y, :current_pieces, :path_blocked, :first_move
+    attr_accessor :string, :symbol, :current_position, :potential_x, :potential_y, :current_pieces, :path_blocked, :first_move, :black_square, :white_square
     
     def initialize(current_board, colour="white")
         super
@@ -26,10 +26,7 @@ class Pawn < Piece
         super
     end 
 
-    def change_colour()
-     
-        super() 
-    end 
+
 
     def potential_moves
         # note swapped later because of 

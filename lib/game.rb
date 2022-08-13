@@ -64,7 +64,7 @@ class Game
         @black_pawn1.move()
         @black_pawn8.move(1,0)
         @black_pawn2.move(1,1)
-        @black_pawn3.move(1,2)
+        @black_pawn3.move(5,5) # 1,2 
         @black_pawn4.move(1,3)
         @black_pawn5.move(1,4)
         @black_pawn6.move(1,5)
@@ -283,7 +283,8 @@ class Game
         @end_piece
 
     end 
- 
+
+
 
     def get_end_coordinates
 
@@ -409,88 +410,6 @@ class Game
 
     end 
 
-    
-    # def start_of_round 
-
-
-        # until @valid_piece == true
-
-        #     until @start_valid == true 
-
-        #         get_start_coordinates()
-
-        #         check_valid_start_input()      
-        #     end       
-
-
-        #     @start_co_ordinates = co_ordinate_converter(@player_start_coords)
-            
-
-        #     select_start_player(@start_co_ordinates)
-
-        #     if @piece_selected.class == Array 
-        #         reset()
-        #         start_of_round()
-        #     end 
-
-        #     if @valid_piece == false 
-        #         puts "Please pick a valid piece!"
-        #         reset()
-        #         start_of_round()
-        #     end 
-
-        #     check_colour()
-
-        #     if @correct_colour == false 
-        #         reset()
-        #         start_of_round()
-        #     end 
-
-        # end 
-            
-
-        # if @piece_selected.class == Pawn 
-        #     @piece_selected.potential_moves()
-        # end 
-
-        # legal_move_generator(@start_co_ordinates) #legal_move_gen_valid 
-
-        # until @block == false && @legal_move == true && @piece_selected.path_blocked == false
-
-        #     get_end_coordinates()
-
-        #     if @player_end_coords == "back"
-        #         reset()
-        #         start_of_round()
-        #     end 
-
-        #     @end_co_ordinates = co_ordinate_converter(@player_end_coords)
-        #     check_for_any_blocks() # legal move() in this 
-        #     @piece_selected.check_destination(@end_co_ordinates,@current_player)
-
-        # end 
-
-        # if @piece_selected.class == Pawn 
-        #     @piece_selected.potential_moves()
-        #     @piece_selected.first_move = false 
-        # end 
-        
-        #     @piece_selected.delete_old_move()
-
-        #     if @piece_selected.take == true 
-        #         @end_piece = select_end_player(@end_co_ordinates)
-        #         @current_pieces.delete(@end_piece)
-        #         @end_piece.delete_destination(@end_co_ordinates)               
-        #         @piece_selected.take = false #reset take
-        #     end 
-
-        #     @piece_selected.move(@end_co_ordinates[0],@end_co_ordinates[1])
-
-        #     @current_board.show_board()
-       
-    
-
-    # end 
 
     def reset 
         @valid_piece = false 
@@ -584,6 +503,57 @@ class Game
             puts "Seems like this move isn't legal..."
         end 
     end 
+## pawn stuff 
+    def find_pawn_players(co_ordinates)
+
+        @pawn_attack_piece = []
+        @current_pieces.each do |piece|
+         if piece.current_position == co_ordinates
+             @pawn_attack_piece = piece
+    
+         end 
+         end 
+    
+         @pawn_attack_piece
+    end 
+    
+    
+    def check_if_pawn_can_take 
+    
+        if @piece_selected.class == Pawn && @piece_selected.colour == "white"
+            current_position = @piece_selected.current_position 
+            current_position_x = current_position[0]
+            current_position_y = current_position[1]
+    
+            #check up right 
+            up_right_x = current_position_x - 1 
+            up_right_y = current_position_y + 1 
+            up_right_co_ords = []
+            up_right_co_ords << up_right_x
+            up_right_co_ords << up_right_y
+    
+    
+            if @current_board.board[up_right_x][up_right_y] != @piece_selected.black_square && @current_board.board[up_right_x][up_right_y] != @piece_selected.white_square
+                @pawn_attack_piece_up = find_pawn_players(up_right_co_ords)
+                if @pawn_attack_piece.colour == @current_player.colour 
+                    #blocked 
+                    puts "#blocked"
+                else 
+                    #take()
+                    puts "#take"
+                end 
+            end 
+    
+    
+            #check up left
+            up_left_x = current_position_x - 1 
+            up_left_y = current_position_y - 1          
+            # cp6,3
+             # 5,4-up right  5,2 - up left
+        end 
+    end 
+## end of pawn stuff 
+
 
     def get_valid_end_input
 
@@ -611,6 +581,13 @@ class Game
             get_valid_end_input()
 
             @end_co_ordinates = co_ordinate_converter(@player_end_coords)
+
+### pawn stuff 
+            check_if_pawn_can_take()
+
+### end of pawn stuff 
+
+
             check_for_any_blocks() # legal move() in this "
 
             @piece_selected.check_destination(@end_co_ordinates, @current_player)
@@ -723,3 +700,15 @@ game.game()
 
 #king crashing 1 move forawrd # didnt change but now fine ?
 #queen crashing moving three up d1 d3  if blocked from start fixed 
+
+# think pieces moving smoothly?
+
+# Let pawns take diagonally
+
+# Pawns:
+# White: check diagonal left up and diagonal right up 
+# If piece with current location in that spot != white 
+# Then it can move there 
+# It can take there 
+# stop pawn taking in front of it 
+
