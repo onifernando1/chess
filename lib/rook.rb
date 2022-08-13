@@ -45,11 +45,11 @@ class Rook < Piece
         @path = tree.print_path()
     end 
 
-    def check_if_piece_blocking_path
+    def check_if_piece_blocking_path # move to piece
 
         @path_blocked_array = []
 
-        if @path.length > 2 
+        if @path.length >= 2 # change to equal two 
             @path.each do |move|
             
                 move_x = move[0]
@@ -78,7 +78,7 @@ class Rook < Piece
                 @path_blocked = true 
             end 
 
-        elsif @path.length == 2 
+        elsif @path.length == 1 #change to 1  
 
         
 
@@ -106,13 +106,14 @@ class Rook < Piece
             if @path_blocked_array.include?(true)
                 @path_blocked = true 
             end 
+
         end 
-        # what to do for one move?
 
 
     end 
 
     def plot_path(starting_x,starting_y,ending_x,ending_y)
+        
         set_up_path(starting_x,starting_y, ending_x,ending_y)
         check_if_piece_blocking_path()
     end 

@@ -338,12 +338,12 @@ class Game
     def check_for_any_blocks # returns @block
 
         @block = true 
-
         if @piece_selected.string == " \u265B " || @piece_selected.string == " \u265D " || @piece_selected.string == " \u265C " 
+            
             check_piece_distance(@piece_selected)
+
             if @need_to_check_path == true  
                 @piece_selected.plot_path(@start_co_ordinates[0],@start_co_ordinates[1],@end_co_ordinates[0],@end_co_ordinates[1])
-
             else 
                 @piece_selected.path_blocked = false 
             end 
@@ -392,8 +392,7 @@ class Game
 
         current_x = current_piece.current_position[0]
         current_y = current_piece.current_position[1]
-
-        if end_x - current_x <= -3 ||  end_x - current_x >= 3|| end_x - current_x <= -3||  end_x - current_x >= 3 || end_y - current_y <= -3 ||  end_y - current_y >= 3|| end_y - current_y <= -3||  end_y - current_y >= 3 
+        if end_x - current_x <= -2 ||  end_x - current_x >= 2|| end_x - current_x <= -2||  end_x - current_x >= 2 || end_y - current_y <= -2 ||  end_y - current_y >= 2|| end_y - current_y <= -2||  end_y - current_y >= 2 
             @need_to_check_path = true 
         end 
     end 
@@ -566,16 +565,12 @@ class Game
         end 
     end 
 
-    def end_of_round
-        if @piece_selected.class == Pawn 
-            @piece_selected.potential_moves()
-        end 
-
-        legal_move_generator(@start_co_ordinates) #legal_move_gen_valid 
+    def get_valid_end_co_ords
 
         until @block == false && @legal_move == true && @piece_selected.path_blocked == false
 
             get_end_coordinates()
+
 
             if @player_end_coords == "back" || @player_end_coords == "BACK"
                 reset()
@@ -584,16 +579,12 @@ class Game
 
             @end_co_ordinates = co_ordinate_converter(@player_end_coords)
             check_for_any_blocks() # legal move() in this 
-            @piece_selected.check_destination(@end_co_ordinates,@current_player)
+            @piece_selected.check_destination(@end_co_ordinates, @current_player)
 
         end 
+    end 
 
-        if @piece_selected.class == Pawn 
-            @piece_selected.potential_moves()
-            @piece_selected.first_move = false 
-        end 
-    
-        @piece_selected.delete_old_move()
+    def take_piece
 
         if @piece_selected.take == true 
             @end_piece = select_end_player(@end_co_ordinates)
@@ -601,8 +592,28 @@ class Game
             @end_piece.delete_destination(@end_co_ordinates)               
             @piece_selected.take = false #reset take
         end 
+    end 
+
+
+    def end_of_round
+
+        @piece_selected.potential_moves() # ensure pawn moves updated in case second move 
+
+        legal_move_generator(@start_co_ordinates) #legal_move_gen_valid 
+
+        get_valid_end_co_ords()
+
+    
+        @piece_selected.delete_old_move()
+
+        take_piece()
 
         @piece_selected.move(@end_co_ordinates[0],@end_co_ordinates[1])
+
+        if @piece_selected.class == Pawn 
+            @piece_selected.potential_moves()
+            @piece_selected.first_move = false 
+        end 
 
         @current_board.show_board()
        
@@ -614,6 +625,24 @@ class Game
     end 
 
     def game 
+        round()
+        swap_player()
+        reset()
+        round()
+        swap_player()
+        reset()
+        round()
+        swap_player()
+        reset()
+        round()
+        swap_player()
+        reset()
+        round()
+        swap_player()
+        reset()
+        round()
+        swap_player()
+        reset()
         round()
         swap_player()
         reset()
@@ -653,3 +682,5 @@ game.game()
 
 # in a row, black pawn tikes white pawn, white rook takes black pawn - illegal move 
 # now it works - nothing changed
+
+#rook hopping a1 a3 

@@ -30,27 +30,11 @@ class Bishop < Piece
     end 
 
 
-    def change_colour()
-     super 
-    end 
-
     def potential_moves
 
         @potential_x = [-1,-1,+1,+1,-2,-2,+2,+2,-3,-3,+3,+3,-4,-4,+4,+4,-5,-5,+5,+5,-6,-6,+6,+6,-7,-7,+7,+7]
         @potential_y = [+1,-1,+1,-1,+2,-2,+2,-2,+3,-3,+3,-3,+4,-4,+4,-4,+5,-5,+5,-5,+6,-6,+6,-6,+7,-7,+7,-7]
 
-    end 
-
-    def delete_old_move
-        super()
-    end 
-
-    def find_player(end_co_ordinates)
-        super(end_co_ordinates)
-    end 
-
-    def check_destination(end_co_ordinates, current_player) 
-        super(end_co_ordinates, current_player  )
     end 
 
     def set_up_path(starting_x,starting_y, ending_x,ending_y)
@@ -60,11 +44,12 @@ class Bishop < Piece
         @path = tree.print_path()
     end 
 
-    def check_if_piece_blocking_path
+    
+    def check_if_piece_blocking_path # move to piece
 
         @path_blocked_array = []
 
-        if @path.length > 2 
+        if @path.length >= 2 # change to equal two 
             @path.each do |move|
             
                 move_x = move[0]
@@ -79,7 +64,7 @@ class Bishop < Piece
                 
         
                 
-                if @current_board[move_x][move_y] == @black_square || @current_board[move_x][move_y] == @white_square 
+                if @current_board[move_x][move_y] == @black_square || @current_board[move_x][move_y] == @white_square
 
                     @path_blocked_array << false 
                 else
@@ -93,7 +78,7 @@ class Bishop < Piece
                 @path_blocked = true 
             end 
 
-        else# @path.length == 2 
+        elsif @path.length == 1 #change to 1  
 
         
 
@@ -121,18 +106,17 @@ class Bishop < Piece
             if @path_blocked_array.include?(true)
                 @path_blocked = true 
             end 
+
         end 
-        # what to do for one move?
 
 
     end 
 
     def plot_path(starting_x,starting_y,ending_x,ending_y)
-        puts "PP START"
         set_up_path(starting_x,starting_y, ending_x,ending_y)
         check_if_piece_blocking_path()
-        puts "PP END "
     end 
+
 end 
 
 

@@ -58,13 +58,12 @@ def set_up_path(starting_x,starting_y, ending_x,ending_y)
     puts "SUP DONE "
 end 
 
-def check_if_piece_blocking_path()
 
-    puts "CIBP"
+def check_if_piece_blocking_path # move to piece
 
     @path_blocked_array = []
 
-    if @path.length > 2 
+    if @path.length >= 2 # change to equal two 
         @path.each do |move|
         
             move_x = move[0]
@@ -74,19 +73,16 @@ def check_if_piece_blocking_path()
             if @current_board[move_x][move_y] != @black_square || @current_board[move_x][move_y] != @white_square
             
                     @destination_player = find_player(move)
-                    puts "DEAST PLAYER MADE "
             end 
 
-            puts "CHECK IF PIECE BLOCKING PATH FUNC"
+            
     
             
-            if @current_board[move_x][move_y] == @black_square || @current_board[move_x][move_y] == @white_square #|| @destination_player.colour != current_player.colour 
+            if @current_board[move_x][move_y] == @black_square || @current_board[move_x][move_y] == @white_square
 
                 @path_blocked_array << false 
-                "PUTS FALSE "
             else
                 @path_blocked_array << true 
-                puts "TRUE "
             end  
         end 
 
@@ -96,7 +92,7 @@ def check_if_piece_blocking_path()
             @path_blocked = true 
         end 
 
-    else# @path.length == 2 
+    elsif @path.length == 1 #change to 1  
 
     
 
@@ -124,8 +120,8 @@ def check_if_piece_blocking_path()
         if @path_blocked_array.include?(true)
             @path_blocked = true 
         end 
+
     end 
-    # what to do for one move?
 
 
 end 
