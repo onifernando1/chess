@@ -547,9 +547,23 @@ class Game
     
             #check up left
             up_left_x = current_position_x - 1 
-            up_left_y = current_position_y - 1          
+            up_left_y = current_position_y - 1    
+            up_left_co_ords = []
+            up_left_co_ords << up_left_x
+            up_left_co_ords << up_left_y      
             # cp6,3
              # 5,4-up right  5,2 - up left
+
+             if @current_board.board[up_left_x][up_left_y] != @piece_selected.black_square && @current_board.board[up_left_x][up_left_y] != @piece_selected.white_square
+                @pawn_attack_piece_up = find_pawn_players(up_left_co_ords)
+                if @pawn_attack_piece.colour == @current_player.colour 
+                    #blocked 
+                    puts "#blocked"
+                else 
+                    #take()
+                    puts "#take"
+                end 
+            end 
         end 
     end 
 ## end of pawn stuff 
