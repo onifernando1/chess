@@ -553,6 +553,8 @@ class Game
 
     def start_of_round 
 
+        @continue = false 
+
         puts "CALLS START "
         @valid_piece = false 
         @correct_colour = false 
@@ -568,6 +570,8 @@ class Game
             report_start_errors()
 
         end 
+
+        @continue = true 
     end 
 
     def error_messages
@@ -591,7 +595,7 @@ class Game
 
             if @player_end_coords == "back" ||@player_end_coords == "BACK" ||
                 reset()
-                start_of_round()
+                round()
             else 
 
                 check_valid_start_input(@player_end_coords)
@@ -605,11 +609,6 @@ class Game
         until @block == false && @legal_move == true && @piece_selected.path_blocked == false
 
             get_valid_end_input()
-
-            if @player_end_coords == "back" || @player_end_coords == "BACK"
-                reset()
-                start_of_round()
-            end 
 
             @end_co_ordinates = co_ordinate_converter(@player_end_coords)
             check_for_any_blocks() # legal move() in this "
@@ -658,7 +657,9 @@ class Game
 
     def round 
         start_of_round()
-        end_of_round()
+        if @continue == true 
+            end_of_round()
+        end 
     end 
 
     def game 
