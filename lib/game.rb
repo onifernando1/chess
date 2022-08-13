@@ -225,10 +225,11 @@ class Game
        
     end 
 
-    def check_valid_start_input
+    def check_valid_start_input(co_ordinates)
+        @start_valid = false
         valid_letters = ["A","B","C","D","E","F","G", "H", "a","b","c","d","e","f","g","h"]    
         valid_numbers = [1,2,3,4,5,6,7,8]
-        start_coords_to_check = @player_start_coords.split("")
+        start_coords_to_check = co_ordinates.split("")
         if valid_letters.include?(start_coords_to_check[0]) && valid_numbers.include?(start_coords_to_check[1].to_i) && start_coords_to_check.length == 2 
             @start_valid = true 
         else 
@@ -518,7 +519,7 @@ class Game
 
             get_start_coordinates()
 
-            check_valid_start_input()      
+            check_valid_start_input(@player_start_coords)      
         end       
 
     end
@@ -565,12 +566,36 @@ class Game
         end 
     end 
 
+    def error_messages
+
+        if @block == true 
+            puts "Seems like your blocked..."
+        end 
+
+        if @legal_move == false 
+            puts "Seems like this move isn't legal..."
+        end 
+    end 
+
+    def get_valid_end_input
+
+        @start_valid = false 
+
+        until @start_valid == true 
+
+            get_end_coordinates()
+
+            check_valid_start_input(@player_end_coords)
+        end 
+
+    end 
+
     def get_valid_end_co_ords
 
         until @block == false && @legal_move == true && @piece_selected.path_blocked == false
 
-            get_end_coordinates()
 
+            get_valid_end_input()
 
             if @player_end_coords == "back" || @player_end_coords == "BACK"
                 reset()
@@ -580,6 +605,8 @@ class Game
             @end_co_ordinates = co_ordinate_converter(@player_end_coords)
             check_for_any_blocks() # legal move() in this 
             @piece_selected.check_destination(@end_co_ordinates, @current_player)
+
+            error_messages()
 
         end 
     end 

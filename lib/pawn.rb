@@ -61,6 +61,9 @@ class Pawn < Piece
         current_x = @current_position[0] 
         current_y = @current_position[1]
 
+        puts "POTENTIAL X #{@potential_x}" 
+
+
         @path << current_x + @potential_x[0] 
         @path << current_y + @potential_y[0]
         @path
