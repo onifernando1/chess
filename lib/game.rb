@@ -27,9 +27,9 @@ class Game
         @valid_start_coordinates = false 
         @start_valid = false 
         @game_end = false 
-        @black_king.move(5,2)
-        @black_king.current_position = [5,2]
-        @white_knight1.check_for_check(@current_player) #cjecl
+        @black_king.move(5,1)
+        @black_king.current_position = [5,0]
+        @white_pawn1.check_for_check(@current_player) #cjecl
 
     end 
 

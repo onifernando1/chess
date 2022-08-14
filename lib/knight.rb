@@ -53,6 +53,7 @@ class Knight < Piece
 
        
     def find_moves_to_check
+        
 
         @final_positions_to_check = []
         
@@ -115,9 +116,5 @@ class Knight < Piece
 
          
     end 
-
-end 
-
-class KnightTree < Tree 
 
 end 
