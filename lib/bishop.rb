@@ -122,45 +122,10 @@ class Bishop < Piece
 end 
 
 
-# class Node attr_accessor :x, :y, :distance, :co_ordinates, :parent
-
-#     def initialize(x=nil, y=nil, distance=0, parent=nil)
-#         @x = x
-#         @y = y  
-#         @co_ordinates = [x,y]
-#         @parent = parent
-#         @distance = distance
-#     end 
-
-
-# end 
-
 class BishopTree < Tree
 
     attr_accessor :queue, :moves, :path, :continue, :distance, :current_node, :node
 
-    # def initialize 
-    #     @queue = []
-    #     @moves = []
-    #     @path = []
-    #     @continue = true 
-    # end 
-
-    # def add_node(x, y, distance, parent=nil)
-    #     node = Node.new(x, y, distance, parent)
-    #     @queue << node 
-    #     node
-    # end 
-
-    # def move_valid? (x, y)
-
-    #     if x < 8 && x >= 0 && y < 8 && y >= 0 
-    #         return true 
-    #     else 
-    #         return false 
-    #     end 
-
-    # end 
 
     def minim_steps(x_start, y_start, x_end, y_end)
 
@@ -234,32 +199,6 @@ class BishopTree < Tree
 
     
     end 
-    
-    # def print_path
-
-
-    #     current = @current_node
-
-
-    #     for i in (0..@current_node.distance)
-    #         @path.prepend(current.co_ordinates)
-    #         current = current.parent
-    #     end 
-
-
-    #     # remove first (starting) move
-    #     @path.shift()
-    #     # # remove end move (dealt with in findpathfunction)
-    #     if @path.length > 1 
-    #         @path.pop()
-    #     end 
-
-    #     @path
-    #     p @path
-    #     puts "PRINT PATH "
-    #     @path
-
-    # end 
 
 
 end 

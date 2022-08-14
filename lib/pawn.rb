@@ -38,7 +38,7 @@ class Pawn < Piece
                 @potential_y = [0,0,-1,+1]
             else 
                 @potential_x = [-1,-1,-1]
-                @potential_y = [0]-1,+1
+                @potential_y = [0,-1,1]
             end 
         else 
             if @first_move == true 
