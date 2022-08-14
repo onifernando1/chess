@@ -97,3 +97,6 @@ class Pawn < Piece
 
         end 
 end 
+
+class PawnTree <Tree
+end 

@@ -27,6 +27,7 @@ class Game
         @valid_start_coordinates = false 
         @start_valid = false 
         @game_end = false 
+        @white_king.check_for_check() #cjecl
     end 
 
     def intro
