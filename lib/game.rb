@@ -18,18 +18,22 @@ class Game
         set_up_white()        
         set_up_black()
         set_up_players()
-        @current_board.show_board()
         @current_player = @player_white
         intro()
+        @current_board.show_board()
+
         @current_pieces = []
         save_current_pieces()
         update_current_pieces()
         @valid_start_coordinates = false 
         @start_valid = false 
         @game_end = false 
-        @black_king.move(5,1)
-        @black_king.current_position = [5,0]
-        @white_pawn1.check_for_check(@current_player) #cjecl
+        # @black_king.move(5,1)
+        # @black_king.current_position = [5,0]
+        # @white_pawn1.check_for_check(@current_player) #cjecl
+        @king_in_check = false 
+        pre_game_check()
+        @current_board.show_board()
 
     end 
 
@@ -95,7 +99,7 @@ class Game
 
         @black_king = King.new(@current_board, "black")
         @black_king.change_colour()
-        @black_king.move(3,4) # 0,4 
+        @black_king.move(0,4) # 
     end 
 
     def set_up_white
@@ -125,7 +129,7 @@ class Game
         @white_knight1 = Knight.new(@current_board)
         @white_knight2 = Knight.new(@current_board)
         @white_knight1.move(7,1)
-        @white_knight2.move(7,6) # 7,6
+        @white_knight2.move(7,6) 
 
         @white_bishop1 = Bishop.new(@current_board)
         @white_bishop2 = Bishop.new(@current_board)
@@ -136,7 +140,7 @@ class Game
         @white_queen.move() 
 
         @white_king = King.new(@current_board)
-        @white_king.move(3,3) # empty 
+        @white_king.move() # empty 
 
     end 
 
@@ -219,6 +223,39 @@ class Game
         @player_white.get_name()
         @player_black = PlayerBlack.new()
         @player_black.get_name()
+    end 
+
+    def pre_game_check
+
+        @current_pieces.each do |piece|
+
+            piece.check_for_check(@current_player)
+            
+            if piece.in_check == true 
+
+                puts piece 
+
+                if piece.string == " \u265D " || piece.string == " \u265C " || piece.string == " \u265B "
+                    @check_path_co_ords = piece.position_to_check_path    
+                    piece.plot_path(piece.current_position[0],piece.current_position[1],@check_path_co_ords[0],@check_path_co_ords[1])
+                    if piece.path_blocked == false && piece.in_check == true 
+                        puts "IN CHECK"
+                        @king_in_check = true 
+                    end 
+                else  
+                    if piece.in_check == true 
+                        puts "IN CHECK!"
+                        @king_in_check = true 
+
+                    end 
+                end 
+
+            end 
+
+
+        end 
+
+
     end 
 
 
@@ -768,4 +805,6 @@ game.game()
 #back - a7 (empty square) crashes - goes on to next step when it shouldnt 
 
 # update current pieces on each player!
-# reset all current pieces in check to false 
+# reset all current pieces in check to false
+
+#reset path blocked to false 
