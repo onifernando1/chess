@@ -65,13 +65,7 @@ class Piece
         p "END CO FIND PL#{end_co_ordinates}"
         p "above me endoc from fp "
         @current_pieces.each do |piece|
-            p "PIECE#{piece}"         
-            p "PIECE#{piece.colour}"
-
-            p "PIECE#{piece.current_position}"
             if piece.current_position == end_co_ordinates
-                p "PIECE with loc#{piece}"
-
                 @piece = piece
             end 
         end 

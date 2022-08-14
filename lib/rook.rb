@@ -40,7 +40,7 @@ class Rook < Piece
 
 
     def set_up_path(starting_x,starting_y, ending_x,ending_y)
-        tree = Tree.new()
+        tree = RookTree.new()
         p "TREE MADE "
         tree.mini_steps(starting_x,starting_y, ending_x,ending_y)
         @path = tree.print_path()
@@ -134,30 +134,31 @@ class Node attr_accessor :x, :y, :distance, :co_ordinates, :parent
 
 end 
 
-class Tree attr_accessor :queue, :moves, :path, :continue, :distance, :current_node, :node
+class RookTree < Tree
+     attr_accessor :queue, :moves, :path, :continue, :distance, :current_node, :node
 
-    def initialize 
-        @queue = []
-        @moves = []
-        @path = []
-        @continue = true 
-    end 
+    # def initialize 
+    #     @queue = []
+    #     @moves = []
+    #     @path = []
+    #     @continue = true 
+    # end 
 
-    def add_node(x, y, distance, parent=nil)
-        node = Node.new(x, y, distance, parent)
-        @queue << node 
-        node
-    end 
+    # def add_node(x, y, distance, parent=nil)
+    #     node = Node.new(x, y, distance, parent)
+    #     @queue << node 
+    #     node
+    # end 
 
-    def move_valid? (x, y)
+    # def move_valid? (x, y)
 
-        if x < 8 && x >= 0 && y < 8 && y >= 0 
-            return true 
-        else 
-            return false 
-        end 
+    #     if x < 8 && x >= 0 && y < 8 && y >= 0 
+    #         return true 
+    #     else 
+    #         return false 
+    #     end 
 
-    end 
+    # end 
 
     def mini_steps(x_start, y_start, x_end, y_end)
 
@@ -165,8 +166,8 @@ class Tree attr_accessor :queue, :moves, :path, :continue, :distance, :current_n
         #possible moves of bishop base  # if it starts using diagonals to cut, if x increase then do these moves: etc. 
 
       
-        x_coordinates = [+1,-1,0,0]
-        y_coordinates = [0,0,-1,+1]
+        @x_coordinates = [+1,-1,0,0]
+        @y_coordinates = [0,0,-1,+1]
 
 
 
@@ -202,12 +203,12 @@ class Tree attr_accessor :queue, :moves, :path, :continue, :distance, :current_n
             
             #go through possible moves 
 
-            length_of_potential_moves = x_coordinates.length - 1 
+            length_of_potential_moves = @x_coordinates.length - 1 
 
             for i in (0..length_of_potential_moves)
 
-                x = @current_node.x + x_coordinates[i]
-                y = @current_node.y + y_coordinates[i]
+                x = @current_node.x + @x_coordinates[i]
+                y = @current_node.y + @y_coordinates[i]
 
                 if move_valid?(x,y) && visited[x][y] == false 
                     visited[x][y] = true 
@@ -230,28 +231,28 @@ class Tree attr_accessor :queue, :moves, :path, :continue, :distance, :current_n
     
     end 
     
-    def print_path
+    # def print_path
 
 
-        current = @current_node
+    #     current = @current_node
 
 
-        for i in (0..@current_node.distance)
-            @path.prepend(current.co_ordinates)
-            current = current.parent
-        end 
+    #     for i in (0..@current_node.distance)
+    #         @path.prepend(current.co_ordinates)
+    #         current = current.parent
+    #     end 
 
 
-        # remove first (starting) move
-        @path.shift()
-        # # remove end move (dealt with in findpathfunction)
-        if @path.length > 1 
-            @path.pop()
-        end 
+    #     # remove first (starting) move
+    #     @path.shift()
+    #     # # remove end move (dealt with in findpathfunction)
+    #     if @path.length > 1 
+    #         @path.pop()
+    #     end 
 
-        @path
+    #     @path
 
-    end 
+    # end 
 
 
 end 

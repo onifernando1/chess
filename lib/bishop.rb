@@ -40,7 +40,7 @@ class Bishop < Piece
     end 
 
     def set_up_path(starting_x,starting_y, ending_x,ending_y)
-        tree = Tree.new()
+        tree = BishopTree.new()
         p "TREE MADE "
         tree.minim_steps(starting_x,starting_y, ending_x,ending_y)
         @path = tree.print_path()
@@ -211,8 +211,8 @@ class BishopTree < Tree
 
             for i in (0..length_of_potential_moves)
 
-                x = @current_node.x + x_coordinates[i]
-                y = @current_node.y + y_coordinates[i]
+                x = @current_node.x + @x_coordinates[i]
+                y = @current_node.y + @y_coordinates[i]
 
                 if move_valid?(x,y) && visited[x][y] == false 
                     visited[x][y] = true 
@@ -265,4 +265,6 @@ class BishopTree < Tree
 end 
 
 
-# doesnt like name min_steps wtf mini steps works!
+# tree.new - > BishopTree.new
+# @x
+#@y

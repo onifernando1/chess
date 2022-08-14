@@ -53,7 +53,7 @@ class Queen < Piece
 
 def set_up_path(starting_x,starting_y, ending_x,ending_y)
     puts "SUP"
-    tree = Tree.new()
+    tree = QueenTree.new()
     p "TREE MADE "
     tree.minim_steps(starting_x,starting_y, ending_x,ending_y)
     @path = tree.print_path()
@@ -155,30 +155,31 @@ end
 
 end 
 
-class Tree attr_accessor :queue, :moves, :path, :continue, :distance, :current_node, :node
+class QueenTree < Tree
+    attr_accessor :queue, :moves, :path, :continue, :distance, :current_node, :node
 
-def initialize 
-    @queue = []
-    @moves = []
-    @path = []
-    @continue = true 
-end 
+# def initialize 
+#     @queue = []
+#     @moves = []
+#     @path = []
+#     @continue = true 
+# end 
 
-def add_node(x, y, distance, parent=nil)
-    node = Node.new(x, y, distance, parent)
-    @queue << node 
-    node
-end 
+# def add_node(x, y, distance, parent=nil)
+#     node = Node.new(x, y, distance, parent)
+#     @queue << node 
+#     node
+# end 
 
-def move_valid? (x, y)
+# def move_valid? (x, y)
 
-    if x < 8 && x >= 0 && y < 8 && y >= 0 
-        return true 
-    else 
-        return false 
-    end 
+#     if x < 8 && x >= 0 && y < 8 && y >= 0 
+#         return true 
+#     else 
+#         return false 
+#     end 
 
-end 
+# end 
 
 def minim_steps(x_start, y_start, x_end, y_end)
 
@@ -215,14 +216,14 @@ def minim_steps(x_start, y_start, x_end, y_end)
     end 
 
     if @cross == true 
-        x_coordinates = [+1,-1,0,0]
-        y_coordinates = [0,0,-1,+1]
+        @x_coordinates = [+1,-1,0,0]
+        @y_coordinates = [0,0,-1,+1]
     end 
     
     if  @diagonal == true  
         "Puts in diag true elsif "
-        x_coordinates = [-1,-1,+1,+1]
-        y_coordinates = [+1,-1,+1,-1]
+        @x_coordinates = [-1,-1,+1,+1]
+        @y_coordinates = [+1,-1,+1,-1]
     end 
 
 
@@ -259,12 +260,12 @@ def minim_steps(x_start, y_start, x_end, y_end)
         
         #go through possible moves 
 
-        length_of_potential_moves = x_coordinates.length - 1 
+        length_of_potential_moves = @x_coordinates.length - 1 
 
         for i in (0..length_of_potential_moves)
 
-            x = @current_node.x + x_coordinates[i]
-            y = @current_node.y + y_coordinates[i]
+            x = @current_node.x + @x_coordinates[i]
+            y = @current_node.y + @y_coordinates[i]
 
             if move_valid?(x,y) && visited[x][y] == false 
                 visited[x][y] = true 
@@ -287,28 +288,28 @@ def minim_steps(x_start, y_start, x_end, y_end)
 
 end 
 
-def print_path
+# def print_path
 
 
-    current = @current_node
+#     current = @current_node
 
 
-    for i in (0..@current_node.distance)
-        @path.prepend(current.co_ordinates)
-        current = current.parent
-    end 
+#     for i in (0..@current_node.distance)
+#         @path.prepend(current.co_ordinates)
+#         current = current.parent
+#     end 
 
 
-    # remove first (starting) move
-    @path.shift()
-    # # remove end move (dealt with in findpathfunction)
-    if @path.length > 1 
-        @path.pop()
-    end 
+#     # remove first (starting) move
+#     @path.shift()
+#     # # remove end move (dealt with in findpathfunction)
+#     if @path.length > 1 
+#         @path.pop()
+#     end 
 
-    @path
+#     @path
 
-end 
+# end 
 
 
 end 

@@ -25,78 +25,78 @@ class Tree attr_accessor :queue, :moves, :path, :continue, :distance, :current_n
 
     end 
 
-    def minim_steps(x_start, y_start, x_end, y_end)
+    # def minim_steps(x_start, y_start, x_end, y_end)
 
    
-        #possible moves of bishop base  # if it starts using diagonals to cut, if x increase then do these moves: etc. 
+    #     #possible moves of bishop base  # if it starts using diagonals to cut, if x increase then do these moves: etc. 
 
-        @x_coordinates = [-1,-1,+1,+1]
-        @y_coordinates = [+1,-1,+1,-1]
-
-
-        puts "x_coordinates"
-        p "#{@x_coordinates}"
-        puts "#{@x_coordinates.length}"
+    #     @x_coordinates = [-1]
+    #     @y_coordinates = [+1]
 
 
-        #matrix to track visited spaces
-
-        matrix = [
-                    [false,false,false,false,false,false,false,false],
-                    [false,false,false,false,false,false,false,false],
-                    [false,false,false,false,false,false,false,false],
-                    [false,false,false,false,false,false,false,false],
-                    [false,false,false,false,false,false,false,false],
-                    [false,false,false,false,false,false,false,false],
-                    [false,false,false,false,false,false,false,false],
-                    [false,false,false,false,false,false,false,false]
-        ]
-
-        visited = matrix
+    #     puts "x_coordinates"
+    #     p "#{@x_coordinates}"
+    #     puts "#{@x_coordinates.length}"
 
 
-        # root = add_node(x_start, y_start, 0)
-         #pointer
-         @current_node = add_node(x_start, y_start, 0) 
-         node_number = 0
+    #     #matrix to track visited spaces
+
+    #     matrix = [
+    #                 [false,false,false,false,false,false,false,false],
+    #                 [false,false,false,false,false,false,false,false],
+    #                 [false,false,false,false,false,false,false,false],
+    #                 [false,false,false,false,false,false,false,false],
+    #                 [false,false,false,false,false,false,false,false],
+    #                 [false,false,false,false,false,false,false,false],
+    #                 [false,false,false,false,false,false,false,false],
+    #                 [false,false,false,false,false,false,false,false]
+    #     ]
+
+    #     visited = matrix
+
+
+    #     # root = add_node(x_start, y_start, 0)
+    #      #pointer
+    #      @current_node = add_node(x_start, y_start, 0) 
+    #      node_number = 0
   
-        #set start root node to visited 
-        visited[x_start][y_start] = true 
+    #     #set start root node to visited 
+    #     visited[x_start][y_start] = true 
 
         
-        until @current_node.x == x_end  && @current_node.y == y_end  #||@current_node.y > 7 && @current_node.y < 0 && @current_node.x < 0 && @current_node.x > 7 
+    #     until @current_node.x == x_end  && @current_node.y == y_end  #||@current_node.y > 7 && @current_node.y < 0 && @current_node.x < 0 && @current_node.x > 7 
             
            
             
-            #go through possible moves 
+    #         #go through possible moves 
 
-            length_of_potential_moves = @y_coordinates.length - 1 
+    #         length_of_potential_moves = @y_coordinates.length - 1 
 
-            for i in (0..length_of_potential_moves)
+    #         for i in (0..length_of_potential_moves)
 
-                x = @current_node.x + x_coordinates[i]
-                y = @current_node.y + y_coordinates[i]
+    #             x = @current_node.x + x_coordinates[i]
+    #             y = @current_node.y + y_coordinates[i]
 
-                if move_valid?(x,y) && visited[x][y] == false 
-                    visited[x][y] = true 
-                    @moves << add_node(x,y,@current_node.distance + 1, @current_node )
-                end
+    #             if move_valid?(x,y) && visited[x][y] == false 
+    #                 visited[x][y] = true 
+    #                 @moves << add_node(x,y,@current_node.distance + 1, @current_node )
+    #             end
                 
-            end 
+    #         end 
 
-            #move to next node in @nodes
-                node_number += 1 
-                @current_node = @queue[node_number]
-                # visited = matrix
+    #         #move to next node in @nodes
+    #             node_number += 1 
+    #             @current_node = @queue[node_number]
+    #             # visited = matrix
 
            
 
-        end 
-        visited = matrix
+    #     end 
+    #     visited = matrix
 
 
     
-    end 
+    # end 
     
     def print_path
 
