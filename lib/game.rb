@@ -27,7 +27,10 @@ class Game
         @valid_start_coordinates = false 
         @start_valid = false 
         @game_end = false 
-        @white_king.check_for_check() #cjecl
+        @black_king.move(5,2)
+        @black_king.current_position = [5,2]
+        @white_knight1.check_for_check(@current_player) #cjecl
+
     end 
 
     def intro
@@ -84,7 +87,7 @@ class Game
         @black_knight1.change_colour()
         @black_knight2.change_colour()
         @black_knight1.move(0,1)
-        @black_knight2.move(0,6)
+        @black_knight2.move(0,6) 
 
         @black_queen = Queen.new(@current_board,"black")
         @black_queen.change_colour()
@@ -92,7 +95,7 @@ class Game
 
         @black_king = King.new(@current_board, "black")
         @black_king.change_colour()
-        @black_king.move(0,4)
+        @black_king.move(3,4) # 0,4 
     end 
 
     def set_up_white
@@ -106,7 +109,7 @@ class Game
         @white_pawn8 = Pawn.new(@current_board)
 
         @white_pawn1.move()
-        @white_pawn2.move(5,1) # 6,1 
+        @white_pawn2.move(6,1) 
         @white_pawn3.move(6,2)
         @white_pawn4.move(6,3)
         @white_pawn5.move(6,4)
@@ -122,18 +125,18 @@ class Game
         @white_knight1 = Knight.new(@current_board)
         @white_knight2 = Knight.new(@current_board)
         @white_knight1.move(7,1)
-        @white_knight2.move(7,6)
+        @white_knight2.move(7,6) # 7,6
 
         @white_bishop1 = Bishop.new(@current_board)
         @white_bishop2 = Bishop.new(@current_board)
-        @white_bishop1.move(6,1) # empty
+        @white_bishop1.move() # empty
         @white_bishop2.move(7,5)
 
         @white_queen = Queen.new(@current_board)
         @white_queen.move() 
 
         @white_king = King.new(@current_board)
-        @white_king.move()
+        @white_king.move(3,3) # empty 
 
     end 
 
@@ -763,3 +766,6 @@ game.game()
 # pawn can turn to queen at end 
 
 #back - a7 (empty square) crashes - goes on to next step when it shouldnt 
+
+# update current pieces on each player!
+# reset all current pieces in check to false 

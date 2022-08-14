@@ -44,13 +44,7 @@ class King < Piece
     
     end 
 
-    def in_check?
-
-        # 1. plot all of the other players next moves
-        # 2. check if any_piece next moves == king.current_position
-        # 3.if they do, king is in check 
-    end 
-
+   
     def find_moves_to_check
 
         @final_positions_to_check = []
@@ -80,10 +74,10 @@ class King < Piece
 
     end 
 
-    def find_a_king(end_co_ordinates)
+    def find_a_king(end_co_ordinates, current_player)
         
             @current_pieces.each do |piece|
-                if piece.current_position == end_co_ordinates && piece.class == King
+                if piece.current_position == end_co_ordinates && piece.class == King && piece.colour != current_player.colour
                         @piece = piece
                 end 
             end 
@@ -93,20 +87,21 @@ class King < Piece
     
     end 
 
-    def check_for_check
+    def check_for_check(current_player)
+
+        @in_check = false 
 
         find_moves_to_check()
 
         @final_positions_to_check.each do |co_ords|
 
-            @potential_king = find_a_king(co_ords)
-            p "PK #{@potential_king}"
+            @potential_king = find_a_king(co_ords, current_player)
 
             if @potential_king != nil 
                 @in_check = true 
                 puts "CHECK!"
-            else 
-                puts "NOT IN CHECK!"
+            # else 
+            #     puts "NOT IN CHECK!"
             end 
         end 
 
