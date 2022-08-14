@@ -1,4 +1,9 @@
 require_relative "board.rb"
+require_relative 'player.rb'
+require_relative 'player_black.rb'
+require_relative 'player_white.rb'
+
+
 require 'colorize'
 
 class Piece
@@ -57,13 +62,21 @@ class Piece
     end 
 
     def find_player(end_co_ordinates)
-        
+        p "END CO FIND PL#{end_co_ordinates}"
+        p "above me endoc from fp "
         @current_pieces.each do |piece|
+            p "PIECE#{piece}"         
+            p "PIECE#{piece.colour}"
+
+            p "PIECE#{piece.current_position}"
             if piece.current_position == end_co_ordinates
+                p "PIECE with loc#{piece}"
+
                 @piece = piece
             end 
         end 
         @piece
+
              
 
     end 
@@ -96,6 +109,8 @@ class Piece
 
         @take = false 
 
+        p "END CO CHECK DESST#{end_co_ordinates}"
+
         #e.g youre given start coordinates E1
         # end coordinates E2 
         # piece in your way ;. cant move 
@@ -109,7 +124,8 @@ class Piece
 
         if @current_board[end_x][end_y] != @black_square && @current_board[end_x][end_y] != @white_square
             @destination_player = find_player(end_co_ordinates)  
-
+            p "below me "
+            p @destination_player
             if @destination_player.colour == current_player.colour  # find piece 
                 @path_blocked = true 
                 "Puts path blocked :("

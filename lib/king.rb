@@ -1,5 +1,16 @@
 require_relative 'board.rb'
 require_relative 'piece.rb'
+require_relative 'bishop.rb'
+require_relative 'knight.rb'
+require_relative 'pawn.rb'
+require_relative 'queen.rb'
+require_relative 'king.rb'
+require_relative 'rook.rb'
+require_relative 'player.rb'
+require_relative 'player_white.rb'
+require_relative 'player_black.rb'
+require_relative 'tree.rb'
+require_relative 'node.rb'
 require 'colorize'
 
 
@@ -14,6 +25,7 @@ class King < Piece
         @current_position = [0,0]
         potential_moves()
         @path_blocked = false 
+        @in_check = false 
         # @current_pieces = []
         # @current_board = current_board.board
         # @white_square = "   ".colorize(background: :light_cyan)
@@ -25,10 +37,6 @@ class King < Piece
         super
     end 
 
-    def change_colour()
-        super 
-    end 
-
     def potential_moves
        
         @potential_x = [+1,-1,0,0,-1,-1,+1,+1]
@@ -36,6 +44,16 @@ class King < Piece
     
     end 
 
+    def in_check?
+
+        # 1. plot all of the other players next moves
+        # 2. check if any_piece next moves == king.current_position
+        # 3.if they do, king is in check 
+
+
+
+
+    end 
 
    
 end 

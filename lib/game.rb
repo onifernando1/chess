@@ -61,15 +61,15 @@ class Game
         @black_pawn7.change_colour()
         @black_pawn8.change_colour()
 
-        @black_pawn1.move()
-        @black_pawn8.move(1,0)
+        @black_pawn1.move(1,0)
         @black_pawn2.move(1,1)
-        @black_pawn3.move(5,5) # 1,2 
+        @black_pawn3.move(1,2) 
         @black_pawn4.move(1,3)
         @black_pawn5.move(1,4)
         @black_pawn6.move(1,5)
         @black_pawn7.move(1,6)
-        @black_pawn7.move(1,7)
+        @black_pawn8.move(1,7)
+
 
         @black_rook1 = Rook.new(@current_board,"black")
         @black_rook2 = Rook.new(@current_board,"black")
@@ -105,7 +105,7 @@ class Game
         @white_pawn8 = Pawn.new(@current_board)
 
         @white_pawn1.move()
-        @white_pawn2.move(6,1) 
+        @white_pawn2.move(5,1) # 6,1 
         @white_pawn3.move(6,2)
         @white_pawn4.move(6,3)
         @white_pawn5.move(6,4)
@@ -115,7 +115,7 @@ class Game
 
         @white_rook1 = Rook.new(@current_board)
         @white_rook2 = Rook.new(@current_board)
-        @white_rook1.move() 
+        @white_rook1.move() #empty
         @white_rook2.move(7,7)
 
         @white_knight1 = Knight.new(@current_board)
@@ -125,7 +125,7 @@ class Game
 
         @white_bishop1 = Bishop.new(@current_board)
         @white_bishop2 = Bishop.new(@current_board)
-        @white_bishop1.move()
+        @white_bishop1.move(6,1) # empty
         @white_bishop2.move(7,5)
 
         @white_queen = Queen.new(@current_board)
@@ -521,22 +521,41 @@ class Game
     def check_if_pawn_can_take(co_ordinates)
     
     
-        if @piece_selected.class == Pawn && @piece_selected.colour == "white"
+        if @piece_selected.class == Pawn #&& @piece_selected.colour == "white"
             current_position = @piece_selected.current_position 
             current_position_x = current_position[0]
             current_position_y = current_position[1]
 
-            up_right_x = current_position_x - 1 
-            up_right_y = current_position_y + 1 
-            up_right_co_ords = []
-            up_right_co_ords << up_right_x
-            up_right_co_ords << up_right_y
+            if @piece_selected.colour == "white"
+                up_right_x = current_position_x - 1 
+                up_right_y = current_position_y + 1 
+                up_right_co_ords = []
+                up_right_co_ords << up_right_x
+                up_right_co_ords << up_right_y
 
-            up_left_x = current_position_x - 1 
-            up_left_y = current_position_y - 1    
-            up_left_co_ords = []
-            up_left_co_ords << up_left_x
-            up_left_co_ords << up_left_y  
+                up_left_x = current_position_x - 1 
+                up_left_y = current_position_y - 1    
+                up_left_co_ords = []
+                up_left_co_ords << up_left_x
+                up_left_co_ords << up_left_y  
+
+            elsif @piece_selected.colour == "black"
+
+
+                up_right_x = current_position_x + 1 
+                up_right_y = current_position_y - 1 
+                up_right_co_ords = []
+                up_right_co_ords << up_right_x
+                up_right_co_ords << up_right_y
+
+                up_left_x = current_position_x + 1 
+                up_left_y = current_position_y + 1    
+                up_left_co_ords = []
+                up_left_co_ords << up_left_x
+                up_left_co_ords << up_left_y  
+
+
+            end 
 
             if up_right_co_ords == co_ordinates 
 
@@ -639,8 +658,10 @@ class Game
 
         if @piece_selected.take == true 
             @end_piece = select_end_player(@end_co_ordinates)
+            # @current_pieces.delete(@end_piece)
+            @end_piece.delete_destination(@end_co_ordinates) 
             @current_pieces.delete(@end_piece)
-            @end_piece.delete_destination(@end_co_ordinates)               
+              
             @piece_selected.take = false #reset take
         end 
     end 
@@ -718,36 +739,26 @@ end
 game = Game.new()
 game.game()
 
+# check pawn stuff - should be fine 
+
+#add in en passsant 
 
 
-# check pawn stuff 
-    # check illegal move - changes to next player for some reason 
+# add in checks 
 
-# to do 
-# pawns can take diagonally 
-#check all pieces taking and moving fine 
-# check pawns cant move more than two after first move 
-#add in check, checkmate, etc.
-# bishop diag down right not taking - x_coords.length nil 
-# thinks pawns first move is illegal for some reason (if it moves 2 )
-# now its working! (havent changed anything)
-# black pawn a5 to a4  sorry you seem to have made an illega lmove lets start over
+# add in save 
 
-# in a row, black pawn tikes white pawn, white rook takes black pawn - illegal move 
-# now it works - nothing changed
+#check:
+# the king can be taken by a piece in the next move, if the king doesn't escape 
 
-#king crashing 1 move forawrd # didnt change but now fine ?
-#queen crashing moving three up d1 d3  if blocked from start fixed 
+#checkmate
+# the king will be taken next move, regardless of where it moves
 
-# think pieces moving smoothly?
+# Stalemate
+# When a player cannot make any legal move, but he is not in check, 
+#then the player is said to be stalemated. 
+#In a case of a stalemate, the game is a draw.
 
-# Let pawns take diagonally
+# pawn can turn to queen at end 
 
-# Pawns:
-# White: check diagonal left up and diagonal right up 
-# If piece with current location in that spot != white 
-# Then it can move there 
-# It can take there 
-# stop pawn taking in front of it 
-# pawns taking but can now move diag
-
+#back - a7 (empty square) crashes - goes on to next step when it shouldnt 

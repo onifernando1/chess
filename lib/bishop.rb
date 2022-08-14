@@ -1,5 +1,7 @@
 require_relative 'board.rb'
 require_relative 'piece.rb'
+require_relative 'tree.rb'
+require_relative 'node.rb'
 require 'colorize'
 require_relative 'bst.rb'
 
@@ -120,43 +122,45 @@ class Bishop < Piece
 end 
 
 
-class Node attr_accessor :x, :y, :distance, :co_ordinates, :parent
+# class Node attr_accessor :x, :y, :distance, :co_ordinates, :parent
 
-    def initialize(x=nil, y=nil, distance=0, parent=nil)
-        @x = x
-        @y = y  
-        @co_ordinates = [x,y]
-        @parent = parent
-        @distance = distance
-    end 
+#     def initialize(x=nil, y=nil, distance=0, parent=nil)
+#         @x = x
+#         @y = y  
+#         @co_ordinates = [x,y]
+#         @parent = parent
+#         @distance = distance
+#     end 
 
 
-end 
+# end 
 
-class Tree attr_accessor :queue, :moves, :path, :continue, :distance, :current_node, :node
+class BishopTree < Tree
 
-    def initialize 
-        @queue = []
-        @moves = []
-        @path = []
-        @continue = true 
-    end 
+    attr_accessor :queue, :moves, :path, :continue, :distance, :current_node, :node
 
-    def add_node(x, y, distance, parent=nil)
-        node = Node.new(x, y, distance, parent)
-        @queue << node 
-        node
-    end 
+    # def initialize 
+    #     @queue = []
+    #     @moves = []
+    #     @path = []
+    #     @continue = true 
+    # end 
 
-    def move_valid? (x, y)
+    # def add_node(x, y, distance, parent=nil)
+    #     node = Node.new(x, y, distance, parent)
+    #     @queue << node 
+    #     node
+    # end 
 
-        if x < 8 && x >= 0 && y < 8 && y >= 0 
-            return true 
-        else 
-            return false 
-        end 
+    # def move_valid? (x, y)
 
-    end 
+    #     if x < 8 && x >= 0 && y < 8 && y >= 0 
+    #         return true 
+    #     else 
+    #         return false 
+    #     end 
+
+    # end 
 
     def minim_steps(x_start, y_start, x_end, y_end)
 
@@ -231,31 +235,31 @@ class Tree attr_accessor :queue, :moves, :path, :continue, :distance, :current_n
     
     end 
     
-    def print_path
+    # def print_path
 
 
-        current = @current_node
+    #     current = @current_node
 
 
-        for i in (0..@current_node.distance)
-            @path.prepend(current.co_ordinates)
-            current = current.parent
-        end 
+    #     for i in (0..@current_node.distance)
+    #         @path.prepend(current.co_ordinates)
+    #         current = current.parent
+    #     end 
 
 
-        # remove first (starting) move
-        @path.shift()
-        # # remove end move (dealt with in findpathfunction)
-        if @path.length > 1 
-            @path.pop()
-        end 
+    #     # remove first (starting) move
+    #     @path.shift()
+    #     # # remove end move (dealt with in findpathfunction)
+    #     if @path.length > 1 
+    #         @path.pop()
+    #     end 
 
-        @path
-        p @path
-        puts "PRINT PATH "
-        @path
+    #     @path
+    #     p @path
+    #     puts "PRINT PATH "
+    #     @path
 
-    end 
+    # end 
 
 
 end 

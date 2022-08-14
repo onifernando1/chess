@@ -1,5 +1,7 @@
 require_relative 'board.rb'
 require_relative 'piece.rb'
+require_relative 'tree.rb'
+require_relative 'node.rb'
 require 'colorize'
 
 
