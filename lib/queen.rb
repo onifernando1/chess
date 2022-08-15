@@ -123,69 +123,6 @@ def plot_path(starting_x,starting_y,ending_x,ending_y)
 end 
 
 
-# def find_moves_to_check
-
-#     @final_positions_to_check = []
-
-#     current_x = @current_position[0]
-#     current_y = @current_position[1]
-#     p "CURRENT X #{current_x}" 
-
-#     length_to_check = @potential_x.length - 1 
-
-#     for i in (0..length_to_check)
-        
-#         @co_ords_to_check = []
-
-#         next_move_x = current_x + @potential_x[i]
-#         @co_ords_to_check << next_move_x
-
-#         next_move_y = current_y + @potential_y[i]
-#         @co_ords_to_check << next_move_y
-
-#         @final_positions_to_check << @co_ords_to_check
-
-#     end 
-
-
-#     p @final_positions_to_check
-
-# end 
-
-# def find_a_king(end_co_ordinates, current_player)
-    
-#         @current_pieces.each do |piece|
-#             if piece.current_position == end_co_ordinates && piece.class == King && piece.colour != current_player.colour
-#                     @piece = piece
-#             end 
-#         end 
-#         @piece
-
-             
-
-# end 
-
-# def check_for_check(current_player)
-
-#     @in_check = false 
-
-#     find_moves_to_check()
-
-#     @final_positions_to_check.each do |co_ords|
-
-#         @potential_king = find_a_king(co_ords, current_player)
-
-#         if @potential_king != nil 
-#             @in_check = true 
-#             puts "CHECK!"
-#         # else 
-#         #     puts "NOT IN CHECK!"
-#         end 
-#     end 
-
-     
-# end 
-
 end 
 
 

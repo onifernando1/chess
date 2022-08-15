@@ -28,8 +28,8 @@ class Game
         @valid_start_coordinates = false 
         @start_valid = false 
         @game_end = false 
-        @black_king.move(5,1)
-        @black_king.current_position = [5,1]
+        # @black_king.move(5,1)
+        # @black_king.current_position = [5,1]
         # @white_pawn1.check_for_check(@current_player) #cjecl
         @king_in_check = false 
         pre_game_check()
