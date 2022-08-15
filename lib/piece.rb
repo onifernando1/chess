@@ -7,7 +7,7 @@ require_relative 'player_white.rb'
 require 'colorize'
 
 class Piece
-    attr_accessor :string, :symbol, :current_position, :colour, :take, :black_square, :white_square, :in_check
+    attr_accessor :string, :symbol, :current_position, :colour, :take, :black_square, :white_square, :checking_king
 
     def initialize(current_board, colour="white", current_pieces="default")
         @current_board = current_board.board
@@ -18,6 +18,7 @@ class Piece
         @symbol =  @string.encode("utf-8").light_white
         @current_position = [4,4]
         @current_pieces = current_pieces
+        @checking_king = false 
         
 
     end 
@@ -192,7 +193,7 @@ class Piece
 
     def check_for_check(current_player)
 
-        @in_check = false 
+        @checking_king = false 
 
         find_moves_to_check()
 
@@ -205,7 +206,7 @@ class Piece
                 puts "IN LOOP"
                 puts @potential_king
                 puts @potential_king.current_position
-                @in_check = true 
+                @checking_king = true 
                 puts "CHECK!"
             # else 
             #     puts "NOT IN CHECK!"

@@ -16,7 +16,7 @@ require 'colorize'
 
 class King < Piece
 
-    attr_accessor :current_position, :potential_x, :potential_y, :path_blocked, :current_pieces, :in_check, :position_to_check_path
+    attr_accessor :current_position, :potential_x, :potential_y, :path_blocked, :current_pieces, :checking_king, :position_to_check_path
 
     def initialize(current_board, colour="white")
         super 
@@ -25,7 +25,6 @@ class King < Piece
         @current_position = [0,0]
         potential_moves()
         @path_blocked = false 
-        @in_check = false 
         # @current_pieces = []
         # @current_board = current_board.board
         # @white_square = "   ".colorize(background: :light_cyan)

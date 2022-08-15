@@ -8,7 +8,7 @@ require_relative 'node.rb'
 
 class Rook < Piece
 
-    attr_accessor :string, :symbol, :current_position, :potential_x, :potential_y, :current_pieces, :path_blocked, :in_check, :position_to_check_path
+    attr_accessor :string, :symbol, :current_position, :potential_x, :potential_y, :current_pieces, :path_blocked, :checking_king, :position_to_check_path
 
     def initialize(current_board, colour="white")
         super
@@ -16,7 +16,6 @@ class Rook < Piece
         @symbol =  @string.encode("utf-8").light_white
         @current_position = [0,0]
         potential_moves()
-        @in_check = false 
 
 
         # @current_board = current_board.board

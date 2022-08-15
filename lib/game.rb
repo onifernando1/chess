@@ -247,12 +247,12 @@ class Game
                         end 
                     end 
                     piece.plot_path(piece.current_position[0],piece.current_position[1],@legal_check_path_co_ords[0],@legal_check_path_co_ords[1])
-                    if piece.path_blocked == false && piece.in_check == true 
+                    if piece.path_blocked == false && piece.checking_king == true 
                         puts "IN CHECK"
                         @king_in_check = true 
                     end 
                 else  
-                    if piece.in_check == true 
+                    if piece.checking_king == true 
                         puts "IN CHECK!"
                         @king_in_check = true 
 
@@ -818,3 +818,8 @@ game.game()
 
 #reset path blocked to false 
 # change in check to checking_king
+
+# check seems to be working 
+# if check == true, then only allow piece selected at start to be king 
+# only let it move into a position that is not in check 
+# until king not in check, make them move out of the way

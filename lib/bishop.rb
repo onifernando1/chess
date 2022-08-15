@@ -8,7 +8,7 @@ require_relative 'bst.rb'
 
 class Bishop < Piece
 
-    attr_accessor :symbol, :colour, :string, :current_position, :potential_x, :potential_y, :path_blocked, :current_pieces, :in_check, :position_to_check_path
+    attr_accessor :symbol, :colour, :string, :current_position, :potential_x, :potential_y, :path_blocked, :current_pieces, :checking_king, :position_to_check_path
 
     
     def initialize(current_board, colour="white")
@@ -18,7 +18,6 @@ class Bishop < Piece
         @symbol =  @string.encode("utf-8").light_white
         @current_position = [0,0]
         potential_moves()
-        @in_check = false 
 
 
 

@@ -8,7 +8,7 @@ require 'colorize'
 
 class Queen < Piece
 
-    attr_accessor :symbol, :colour, :string, :current_position, :potential_x, :potential_y, :current_pieces, :path_blocked, :string, :in_check, :position_to_check_path
+    attr_accessor :symbol, :colour, :string, :current_position, :potential_x, :potential_y, :current_pieces, :path_blocked, :string, :checking_king, :position_to_check_path
 
     def initialize(current_board, colour="white")
         super 
@@ -18,7 +18,6 @@ class Queen < Piece
         @current_position = [0,0]
         potential_moves()
         @path_blocked = nil 
-        @in_check = false 
 
     end 
 
@@ -244,3 +243,4 @@ end
 
 
 #minim steps only works if i change the name frome mini to minim wtf 
+
