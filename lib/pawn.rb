@@ -147,7 +147,7 @@ class Pawn < Piece
 
     def check_for_check(current_player)
 
-        @in_check = false 
+        @checking_king = false 
 
         find_moves_to_check()
 
@@ -156,7 +156,7 @@ class Pawn < Piece
             @potential_king = find_a_king(co_ords, current_player)
 
             if @potential_king != nil 
-                @in_check = true 
+                @checking_king = true 
                 puts "CHECK!"
             # else 
             #     puts "NOT IN CHECK!"

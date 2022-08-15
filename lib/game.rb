@@ -225,6 +225,45 @@ class Game
         @player_black.get_name()
     end 
 
+    def get_legal_check_co_ords(check_path_co_ords)
+        check_path_co_ords.each do |array|
+            if array[0] <=7 &&  array[0] >= 0 && array[1] <=7  && array[1] >=0
+                @legal_check_path_co_ords << array
+            end 
+        end 
+    end 
+
+    def path_pieces_plot_path
+        piece.plot_path(piece.current_position[0],piece.current_position[1],@legal_check_path_co_ords[0],@legal_check_path_co_ords[1])
+                   
+        if piece.path_blocked == false && piece.checking_king == true 
+            puts "IN CHECK"
+            @king_in_check = true 
+        end 
+    end 
+
+    def check_other_pieces_for_check
+
+        if piece.checking_king == true 
+            puts "IN CHECK!"
+            @king_in_check = true 
+
+        end 
+    end 
+
+    def check_path_pieces_for_check
+
+        @check_path_co_ords = piece.check_for_check(@current_player)    
+
+        @legal_check_path_co_ords = []
+
+        get_legal_check_co_ords(@check_path_co_ords)
+       
+        path_pieces_plot_path()
+    end 
+
+    
+
     def pre_game_check
 
         @king_in_check = false 
@@ -233,30 +272,15 @@ class Game
 
             piece.check_for_check(@current_player)
             
-            if piece.in_check == true 
-                puts piece
+            if piece.checking_king == true 
 
                 if piece.string == " \u265D " || piece.string == " \u265C " || piece.string == " \u265B "
-                    @check_path_co_ords = piece.check_for_check(@current_player)    
 
-                    @legal_check_path_co_ords = []
-                    
-                    @check_path_co_ords.each do |array|
-                        if array[0] <=7 &&  array[0] >= 0 && array[1] <=7  && array[1] >=0
-                            @legal_check_path_co_ords << array
-                        end 
-                    end 
-                    piece.plot_path(piece.current_position[0],piece.current_position[1],@legal_check_path_co_ords[0],@legal_check_path_co_ords[1])
-                    if piece.path_blocked == false && piece.checking_king == true 
-                        puts "IN CHECK"
-                        @king_in_check = true 
-                    end 
+                    check_path_pieces_for_check()
+                   
                 else  
-                    if piece.checking_king == true 
-                        puts "IN CHECK!"
-                        @king_in_check = true 
 
-                    end 
+                    check_other_pieces_for_check()
                 end 
 
             end 
