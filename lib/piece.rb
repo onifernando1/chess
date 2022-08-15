@@ -7,7 +7,7 @@ require_relative 'player_white.rb'
 require 'colorize'
 
 class Piece
-    attr_accessor :string, :symbol, :current_position, :colour, :take, :black_square, :white_square, :checking_king
+    attr_accessor :string, :symbol, :current_position, :colour, :take, :black_square, :white_square, :checking_king, :final_positions_to_check
 
     def initialize(current_board, colour="white", current_pieces="default")
         @current_board = current_board.board
@@ -155,12 +155,17 @@ class Piece
             @co_ords_to_check = []
 
             next_move_x = current_x + @potential_x[i]
-            @co_ords_to_check << next_move_x
-
             next_move_y = current_y + @potential_y[i]
-            @co_ords_to_check << next_move_y
 
-            @final_positions_to_check << @co_ords_to_check
+            if next_move_x <= 7 && next_move_x >=0 && next_move_y <=7 && next_move_y <= 0 
+
+                @co_ords_to_check << next_move_x
+
+                @co_ords_to_check << next_move_y
+
+                @final_positions_to_check << @co_ords_to_check
+
+            end 
 
         end 
         @final_positions_to_check

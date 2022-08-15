@@ -28,11 +28,13 @@ class Game
         @valid_start_coordinates = false 
         @start_valid = false 
         @game_end = false 
-        # @black_king.move(5,1)
-        # @black_king.current_position = [5,1]
+        @white_king.move(2,1)
+        @white_king.current_position = [2,1]
         # @white_pawn1.check_for_check(@current_player) #cjecl
-        @king_in_check = false 
-        pre_game_check()
+        @king_in_check = true 
+        @checkmate = false 
+        # pre_game_check()
+        check_mate_check_method_to_be_changed_end()
         @current_board.show_board()
 
     end 
@@ -95,7 +97,7 @@ class Game
 
         @black_queen = Queen.new(@current_board,"black")
         @black_queen.change_colour()
-        @black_queen.move(0,3)
+        @black_queen.move(4,1) # 0,3 
 
         @black_king = King.new(@current_board, "black")
         @black_king.change_colour()
@@ -242,7 +244,7 @@ class Game
         end 
     end 
 
-    def check_other_pieces_for_check
+    def check_other_pieces_for_check(piece)
 
         if piece.checking_king == true 
             puts "IN CHECK!"
@@ -251,7 +253,7 @@ class Game
         end 
     end 
 
-    def check_path_pieces_for_check
+    def check_path_pieces_for_check(piece)
 
         @check_path_co_ords = piece.check_for_check(@current_player)    
 
@@ -276,11 +278,11 @@ class Game
 
                 if piece.string == " \u265D " || piece.string == " \u265C " || piece.string == " \u265B "
 
-                    check_path_pieces_for_check()
+                    check_path_pieces_for_check(piece)
                    
                 else  
 
-                    check_other_pieces_for_check()
+                    check_other_pieces_for_check(piece)
                 end 
 
             end 
@@ -289,6 +291,55 @@ class Game
         end 
 
         puts "KING IN CHECK: #{@king_in_check}"
+    end 
+
+    def check_mate_check
+        @checkmate = false 
+        #checkmate
+        #if someone in check
+        # check potential mvoes of king (legal)
+        # if all of these would also be in check 
+        #then checkmate
+        # get current king 
+        puts "CHECKMATECHECK"
+        @current_pieces.each do |piece|
+            if piece.colour == @current_player.colour && piece.class == King
+                @current_king = piece 
+            end 
+        end 
+        @checkmate_array = []
+        @current_king.find_moves_to_check()
+        p @current_king.final_positions_to_check
+        
+        remember_king_current_position = @current_king.current_position
+        p remember_king_current_position
+        puts "ABOVE ME "
+
+        @current_king.final_positions_to_check.each do |co_ords|
+            @current_king.current_position = co_ords
+            pre_game_check()
+            @checkmate_array << @king_in_check
+        end 
+
+        if @checkmate_array.all?(true)
+            @checkmate = true 
+            puts "CHECKMATE"
+        else 
+            puts "NOT CHECKMATE"
+            p @checkmate_array
+        end 
+
+        @current_king.current_position = remember_king_current_position
+        puts @current_king.current_position
+
+    end 
+
+    def check_mate_check_method_to_be_changed_end
+
+        if @king_in_check == true 
+            check_mate_check()
+        end 
+
     end 
 
 
@@ -847,3 +898,11 @@ game.game()
 # if check == true, then only allow piece selected at start to be king 
 # only let it move into a position that is not in check 
 # until king not in check, make them move out of the way
+
+
+#checkmate
+#if someone in check
+# check potential mvoes of king (legal)
+# if all of these would also be in check 
+#then checkmate
+
