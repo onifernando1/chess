@@ -232,12 +232,19 @@ class Game
             piece.check_for_check(@current_player)
             
             if piece.in_check == true 
-
-                puts piece 
+                puts piece
 
                 if piece.string == " \u265D " || piece.string == " \u265C " || piece.string == " \u265B "
-                    @check_path_co_ords = piece.position_to_check_path    
-                    piece.plot_path(piece.current_position[0],piece.current_position[1],@check_path_co_ords[0],@check_path_co_ords[1])
+                    @check_path_co_ords = piece.check_for_check(@current_player)    
+
+                    @legal_check_path_co_ords = []
+                    
+                    @check_path_co_ords.each do |array|
+                        if array[0] <=7 &&  array[0] >= 0 && array[1] <=7  && array[1] >=0
+                            @legal_check_path_co_ords << array
+                        end 
+                    end 
+                    piece.plot_path(piece.current_position[0],piece.current_position[1],@legal_check_path_co_ords[0],@legal_check_path_co_ords[1])
                     if piece.path_blocked == false && piece.in_check == true 
                         puts "IN CHECK"
                         @king_in_check = true 
@@ -808,3 +815,4 @@ game.game()
 # reset all current pieces in check to false
 
 #reset path blocked to false 
+# change in check to checking_king
