@@ -237,7 +237,8 @@ class Game
 
     def path_pieces_plot_path
         piece.plot_path(piece.current_position[0],piece.current_position[1],@legal_check_path_co_ords[0],@legal_check_path_co_ords[1])
-                   
+        
+
         if piece.path_blocked == false && piece.checking_king == true 
             puts "IN CHECK"
             @king_in_check = true 
@@ -273,8 +274,10 @@ class Game
         @current_pieces.each do |piece|
 
             piece.check_for_check(@current_player)
-            
+            puts "PGC"
             if piece.checking_king == true 
+
+                puts "IN IF PHECKINGKING"
 
                 if piece.string == " \u265D " || piece.string == " \u265C " || piece.string == " \u265B "
 
@@ -307,13 +310,12 @@ class Game
                 @current_king = piece 
             end 
         end 
+        
+
         @checkmate_array = []
         @current_king.find_moves_to_check()
-        p @current_king.final_positions_to_check
         
         remember_king_current_position = @current_king.current_position
-        p remember_king_current_position
-        puts "ABOVE ME "
 
         @current_king.final_positions_to_check.each do |co_ords|
             @current_king.current_position = co_ords

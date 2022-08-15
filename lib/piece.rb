@@ -157,7 +157,7 @@ class Piece
             next_move_x = current_x + @potential_x[i]
             next_move_y = current_y + @potential_y[i]
 
-            if next_move_x <= 7 && next_move_x >=0 && next_move_y <=7 && next_move_y <= 0 
+            if next_move_x <= 7 && next_move_x >=0 && next_move_y <=7 && next_move_y >= 0 
 
                 @co_ords_to_check << next_move_x
 
@@ -198,14 +198,14 @@ class Piece
 
     def check_for_check(current_player)
 
+
         @checking_king = false 
 
         find_moves_to_check()
-
+        
         @final_positions_to_check.each do |co_ords|
             
             @potential_king = find_a_king(co_ords, current_player)
-
             
             if @potential_king != nil 
                 puts "IN LOOP"
