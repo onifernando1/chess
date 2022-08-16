@@ -7,7 +7,7 @@ require_relative 'player_white.rb'
 require 'colorize'
 
 class Piece
-    attr_accessor :string, :symbol, :current_position, :colour, :take, :black_square, :white_square, :checking_king, :final_positions_to_check
+    attr_accessor :string, :symbol, :current_position, :colour, :take, :black_square, :white_square, :checking_king, :final_positions_to_check, :potential_king
 
     def initialize(current_board, colour="white", current_pieces="default")
         @current_board = current_board.board
@@ -172,7 +172,6 @@ class Piece
 
                 if piece.colour == current_player.colour 
 
-
                     if piece.current_position == end_co_ordinates && piece.class == King
                             @piece = piece
                            
@@ -192,6 +191,8 @@ class Piece
 
         find_moves_to_check()
         
+        p @final_positions_to_check
+        p "{}"
     
         @final_positions_to_check.each do |co_ords|
             
@@ -199,20 +200,15 @@ class Piece
             @potential_king = find_a_king(co_ords, current_player)
 
 
-            if co_ords == [4,1]
-                puts "four one 4,1"
-                puts @potential_king
-                puts self.class
-                puts "pk above me "
+                # puts "five one 4,1"
+                # puts @potential_king
+                # puts self.class
+                # puts "pk above me "
                 
-            end 
             
             if @potential_king != nil 
-                if self.class == Queen 
-                    puts "OKAY NOW CK should be true "
                     @checking_king = true 
-                    puts "CKPKQ#{@checking_king}"
-                end 
+                # end 
             # else 
             #     puts "NOT IN CHECK!"
             end 

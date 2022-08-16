@@ -18,6 +18,8 @@ class Bishop < Piece
         @symbol =  @string.encode("utf-8").light_white
         @current_position = [0,0]
         potential_moves()
+        @path_blocked = nil 
+
 
 
 
@@ -48,6 +50,9 @@ class Bishop < Piece
 
     
     def check_if_piece_blocking_path # move to piece
+
+        @path_blocked = false
+
 
         @path_blocked_array = []
 

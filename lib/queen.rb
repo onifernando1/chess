@@ -45,6 +45,9 @@ end
 
 def check_if_piece_blocking_path # move to piece
 
+    @path_blocked = false
+
+
     @path_blocked_array = []
 
     if @path.length >= 2 # change to equal two 

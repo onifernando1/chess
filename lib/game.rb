@@ -33,8 +33,8 @@ class Game
         # @white_pawn1.check_for_check(@current_player) #cjecl
         # @king_in_check = true 
         @checkmate = false 
-        @white_king.move(4,1) #3,1 
-        @white_king.current_position = [4,1] #3,1 
+        @white_king.move(3,1) #3,1    #5,1 nw 
+        @white_king.current_position = [3,1] #3,1 
         # pre_game_check()
         # puts "FINAL KIC#{@king_in_check}"
         @black_rook1.move(5,0)
@@ -248,35 +248,42 @@ class Game
         end 
     end 
 
-    def path_pieces_plot_path(piece)
+    def path_pieces_check(piece, co_ord)
 
-        @legal_check_path_co_ords.each do |co_ord|
+
+        # @legal_check_path_co_ords.each do |co_ord|
 
             # only plot path if diff over x ? 
             check_piece_distance(piece, co_ord)
 
             if @need_to_check_path == true  
+                puts piece 
                 piece.plot_path(piece.current_position[0],piece.current_position[1],co_ord[0],co_ord[1])
+                
             else 
                 piece.path_blocked = false 
             end 
 
         
-            if co_ord == [4,1]
-                puts "___#{piece.class}"
-                puts piece.path_blocked
-                puts piece.checking_king
-                puts"___++++!++!+!"
-                # path blocked should be false but true 
-            end 
+            # if co_ord == [5,1]
+            #     puts "___#{piece.class}"
+            #     puts piece.path_blocked
+            #     puts piece.checking_king
+            #     puts"___++++!++!+!"
+            #     # path blocked should be false but true 
+            # end 
+
+            puts piece.path_blocked 
+            puts "()()( PB ABAOVE"
+            puts piece.checking_king 
+            puts "()()( CK ABAOVE"
 
             if piece.path_blocked == false && piece.checking_king == true 
-                puts "IN CHECK"
-                puts "WE ARE DEFO IN CHECK BRO"
+                
                 @king_in_check = true 
             end 
 
-        end 
+        # end 
     end 
 
     def check_other_pieces_for_check(piece)
@@ -289,17 +296,17 @@ class Game
         end 
     end 
 
-    def check_path_pieces_for_check(piece)
+    # def check_path_pieces_for_check(piece)
 
-        @check_path_co_ords = piece.check_for_check(@current_player)    
+        
+    #     @check_path_co_ords = piece.check_for_check(@current_player)    
 
-        @legal_check_path_co_ords = []
+    #     @legal_check_path_co_ords = []
 
-        get_legal_check_co_ords(@check_path_co_ords)
+    #     get_legal_check_co_ords(@check_path_co_ords)
 
-
-        path_pieces_plot_path(piece)
-    end 
+    #     path_pieces_plot_path(piece)
+    # end 
 
     
 
@@ -313,27 +320,30 @@ class Game
 
                 piece.check_for_check(@current_player)
 
+
                 if piece.checking_king == true 
 
 
                     if piece.string == " \u265D " || piece.string == " \u265C " || piece.string == " \u265B "
 
-                        check_path_pieces_for_check(piece)
+                        
+                        path_pieces_check(piece, piece.potential_king.current_position)
+
                     
                     else  
                         
                         check_other_pieces_for_check(piece)
                     end 
 
-                #end
+                end
                 # only to check bug : 
-                else 
-                    puts "______"
-                    puts piece 
-                    puts piece.class
-                    puts piece.checking_king
-                    puts "-------"
-                end 
+                # else 
+                #     puts "______"
+                #     puts piece 
+                #     puts piece.class
+                #     puts piece.checking_king
+                #     puts "-------"
+                # end 
 
             end 
 
@@ -973,13 +983,6 @@ game.game()
 #then checkmate
 
 # check for check not working black queen 4,1  whtie king 3,1 
-#cfc
-# @white_king.move(4,1) #3,1 
-# @white_king.current_position = [4,1] #3,1 
-# # pre_game_check()
-# # puts "FINAL KIC#{@king_in_check}"
-# @black_rook1.move(5,0)
+#rook 05, wk 
 
-# @black_rook1.current_position = [5,0]
-# @black_queen.move(5,1)
-# @black_queen.current_position = [5,1]
+# after you check king moves, need to check if any piece can take the piece about to take the king,  and then check king again !
