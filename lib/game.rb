@@ -28,13 +28,16 @@ class Game
         @valid_start_coordinates = false 
         @start_valid = false 
         @game_end = false 
-        @white_king.move(2,1)
-        @white_king.current_position = [2,1]
+        # @white_king.move(2,1)
+        # @white_king.current_position = [2,1]
         # @white_pawn1.check_for_check(@current_player) #cjecl
-        @king_in_check = true 
+        # @king_in_check = true 
         @checkmate = false 
-        # pre_game_check()
-        check_mate_check_method_to_be_changed_end()
+        @white_king.move(2,1)
+        @white_king.current_position = [2,1] 
+        pre_game_check()
+        puts "FINAL KIC#{@king_in_check}"
+        # check_mate_check_method_to_be_changed_end()
         @current_board.show_board()
 
     end 
@@ -97,7 +100,7 @@ class Game
 
         @black_queen = Queen.new(@current_board,"black")
         @black_queen.change_colour()
-        @black_queen.move(4,1) # 0,3 
+        @black_queen.move(0,3) # 0,3 
 
         @black_king = King.new(@current_board, "black")
         @black_king.change_colour()
@@ -135,14 +138,14 @@ class Game
 
         @white_bishop1 = Bishop.new(@current_board)
         @white_bishop2 = Bishop.new(@current_board)
-        @white_bishop1.move() # empty
+        @white_bishop1.move()
         @white_bishop2.move(7,5)
 
         @white_queen = Queen.new(@current_board)
         @white_queen.move() 
 
         @white_king = King.new(@current_board)
-        @white_king.move() # empty 
+        @white_king.move() 
 
     end 
 
@@ -235,13 +238,19 @@ class Game
         end 
     end 
 
-    def path_pieces_plot_path
-        piece.plot_path(piece.current_position[0],piece.current_position[1],@legal_check_path_co_ords[0],@legal_check_path_co_ords[1])
+    def path_pieces_plot_path(piece)
+
+        @legal_check_path_co_ords.each do |co_ord|
+
+            piece.plot_path(piece.current_position[0],piece.current_position[1],co_ord[0],co_ord[1])
         
 
-        if piece.path_blocked == false && piece.checking_king == true 
-            puts "IN CHECK"
-            @king_in_check = true 
+            if piece.path_blocked == false && piece.checking_king == true 
+                puts "IN CHECK"
+                puts "WE ARE DEFO IN CHECK BRO"
+                @king_in_check = true 
+            end 
+
         end 
     end 
 
@@ -249,6 +258,7 @@ class Game
 
         if piece.checking_king == true 
             puts "IN CHECK!"
+            puts "OKAY LOOK WERE IN CHECK "
             @king_in_check = true 
 
         end 
@@ -261,8 +271,9 @@ class Game
         @legal_check_path_co_ords = []
 
         get_legal_check_co_ords(@check_path_co_ords)
-       
-        path_pieces_plot_path()
+        
+        
+        path_pieces_plot_path(piece)
     end 
 
     
@@ -273,19 +284,33 @@ class Game
 
         @current_pieces.each do |piece|
 
-            piece.check_for_check(@current_player)
-            puts "PGC"
-            if piece.checking_king == true 
+            if piece.colour != @current_player.colour # e.g if white only chgeck black pieces
 
-                puts "IN IF PHECKINGKING"
+                piece.check_for_check(@current_player)
 
-                if piece.string == " \u265D " || piece.string == " \u265C " || piece.string == " \u265B "
+                puts "OKAY WE CHECKED FOR CHECK "
 
-                    check_path_pieces_for_check(piece)
-                   
-                else  
+                puts "PIECE: #{piece}" 
 
-                    check_other_pieces_for_check(piece)
+                puts "PIECE CURRENT LOCATION: #{piece.current_position}" 
+
+
+                puts "PIECE CHECKING KING ?#{piece.checking_king}" 
+                
+                if piece.checking_king == true 
+
+                    puts "OKAY WE ARE CHECKING"
+
+                    if piece.string == " \u265D " || piece.string == " \u265C " || piece.string == " \u265B "
+
+                        check_path_pieces_for_check(piece)
+                    
+                    else  
+                        puts "OKAY WE ARE IN THE ELSE "
+                        puts "ELSE: PIECE #{piece}"
+                        check_other_pieces_for_check(piece)
+                    end 
+
                 end 
 
             end 
@@ -293,7 +318,6 @@ class Game
 
         end 
 
-        puts "KING IN CHECK: #{@king_in_check}"
     end 
 
     def check_mate_check
@@ -304,7 +328,6 @@ class Game
         # if all of these would also be in check 
         #then checkmate
         # get current king 
-        puts "CHECKMATECHECK"
         @current_pieces.each do |piece|
             if piece.colour == @current_player.colour && piece.class == King
                 @current_king = piece 
@@ -332,7 +355,7 @@ class Game
         end 
 
         @current_king.current_position = remember_king_current_position
-        puts @current_king.current_position
+        # puts @current_king.current_position
 
     end 
 
@@ -601,7 +624,6 @@ class Game
 
         @continue = false 
 
-        puts "CALLS START "
         @valid_piece = false 
         @correct_colour = false 
 
@@ -908,3 +930,6 @@ game.game()
 # if all of these would also be in check 
 #then checkmate
 
+
+
+#check for check not working 

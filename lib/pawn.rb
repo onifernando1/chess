@@ -62,7 +62,6 @@ class Pawn < Piece
         current_x = @current_position[0] 
         current_y = @current_position[1]
 
-        puts "POTENTIAL X #{@potential_x}" 
 
 
         @path << current_x + @potential_x[0] 
@@ -74,7 +73,7 @@ class Pawn < Piece
     def check_if_piece_blocking_path
 
         @path_blocked_array = []
-                     
+
         move_x = @path[0]
         move_y = @path[1]
    
@@ -109,7 +108,6 @@ class Pawn < Piece
 
         current_x = @current_position[0]
         current_y = @current_position[1]
-        p "CURRENT X #{current_x}" 
 
         length_to_check = @potential_x.length - 1 
 
@@ -125,17 +123,18 @@ class Pawn < Piece
 
             @final_positions_to_check << @co_ords_to_check
 
+
         end 
 
+        @final_positions_to_check
 
-        p @final_positions_to_check
 
     end 
 
     def find_a_king(end_co_ordinates, current_player)
         
             @current_pieces.each do |piece|
-                if piece.current_position == end_co_ordinates && piece.class == King && piece.colour != current_player.colour
+                if piece.current_position == end_co_ordinates && piece.class == King# && piece.colour != current_player.colour
                         @piece = piece
                 end 
             end 
@@ -155,12 +154,13 @@ class Pawn < Piece
 
             @potential_king = find_a_king(co_ords, current_player)
 
+
             if @potential_king != nil 
                 @checking_king = true 
-                puts "CHECK!"
-            # else 
-            #     puts "NOT IN CHECK!"
             end 
+
+
+
         end 
 
          

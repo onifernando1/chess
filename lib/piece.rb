@@ -63,8 +63,6 @@ class Piece
     end 
 
     def find_player(end_co_ordinates)
-        p "END CO FIND PL#{end_co_ordinates}"
-        p "above me endoc from fp "
         @current_pieces.each do |piece|
             if piece.current_position == end_co_ordinates
                 @piece = piece
@@ -82,16 +80,11 @@ class Piece
         destination_y = destination_co_ords[1]
 
 
-        puts "DELETE DEST CALLED "
-        puts @current_board[destination_x][destination_y]
-        p @current_board[destination_x][destination_y]
 
         if @current_board[destination_x][destination_y] == @symbol.colorize(background: :light_magenta)
-            puts "IF "
             @current_board[destination_x][destination_y] = @black_square
 
         elsif @current_board[destination_x][destination_y] == @symbol.colorize(background: :light_cyan) 
-            puts "ELSFI"
             @current_board[destination_x][destination_y] = @white_square
         end 
 
@@ -104,7 +97,6 @@ class Piece
 
         @take = false 
 
-        p "END CO CHECK DESST#{end_co_ordinates}"
 
         #e.g youre given start coordinates E1
         # end coordinates E2 
@@ -168,6 +160,8 @@ class Piece
             end 
 
         end 
+
+
         @final_positions_to_check
 
     end 
@@ -178,15 +172,10 @@ class Piece
 
                 if piece.colour == current_player.colour 
 
-                    if piece.current_position == end_co_ordinates && piece.class == King && piece.colour != current_player.colour
-                            @piece = piece
-                            puts "IMPORTANT BELOW ME "
-                            p @final_positions_to_check
 
-                            puts piece 
-                            p piece.current_position
-                            p "END CO #{end_co_ordinates}"
-                            puts "IMPORTANT ABOVE ME "
+                    if piece.current_position == end_co_ordinates && piece.class == King
+                            @piece = piece
+                           
                     end 
                 end 
             end 
@@ -202,17 +191,14 @@ class Piece
         @checking_king = false 
 
         find_moves_to_check()
-        
+    
         @final_positions_to_check.each do |co_ords|
             
             @potential_king = find_a_king(co_ords, current_player)
+
             
             if @potential_king != nil 
-                puts "IN LOOP"
-                puts @potential_king
-                puts @potential_king.current_position
                 @checking_king = true 
-                puts "CHECK!"
             # else 
             #     puts "NOT IN CHECK!"
             end 

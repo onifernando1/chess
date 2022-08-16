@@ -114,10 +114,7 @@ def check_if_piece_blocking_path # move to piece
 end 
 
 def plot_path(starting_x,starting_y,ending_x,ending_y)
-    puts "PLOT PATH CALLED "
     set_up_path(starting_x,starting_y, ending_x,ending_y)
-    p @path
-    puts "ABOVE ME PATH"
     check_if_piece_blocking_path()
 end 
 
@@ -141,7 +138,6 @@ def minim_steps(x_start, y_start, x_end, y_end)
 
     # if up or down or left or right 
     
-    puts "IN MINI STEPS "
     x_change = x_end - x_start
     y_change = y_end - y_start   
 
@@ -171,7 +167,6 @@ def minim_steps(x_start, y_start, x_end, y_end)
     end 
     
     if  @diagonal == true  
-        "Puts in diag true elsif "
         @x_coordinates = [-1,-1,+1,+1]
         @y_coordinates = [+1,-1,+1,-1]
     end 
