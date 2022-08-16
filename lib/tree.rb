@@ -118,10 +118,7 @@ class Tree attr_accessor :queue, :moves, :path, :continue, :distance, :current_n
         end 
 
         @path
-        p @path
-        puts "PRINT PATH "
-        @path
-
+        
     end 
 
 

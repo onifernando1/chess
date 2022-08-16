@@ -42,7 +42,6 @@ class Bishop < Piece
 
     def set_up_path(starting_x,starting_y, ending_x,ending_y)
         tree = BishopTree.new()
-        p "TREE MADE "
         tree.minim_steps(starting_x,starting_y, ending_x,ending_y)
         @path = tree.print_path()
     end 

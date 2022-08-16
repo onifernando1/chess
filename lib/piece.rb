@@ -191,14 +191,28 @@ class Piece
         @checking_king = false 
 
         find_moves_to_check()
+        
     
         @final_positions_to_check.each do |co_ords|
             
+
             @potential_king = find_a_king(co_ords, current_player)
 
+
+            if co_ords == [4,1]
+                puts "four one 4,1"
+                puts @potential_king
+                puts self.class
+                puts "pk above me "
+                
+            end 
             
             if @potential_king != nil 
-                @checking_king = true 
+                if self.class == Queen 
+                    puts "OKAY NOW CK should be true "
+                    @checking_king = true 
+                    puts "CKPKQ#{@checking_king}"
+                end 
             # else 
             #     puts "NOT IN CHECK!"
             end 

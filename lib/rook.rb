@@ -39,7 +39,6 @@ class Rook < Piece
 
     def set_up_path(starting_x,starting_y, ending_x,ending_y)
         tree = RookTree.new()
-        p "TREE MADE "
         tree.mini_steps(starting_x,starting_y, ending_x,ending_y)
         @path = tree.print_path()
     end 
