@@ -130,6 +130,10 @@ class QueenTree < Tree
 
 def minim_steps(x_start, y_start, x_end, y_end)
 
+    p "#{x_start},#{x_end}"
+    p "#{y_start},#{y_end}"
+
+
     @cross = false 
     @diagonal = false 
     #possible moves of queen base  # if it starts using diagonals to cut, if x increase then do these moves: etc. 
@@ -204,6 +208,7 @@ def minim_steps(x_start, y_start, x_end, y_end)
        
         
         #go through possible moves 
+
 
         length_of_potential_moves = @x_coordinates.length - 1 
 

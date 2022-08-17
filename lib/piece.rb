@@ -184,35 +184,56 @@ class Piece
     
     end 
 
-    def check_for_check(current_player)
+    def check_for_check(current_player, white_king, black_king)
 
 
         @checking_king = false 
 
         find_moves_to_check()
-        
+        p {}
         p @final_positions_to_check
         p "{}"
-    
-        @final_positions_to_check.each do |co_ords|
+
+        if current_player.colour == "white"
+            current_king = white_king
+            p "WHITE"
+        else 
+            current_king = black_king
+            p "BLACK"
+        end 
+
+
+        p "++++++++++++++++++++++++++="
+        puts current_king 
+        king_found =  @final_positions_to_check.include?(current_king.current_position)
+
+        p @final_positions_to_check.include?(current_king.current_position)
+        p "++++++++++++++++++++++++++="
+
+        if king_found == true 
+            @checking_king = true 
+
+        end 
+
+        # @final_positions_to_check.each do |co_ords|
             
 
-            @potential_king = find_a_king(co_ords, current_player)
+        #     @potential_king = find_a_king(co_ords, current_player)
 
 
-                # puts "five one 4,1"
-                # puts @potential_king
-                # puts self.class
-                # puts "pk above me "
+        #         # puts "five one 4,1"
+        #         # puts @potential_king
+        #         # puts self.class
+        #         # puts "pk above me "
                 
             
-            if @potential_king != nil 
-                    @checking_king = true 
-                # end 
-            # else 
-            #     puts "NOT IN CHECK!"
-            end 
-        end 
+        #     if @potential_king != nil 
+        #             @checking_king = true 
+        #         # end 
+        #     # else 
+        #     #     puts "NOT IN CHECK!"
+        #     end 
+        # end 
 
          
     end 

@@ -144,27 +144,63 @@ class Pawn < Piece
     
     end 
 
-    def check_for_check(current_player)
+    # def check_for_check(current_player, white_king, black_king) # add in stuff form piece method later
+
+    #     @checking_king = false 
+
+    #     find_moves_to_check()
+
+    #     @final_positions_to_check.each do |co_ords|
+
+    #         @potential_king = find_a_king(co_ords, current_player)
+
+
+    #         if @potential_king != nil 
+    #             @checking_king = true 
+    #         end 
+
+
+
+    #     end 
+
+         
+    # end 
+
+    def check_for_check(current_player, white_king, black_king)
+
 
         @checking_king = false 
 
         find_moves_to_check()
+        p {}
+        p @final_positions_to_check
+        p "{}"
 
-        @final_positions_to_check.each do |co_ords|
+        if current_player.colour == "white"
+            current_king = white_king
+            p "WHITE"
+        else 
+            current_king = black_king
+            p "BLACK"
+        end 
 
-            @potential_king = find_a_king(co_ords, current_player)
 
+        p "++++++++++++++++++++++++++="
+        puts current_king 
+        king_found =  @final_positions_to_check.include?(current_king.current_position)
 
-            if @potential_king != nil 
-                @checking_king = true 
-            end 
+        p @final_positions_to_check.include?(current_king.current_position)
+        p "++++++++++++++++++++++++++="
 
-
+        if king_found == true 
+            @checking_king = true 
 
         end 
 
+       
+
          
-    end 
+    end
 
 end  
 

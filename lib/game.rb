@@ -42,8 +42,10 @@ class Game
         @black_rook1.current_position = [5,0]
         @black_queen.move(5,1)
         @black_queen.current_position = [5,1]
-        # check_mate_check()
-        pre_game_check()
+        @current_board.show_board()
+
+        check_mate_check()
+        # pre_game_check()
         puts "--------===="
         puts @king_in_check
         puts "========"
@@ -250,15 +252,20 @@ class Game
 
     def path_pieces_check(piece, co_ord)
 
-
+       
         # @legal_check_path_co_ords.each do |co_ord|
 
             # only plot path if diff over x ? 
             check_piece_distance(piece, co_ord)
-
+             
             if @need_to_check_path == true  
-                puts piece 
+                puts "________ IN TRUE NTCP"
+                p "______________"
+                p piece.current_position
+                p co_ord
+                p "______________"
                 piece.plot_path(piece.current_position[0],piece.current_position[1],co_ord[0],co_ord[1])
+                puts "PROBLEM AFTER PPP___________"
                 
             else 
                 piece.path_blocked = false 
@@ -318,7 +325,8 @@ class Game
 
             if piece.colour != @current_player.colour # e.g if white only chgeck black pieces
 
-                piece.check_for_check(@current_player)
+
+                piece.check_for_check(@current_player, @white_king, @black_king)
 
 
                 if piece.checking_king == true 
@@ -326,9 +334,15 @@ class Game
 
                     if piece.string == " \u265D " || piece.string == " \u265C " || piece.string == " \u265B "
 
-                        
-                        path_pieces_check(piece, piece.potential_king.current_position)
+                        if @current_player.colour == "white"
+                            puts "999"
+                            p @white_king.current_position
+                            puts "999"
+                            path_pieces_check(piece, @white_king.current_position)
+                        else 
+                            path_pieces_check(piece, @black_king.current_position)
 
+                        end 
                     
                     else  
                         
@@ -986,3 +1000,29 @@ game.game()
 #rook 05, wk 
 
 # after you check king moves, need to check if any piece can take the piece about to take the king,  and then check king again !
+
+
+# if king moves to 3,0 , queen cant get him, but it is trying to get a path assuming queen can get him 
+# first check which picees can get the king 
+# then only check those pieces
+# current set up 
+# @checkmate = false 
+# @white_king.move(3,1) #3,1    #5,1 nw 
+# @white_king.current_position = [3,1] #3,1 
+# # pre_game_check()
+# # puts "FINAL KIC#{@king_in_check}"
+# @black_rook1.move(5,0)
+
+# @black_rook1.current_position = [5,0]
+# @black_queen.move(5,1)
+# @black_queen.current_position = [5,1]
+# @current_board.show_board()
+
+# check_mate_check()
+# # pre_game_check()
+# puts "--------===="
+# puts @king_in_check
+# puts "========"
+
+
+# queen at 5,1 and king at 3,0 doesnt say it is in check therefore issue not with check for check
