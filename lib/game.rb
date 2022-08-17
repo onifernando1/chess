@@ -33,7 +33,7 @@ class Game
         @king_in_check = true 
         @checkmate = false 
         @current_board.show_board()
-
+        @previous_move = []
     end 
 
     def intro
@@ -440,7 +440,6 @@ class Game
         end 
 
 
-        puts "CHECKED VSI"
     end 
 
 
@@ -708,13 +707,10 @@ class Game
 
     def get_valid_input
 
-            puts "IN GVI"
-        # until @start_valid == true 
 
             get_start_coordinates()
 
             check_valid_start_input(@player_start_coords)      
-        # end       
 
     end
 
@@ -727,8 +723,6 @@ class Game
 
             if @valid_piece == false 
                 puts "Please pick a valid piece!"
-                p "PS#{@piece_selected}"
-                p "CC#{@valid_piece}"
                
 
                 reset()
@@ -748,7 +742,6 @@ class Game
     
     def start_of_round 
 
-        puts "IN START OF ROUND "
 
         @checkmate = false # move to methods later
         @king_in_check = false # move to methods later
@@ -784,16 +777,12 @@ class Game
         @valid_piece = false 
         @correct_colour = false 
 
-        puts "GET THIS FAR INTO START ROUND "
 
         until @valid_piece == true  && @correct_colour == true && @piece_selected.class != Array
-            puts "IN UNTIL"
-            puts " BEFORE UNTIL END SV#{@start_valid} VP #{@valid_piece} CC #{@correct_colour} CLASS #{@piece_selected.class}"
             @start_valid = false 
             until @start_valid == true 
                 get_valid_input()
             end 
-            puts " AFTER UNTIL END VP SV#{@start_valid} #{@valid_piece} CC #{@correct_colour} CLASS #{@piece_selected.class}"
 
             @start_co_ordinates = co_ordinate_converter(@player_start_coords)
             
@@ -801,17 +790,11 @@ class Game
 
             report_start_errors()
             
-            puts "CONTINUE TRUE "
 
-            @continue = true 
-            puts "CONTINUE TRUE "
 
         end 
-        puts "OUT OF LOOP "
-        # @continue = true 
+        @continue = true 
 
-        puts "IN START OF ROUND "
-        puts "VP #{@valid_piece} CC #{@correct_colour} CLASS #{@piece_selected.class}"
 
     end 
 
@@ -1002,14 +985,12 @@ class Game
 
 
     end 
+
 ## end of pawn stuff 
 
 
     def get_valid_end_input
 
-        puts "GVEI"
-        # until @start_valid == true 
-            # puts "CALLING UNTIL START VALID IN UNTIL "
             get_end_coordinates()
             
 
@@ -1025,7 +1006,6 @@ class Game
             if @start_valid != true 
                 get_valid_end_input()
             end
-        # end 
 
     end 
 
@@ -1036,22 +1016,16 @@ class Game
 
     def get_valid_end_co_ords
 
-        puts "CALLS GVEC"
 
         until @block == false && @legal_move == true && @piece_selected.path_blocked == false
 
-            puts "GVEC IN BLOCK"
 
             get_valid_end_input()
 
-            puts "GVEC GOT VALID END INOPUT "
 
             @end_co_ordinates = co_ordinate_converter(@player_end_coords)
-
-            puts "GVEC CONVERTED COORDS "
             
             legal_move(@end_co_ordinates,@legal_end_x, @legal_end_y)
-
 
             check_for_any_blocks() # legal move() in this "
 
@@ -1080,9 +1054,7 @@ class Game
 
 
     def end_of_round
-        puts "IN END OF ROUND "
 
-        @swap_time = false 
 
         @piece_selected.potential_moves() # ensure pawn moves updated in case second move 
 
@@ -1104,16 +1076,16 @@ class Game
 
         @current_board.show_board()
 
+        @previous_move = @end_co_ordinates
+
         pawn_promotion()
 
-        @swap_time = true 
        
     end
 
     def round 
-        puts "CALLS ROUND "
         start_of_round()
-        if @continue = true 
+        if @continue == true 
             end_of_round()
             reset()
             swap_player()
@@ -1129,9 +1101,6 @@ class Game
         round()
         round()
         round()
-
-      
-
     end 
 
  
@@ -1209,4 +1178,18 @@ game.game()
 #big to do 
 #add in en passant
 # add in save
-# back messes up game - FIX!
+# check if path can be blocked in checkmate
+
+#en passant pseudo:
+
+# find piece(A) to left/right of pawn (B)
+# if it is a pawn(A)
+# and if it(A) just moved two spaces (i.e first move = false && previous move was moving that pawn by two ???)
+# pawn(B) can move diagonally in front of +-x that pawn (A)
+# pawn (A) is taken 
+# 
+# remember previous move? # at end of turn prev move = current pos of piece moved
+# find_piece(prev move ) if == pawn && first_move = false 
+# can do en passant 
+#
+#
