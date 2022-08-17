@@ -622,7 +622,7 @@ class Game
             puts "Someone is in your way :("
             puts "Try again"
         else 
-            legal_move(@end_co_ordinates,@legal_end_x, @legal_end_y)
+            # legal_move(@end_co_ordinates,@legal_end_x, @legal_end_y)
             @block = false 
 
         end
@@ -1007,6 +1007,8 @@ class Game
             get_valid_end_input()
 
             @end_co_ordinates = co_ordinate_converter(@player_end_coords)
+            
+            legal_move(@end_co_ordinates,@legal_end_x, @legal_end_y)
 
 
             check_for_any_blocks() # legal move() in this "
