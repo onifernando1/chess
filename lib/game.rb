@@ -21,7 +21,7 @@ class Game
         set_up_players()
         @current_player = @player_white
         intro()
-
+        @generic_piece = Piece.new(@current_board, "white")
         @current_pieces = []
         add_black_to_promotion_array()
         add_white_to_promotion_array()
@@ -33,7 +33,9 @@ class Game
         @king_in_check = true 
         @checkmate = false 
         @current_board.show_board()
-        @previous_move = []
+        @previous_move_start = []
+        @previous_move_end = []
+
     end 
 
     def intro
@@ -986,6 +988,40 @@ class Game
 
     end 
 
+    def check_if_en_passant_possible(end_co_ord)
+
+        @en_passant_possible = false 
+
+        @potential_pawn = @generic_piece.find_player(end_co_ord)
+        
+        start_x_pawn =  @previous_move_start[0]
+        end_x_pawn = @previous_move_end[0]
+
+        x_pawn_difference = start_x_pawn - end_x_pawn
+
+        if @potential_pawn.class == Pawn && @potential_pawn.colour != @current_player.colour && x_pawn_difference == -2 || x_pawn_difference == 2 
+            @en_passant_possible = true 
+        end 
+
+    end 
+
+    def en_passant
+
+        # only call if @piece_selected.class == Pawn
+
+        check_if_en_passant_possible(@previous_move_end)
+
+         # if @potential_pawn.current_position[0] - pawn.current_position[0] == +1 / -1  
+
+
+        if @en_passant_possible == true 
+
+            #can_move diagonally into same x as potential pawn and take potential pawn 
+
+        end 
+
+    end 
+
 ## end of pawn stuff 
 
 
@@ -1074,9 +1110,13 @@ class Game
             @piece_selected.first_move = false 
         end 
 
+
+
         @current_board.show_board()
 
-        @previous_move = @end_co_ordinates
+        @previous_move_start = @start_co_ordinates
+        @previous_move_end = @end_co_ordinates
+
 
         pawn_promotion()
 

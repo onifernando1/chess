@@ -24,6 +24,8 @@ class Pawn < Piece
         # @black_square = "   ".colorize(background: :light_magenta)
         potential_moves()
         get_end_positions()
+        @second_move = nil 
+        @third_move = nil 
     end 
 
     def move(x=6, y=0)
