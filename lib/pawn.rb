@@ -7,7 +7,7 @@ require 'colorize'
 
 class Pawn < Piece
 
-    attr_accessor :string, :symbol, :current_position, :potential_x, :potential_y, :current_pieces, :path_blocked, :first_move, :black_square, :white_square, :checking_king, :position_to_check_path
+    attr_accessor :string, :symbol, :current_position, :potential_x, :potential_y, :current_pieces, :path_blocked, :first_move, :black_square, :white_square, :checking_king, :position_to_check_path, :end_positions
     
     def initialize(current_board, colour="white")
         super
@@ -23,6 +23,7 @@ class Pawn < Piece
         # @white_square = "   ".colorize(background: :light_cyan)
         # @black_square = "   ".colorize(background: :light_magenta)
         potential_moves()
+        get_end_positions()
     end 
 
     def move(x=6, y=0)
@@ -51,6 +52,19 @@ class Pawn < Piece
                 @potential_y = [0,+1,-1]
             end 
         end 
+
+    end 
+
+    def get_end_positions
+
+        if @colour == "white "
+
+         end_positions = [[0,0],[0,1],[0,2],[0,3],[0,4],[0,5],[0,6],[0,7]]
+
+        else 
+            end_positions = [[7,0],[7,1],[7,2],[7,3],[7,4],[7,5],[7,6],[7,7]]
+
+        end
 
     end 
 

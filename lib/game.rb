@@ -133,7 +133,7 @@ class Game
         @black_pawn6 = Pawn.new(@current_board, "black")
         @black_pawn7 = Pawn.new(@current_board, "black")
         @black_pawn8 = Pawn.new(@current_board, "black")
-
+    
         @black_pawn1.change_colour()
         @black_pawn2.change_colour()
         @black_pawn3.change_colour()
@@ -174,6 +174,23 @@ class Game
         @black_king = King.new(@current_board, "black")
         @black_king.change_colour()
         @black_king.move(0,4) # 
+
+        @black_promoted_queen_1 = Queen.new(@current_board, "black")
+        @black_promoted_queen_2 = Queen.new(@current_board, "black")
+        @black_promoted_queen_3 = Queen.new(@current_board, "black")
+        @black_promoted_queen_4 = Queen.new(@current_board, "black")
+        @black_promoted_queen_5 = Queen.new(@current_board, "black")
+        @black_promoted_queen_6 = Queen.new(@current_board, "black")
+        @black_promoted_queen_7 = Queen.new(@current_board, "black")
+        @black_promoted_queen_8 = Queen.new(@current_board, "black")
+        @black_promoted_queen_1.change_colour()
+        @black_promoted_queen_2.change_colour()
+        @black_promoted_queen_3.change_colour()
+        @black_promoted_queen_4.change_colour()
+        @black_promoted_queen_5.change_colour()
+        @black_promoted_queen_6.change_colour()
+        @black_promoted_queen_7.change_colour()
+        @black_promoted_queen_8 = change_colour()
     end 
 
     def set_up_white
@@ -215,6 +232,15 @@ class Game
 
         @white_king = King.new(@current_board)
         @white_king.move() 
+
+        @white_promoted_queen_1 = Queen.new(@current_board, "white")
+        @white_promoted_queen_2 = Queen.new(@current_board, "white")
+        @white_promoted_queen_3 = Queen.new(@current_board, "white")
+        @white_promoted_queen_4 = Queen.new(@current_board, "white")
+        @white_promoted_queen_5 = Queen.new(@current_board, "white")
+        @white_promoted_queen_6 = Queen.new(@current_board, "white")
+        @white_promoted_queen_7 = Queen.new(@current_board, "white")
+        @white_promoted_queen_8 = Queen.new(@current_board, "white")
 
     end 
 
@@ -926,6 +952,36 @@ class Game
 
         end 
         
+    end 
+
+    def check_if_pawn_at_end
+        
+        @pawn_at_end = false 
+
+        @current_pieces.each do |piece|
+            
+
+            if piece.class == Pawn && piece.end_positions.include?(piece.current_position) 
+                @pawn_at_end = true 
+                @pawn_to_be_promoted = piece
+            end 
+        end 
+
+    end 
+
+    def pawn_promotion 
+
+        @intermediary = nil
+
+        check_if_pawn_at_end()
+
+        if @pawn_at_end == true 
+
+            @current_board.board[@pawn_to_be_promoted.current_position] = @intermediary
+
+
+
+
     end 
 ## end of pawn stuff 
 
