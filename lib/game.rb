@@ -439,6 +439,8 @@ class Game
             puts "Oops! Try again with some valid co-ordinates!"
         end 
 
+
+        puts "CHECKED VSI"
     end 
 
 
@@ -686,7 +688,7 @@ class Game
         @block = true 
         @legal_move = false 
         @correct_colour = false 
-
+        @continue = false 
     end 
 
 
@@ -694,21 +696,25 @@ class Game
         if @current_player == @player_black
             @current_player = @player_white
             puts "SWAP"
+            round()
         elsif @current_player == @player_white
             @current_player = @player_black
             puts "SWAP"
+            round()
+
         end 
 
     end 
 
     def get_valid_input
 
-        until @start_valid == true 
+            puts "IN GVI"
+        # until @start_valid == true 
 
             get_start_coordinates()
 
             check_valid_start_input(@player_start_coords)      
-        end       
+        # end       
 
     end
 
@@ -741,6 +747,8 @@ class Game
 
     
     def start_of_round 
+
+        puts "IN START OF ROUND "
 
         @checkmate = false # move to methods later
         @king_in_check = false # move to methods later
@@ -776,19 +784,35 @@ class Game
         @valid_piece = false 
         @correct_colour = false 
 
-        until @valid_piece == true  && @correct_colour == true && @piece_selected.class != Array
+        puts "GET THIS FAR INTO START ROUND "
 
-            get_valid_input()
+        until @valid_piece == true  && @correct_colour == true && @piece_selected.class != Array
+            puts "IN UNTIL"
+            puts " BEFORE UNTIL END SV#{@start_valid} VP #{@valid_piece} CC #{@correct_colour} CLASS #{@piece_selected.class}"
+            @start_valid = false 
+            until @start_valid == true 
+                get_valid_input()
+            end 
+            puts " AFTER UNTIL END VP SV#{@start_valid} #{@valid_piece} CC #{@correct_colour} CLASS #{@piece_selected.class}"
 
             @start_co_ordinates = co_ordinate_converter(@player_start_coords)
             
             select_start_player(@start_co_ordinates)
 
             report_start_errors()
+            
+            puts "CONTINUE TRUE "
+
+            @continue = true 
+            puts "CONTINUE TRUE "
 
         end 
+        puts "OUT OF LOOP "
+        # @continue = true 
 
-        @continue = true 
+        puts "IN START OF ROUND "
+        puts "VP #{@valid_piece} CC #{@correct_colour} CLASS #{@piece_selected.class}"
+
     end 
 
     def error_messages
@@ -983,30 +1007,48 @@ class Game
 
     def get_valid_end_input
 
-        @start_valid = false 
-
-        until @start_valid == true 
-
+        puts "GVEI"
+        # until @start_valid == true 
+            # puts "CALLING UNTIL START VALID IN UNTIL "
             get_end_coordinates()
+            
 
-            if @player_end_coords == "back" ||@player_end_coords == "BACK" ||
-                reset()
-                round()
+            if @player_end_coords == "back" ||@player_end_coords == "BACK"
+                puts "IN IF "
+                @continue = false 
+                restart_round()
             else 
 
                 check_valid_start_input(@player_end_coords)
             end 
-        end 
+
+            if @start_valid != true 
+                get_valid_end_input()
+            end
+        # end 
 
     end 
 
+    def restart_round()
+        puts"RSTART"
+        round()
+    end
+
     def get_valid_end_co_ords
+
+        puts "CALLS GVEC"
 
         until @block == false && @legal_move == true && @piece_selected.path_blocked == false
 
+            puts "GVEC IN BLOCK"
+
             get_valid_end_input()
 
+            puts "GVEC GOT VALID END INOPUT "
+
             @end_co_ordinates = co_ordinate_converter(@player_end_coords)
+
+            puts "GVEC CONVERTED COORDS "
             
             legal_move(@end_co_ordinates,@legal_end_x, @legal_end_y)
 
@@ -1038,6 +1080,9 @@ class Game
 
 
     def end_of_round
+        puts "IN END OF ROUND "
+
+        @swap_time = false 
 
         @piece_selected.potential_moves() # ensure pawn moves updated in case second move 
 
@@ -1060,45 +1105,33 @@ class Game
         @current_board.show_board()
 
         pawn_promotion()
+
+        @swap_time = true 
        
     end
 
     def round 
+        puts "CALLS ROUND "
         start_of_round()
-        if @continue == true 
+        if @continue = true 
             end_of_round()
+            reset()
+            swap_player()
         end 
+
     end 
 
     def game 
         round()
-        swap_player()
-        reset()
         round()
-        swap_player()
-        reset()
         round()
-        swap_player()
-        reset()
         round()
-        swap_player()
-        reset()
         round()
-        swap_player()
-        reset()
         round()
-        swap_player()
-        reset()
         round()
-        swap_player()
-        reset()
-        round()
-        swap_player()
-        reset()
-        round()
-        swap_player()
-        reset()
-       
+
+      
+
     end 
 
  
@@ -1175,5 +1208,5 @@ game.game()
 
 #big to do 
 #add in en passant
-
 # add in save
+# back messes up game - FIX!
