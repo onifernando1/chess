@@ -63,13 +63,21 @@ class Piece
     end 
 
     def find_player(end_co_ordinates)
+        if self.class == Queen 
+            puts "FP IF BEFORE FINDP CURRENT POS:#{@current_position}" 
+        end 
+
+
+
         @current_pieces.each do |piece|
             if piece.current_position == end_co_ordinates
                 @piece = piece
             end 
         end 
         @piece
-
+        if self.class == Queen 
+            puts "FP IF END FINDP CURRENT POS:#{@current_position}" 
+        end 
              
 
     end 
@@ -147,6 +155,11 @@ class Piece
             next_move_x = current_x + @potential_x[i]
             next_move_y = current_y + @potential_y[i]
 
+            # if self.class == Queen
+            #     p "CURRENT POS #{current_position}"
+            #     p "#{next_move_x}, #{next_move_y}"
+            # end 
+
             if next_move_x <= 7 && next_move_x >=0 && next_move_y <=7 && next_move_y >= 0 
 
                 @co_ords_to_check << next_move_x
@@ -154,6 +167,8 @@ class Piece
                 @co_ords_to_check << next_move_y
 
                 @final_positions_to_check << @co_ords_to_check
+
+                # p "FPTCS#{@final_positions_to_check.sort()}"
 
             end 
 
@@ -166,11 +181,16 @@ class Piece
 
     def sort_king_moves(current_player)
 
-        find_moves_to_check()
 
         @sorted_moves = []
+
         
-        @final_positions_to_check.each do |co_ord|
+
+        @final_positions_to_check_copy = find_moves_to_check()
+
+
+        
+        @final_positions_to_check_copy.each do |co_ord|
 
             if @current_board[co_ord[0]][co_ord[1]] == @black_square || @current_board[co_ord[0]][co_ord[1]] == @white_square
 
@@ -208,25 +228,53 @@ class Piece
 
     def check_for_check(current_player, white_king, black_king)
 
+        king_found = false #reset 
+
 
         @checking_king = false 
-
-        find_moves_to_check()
-        
 
         if current_player.colour == "white"
             current_king = white_king
         else 
             current_king = black_king
         end 
-        
-        king_found =  @final_positions_to_check.include?(current_king.current_position)
 
-
-        if king_found == true 
-            @checking_king = true 
-
+        if self.class == Queen
+            p"BEFORE CHECK FOR CHECK FMTC"
+            p "CURRENT POS #{current_position}"
         end 
+
+        find_moves_to_check()
+        
+        # if self.class == Queen
+        #     p"AFTER CHECK FOR CHECK FMTC"
+        #     p "CURRENT POS #{current_position}"
+        # end 
+     
+       
+
+        
+        king_position = current_king.current_position
+        
+        @final_positions_to_check.each do |location|
+            if location == king_position
+                king_found = true 
+                @checking_king = true 
+                puts "TRUE PIECE: #{self.class} #{self.colour }LOCATION:#{location} KP: #{king_position}"
+
+
+            else 
+                puts "PIECE: #{self.class} #{self.colour }LOCATION:#{location} KP: #{king_position}"
+
+                # p "FINAL POS TO CHECK #{final_positions_to_check}"
+            end 
+        end 
+
+       
+
+        # if king_found == true 
+        #     @checking_king = true 
+        # end 
 
        
 

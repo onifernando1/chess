@@ -81,15 +81,23 @@ def check_if_piece_blocking_path # move to piece
 
     elsif @path.length == 1 #change to 1  
 
-    
+        puts "CIBP ELSIF BEFORE CURRENT POS:#{@current_position}" 
+
 
         move_x = @path[0][0]
         move_y = @path[0][1]
+
+        new_move = []
+        new_move << move_x
+        new_move << move_y
         
 
         if @current_board[move_x][move_y] != @black_square || @current_board[move_x][move_y] != @white_square
-        
-                @destination_player = find_player(move)
+            puts "CIBP IF BEFORE FINDP CURRENT POS:#{@current_position}" 
+
+                @destination_player = find_player(new_move)
+                puts "CIBP IF BEFORE FINDP CURRENT POS:#{@current_position}" 
+
         end 
 
         
@@ -107,6 +115,7 @@ def check_if_piece_blocking_path # move to piece
         if @path_blocked_array.include?(true)
             @path_blocked = true 
         end 
+        puts "CIBP ELSIF END CURRENT POS:#{@current_position}" 
 
     end 
 
@@ -114,8 +123,12 @@ def check_if_piece_blocking_path # move to piece
 end 
 
 def plot_path(starting_x,starting_y,ending_x,ending_y)
+    puts "PLOT PATH BEFORE SUP CIP CURRENT POS:#{@current_position}" 
     set_up_path(starting_x,starting_y, ending_x,ending_y)
+    puts "PLOT PATH AFTER SUP  CURRENT POS:#{@current_position}" 
     check_if_piece_blocking_path()
+    puts "PLOT PATH AFTER CIP  CURRENT POS:#{@current_position}" 
+
 end 
 
 
