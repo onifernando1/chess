@@ -33,8 +33,14 @@ class Game
         @black_rook = Rook.new(@current_board, "black")
         @black_rook.change_colour()
         @black_rook.current_position = [2,1] 
-
         @black_rook.move(2,1) 
+
+
+        @black_rook2 = Rook.new(@current_board, "black")
+        @black_rook2.change_colour()
+        @black_rook2.current_position = [0,7] 
+        @black_rook2.move(0,7) 
+
 
 
         
@@ -51,11 +57,15 @@ class Game
         @current_pieces << @white_queen
         @current_pieces << @black_rook
         @current_pieces << @black_queen
+        @current_pieces << @black_rook2
+
         
         @white_king.current_pieces = @current_pieces
         @white_queen.current_pieces = @current_pieces
         @black_rook.current_pieces = @current_pieces
         @black_queen.current_pieces = @current_pieces
+        @black_rook2.current_pieces = @current_pieces
+
 
 
 
@@ -307,21 +317,14 @@ class Game
              
             if @need_to_check_path == true  
                 
-                if piece.class == Queen
-                    p" IF IF NTCPT PATH CHECK PIECES "
-                    p" before plot path"
-                    p "CURRENT POS #{piece.current_position}"
-                end 
+              
                 
                 piece.plot_path(piece.current_position[0],piece.current_position[1],co_ord[0],co_ord[1])
                 
             else 
                 piece.path_blocked = false 
 
-                if piece.class == Queen
-                    p" ELSE PATH CHECK PIECES "
-                    p "CURRENT POS #{piece.current_position}"
-                end 
+              
             end 
 
         
@@ -345,23 +348,17 @@ class Game
 
     
 
-    def pre_game_check
+    def pre_game_check(current_pieces)
 
         @king_in_check = false 
         
-        @current_pieces.each do |piece|
+        current_pieces.each do |piece|
 
             if piece.colour != @current_player.colour # e.g if white only chgeck black pieces
-                if piece.class == Queen
-                    p" BEFORE PGC CFC "
-                    p "CURRENT POS #{piece.current_position}"
-                end 
+               
 
                 piece.check_for_check(@current_player, @white_king, @black_king)
-                if piece.class == Queen
-                    p" AFTER PGC CFC "
-                    p "CURRENT POS #{piece.current_position}"
-                end 
+             
 
                 if piece.checking_king == true 
 
@@ -370,29 +367,17 @@ class Game
 
                         if @current_player.colour == "white"
 
-                            if piece.class == Queen
-                                p" BEFORE PATH CHECK PIECE PGC CFC "
-                                p "CURRENT POS #{piece.current_position}"
-                            end 
+                          
             
                          
                             path_pieces_check(piece, @white_king.current_position)
 
-                            if piece.class == Queen
-                                p" AFTER PATH CHECK PIECE PGC CFC "
-                                p "CURRENT POS #{piece.current_position}"
-                            end 
+                          
                         else 
 
-                            if piece.class == Queen
-                                p" BEFORE PATH CHECK PIECE PGC CFC "
-                                p "CURRENT POS #{piece.current_position}"
-                            end 
+                            
                             path_pieces_check(piece, @black_king.current_position)
-                            if piece.class == Queen
-                                p" AFTER PATH CHECK PIECE PGC CFC "
-                                p "CURRENT POS #{piece.current_position}"
-                            end 
+                            
 
                         end 
                     
@@ -401,10 +386,7 @@ class Game
                         check_other_pieces_for_check(piece)
                     end 
                 end
-                # else # only for testing 
-                #     puts "NOT IN CHECK SOMEHOW "
-                #     puts piece 
-                # end 
+             
             
             end 
 
@@ -438,7 +420,7 @@ class Game
 
         @current_king.sorted_moves.each do |co_ords|
             @current_king.current_position = co_ords
-            pre_game_check()
+            pre_game_check(@current_pieces)
             puts "KIC #{@king_in_check}"
             @checkmate_array << @king_in_check
 
@@ -535,16 +517,46 @@ class Game
                     @pieces_that_are_checking << piece
                 end 
             end  
-
         @pieces_that_are_checking
     end
+    
+    def remove_player(current_pieces_duplicate)
+
+        @king_definitely_in_checkmate = false 
+        @king_definitely_in_checkmate_array = []
+
+
+        @pieces_that_are_checking.each do |piece|
+
+            current_pieces_duplicate.delete(piece)
+
+            pre_game_check(current_pieces_duplicate)
+
+            @king_definitely_in_checkmate_array << @king_in_check
+
+            if @king_definitely_in_checkmate_array.any?(false)
+                @king_definitely_in_checkmate = false 
+            else 
+                @king_definitely_in_checkmate = true 
+            end 
+
+            # pointer
+
+
+        end 
+
+
+    end 
 
     def check_if_piece_checking_king_can_be_taken
 
         if @checkmate == true 
 
             find_pieces_checking_king()
-            puts @pieces_that_are_checking
+            current_pieces_duplicate = @current_pieces
+            # go through array, see if removing that person still keeps them in check 
+            #remove the first piece from current pieces dupl
+            remove_player(current_pieces_duplicate)
 
         end 
        
@@ -754,7 +766,7 @@ class Game
         @checkmate = false # move to methods later
         @king_in_check = false # move to methods later
 
-        pre_game_check()
+        pre_game_check(@current_pieces)
 
         puts "CHECK?#{@king_in_check}"
 
@@ -765,9 +777,19 @@ class Game
             check_mate_check()
         end 
 
+
+
         if @checkmate == true 
-            puts "CHECKMATE! "
+            puts "ALMOST CHECKMATE! "
             #player_x_wins  = true            
+        end 
+
+
+        check_if_piece_checking_king_can_be_taken()
+
+        if @king_definitely_in_checkmate == true 
+            puts "CHECKMATE!"
+
         end 
 
         @continue = false 
@@ -1094,16 +1116,4 @@ game.game()
 # add in save
 
 
-# bking     /      /
-# /        /      / 
-# wqueen/wcastle   / 
-
-# bqueen/ 
-
-
-# queen.current pos being changed from 0,2 to 7,3 at some point
-# changing in pgc
-# changing in check path 
-# changing in plot path 
-# changing after queen check if piece blocking path 
-#changing in find player 
+# checkmate should be done - check with black as well !!!!

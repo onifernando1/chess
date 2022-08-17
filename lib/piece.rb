@@ -63,9 +63,7 @@ class Piece
     end 
 
     def find_player(end_co_ordinates)
-        if self.class == Queen 
-            puts "FP IF BEFORE FINDP CURRENT POS:#{@current_position}" 
-        end 
+        
 
 
 
@@ -75,9 +73,7 @@ class Piece
             end 
         end 
         @piece
-        if self.class == Queen 
-            puts "FP IF END FINDP CURRENT POS:#{@current_position}" 
-        end 
+        
              
 
     end 
@@ -239,17 +235,10 @@ class Piece
             current_king = black_king
         end 
 
-        if self.class == Queen
-            p"BEFORE CHECK FOR CHECK FMTC"
-            p "CURRENT POS #{current_position}"
-        end 
-
+       
         find_moves_to_check()
         
-        # if self.class == Queen
-        #     p"AFTER CHECK FOR CHECK FMTC"
-        #     p "CURRENT POS #{current_position}"
-        # end 
+        
      
        
 
@@ -260,11 +249,9 @@ class Piece
             if location == king_position
                 king_found = true 
                 @checking_king = true 
-                puts "TRUE PIECE: #{self.class} #{self.colour }LOCATION:#{location} KP: #{king_position}"
 
 
-            else 
-                puts "PIECE: #{self.class} #{self.colour }LOCATION:#{location} KP: #{king_position}"
+            # else 
 
                 # p "FINAL POS TO CHECK #{final_positions_to_check}"
             end 
