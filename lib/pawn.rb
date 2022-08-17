@@ -209,5 +209,50 @@ class Pawn < Piece
          
     end
 
+    def check_destination(end_co_ordinates, current_player) 
+
+        @take = false 
+
+
+        #e.g youre given start coordinates E1
+        # end coordinates E2 
+        # piece in your way ;. cant move 
+        # start coords unecessaary but for ease of using method all the time keep all methods the same 
+        # take out once sorted if x== queen / rook / bishop
+        # start_x = start_co_ordinates[0]
+        # start_y = start_co_ordinates[1]
+        end_x = end_co_ordinates[0]
+        end_y = end_co_ordinates[1]  
+
+        
+
+
+        if @current_board[end_x][end_y] != @black_square && @current_board[end_x][end_y] != @white_square
+            @destination_player = find_player(end_co_ordinates)  
+            
+            if @destination_player.colour == current_player.colour  # find piece 
+                @path_blocked = true 
+                "Puts path blocked :("
+            elsif @destination_player.colour != current_player.colour && end_y != @current_position[1]# take
+                puts "OH OH " 
+                @path_blocked = false 
+                @take = true 
+            else 
+                @path_blocked = true 
+            end  
+            
+          
+        end 
+
+         
+        if @current_board[end_x][end_y] == @black_square || @current_board[end_x][end_y] == @white_square
+            @path_blocked = false 
+        end 
+
+       
+
+     
+    end
+
 end  
 

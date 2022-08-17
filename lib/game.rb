@@ -15,108 +15,23 @@ class Game
 
     def initialize 
         @current_board = Board.new()
-
-        @white_king = King.new(@current_board, "white")
-        @white_king.current_position = [0,0] #3,1 
-
-        @white_king.move(0,0) #3,1    #5,1 nw 
-
-        @white_pawn1 = Pawn.new(@current_board, "white")
-        @white_pawn1.current_position = [1,6] 
-        @white_pawn1.move(1,6) 
-
-        @white_promoted_queen_1 = Queen.new(@current_board, "white")
-        @white_promoted_queen_2 = Queen.new(@current_board, "white")
-        @white_promoted_queen_3 = Queen.new(@current_board, "white")
-        @white_promoted_queen_4 = Queen.new(@current_board, "white")
-        @white_promoted_queen_5 = Queen.new(@current_board, "white")
-        @white_promoted_queen_6 = Queen.new(@current_board, "white")
-        @white_promoted_queen_7 = Queen.new(@current_board, "white")
-        @white_promoted_queen_8 = Queen.new(@current_board, "white")
-
-        # @black_queen = Queen.new(@current_board, "black")
-        # @black_queen.change_colour()
-        # @black_queen.current_position = [2,0] 
-        # @black_queen.move(2,0) 
-
-        # @black_rook = Rook.new(@current_board, "black")
-        # @black_rook.change_colour()
-        # @black_rook.current_position = [2,1] 
-        # @black_rook.move(2,1) 
-
-
-        # @black_rook2 = Rook.new(@current_board, "black")
-        # @black_rook2.change_colour()
-        # @black_rook2.current_position = [0,7] 
-        # @black_rook2.move(0,7) 
-
-
-
-        
-        # set_up_white()        
-        # set_up_black()
+    
+        set_up_white()        
+        set_up_black()
         set_up_players()
         @current_player = @player_white
         intro()
-        # @current_board.show_board()
 
         @current_pieces = []
-
-        @current_pieces << @white_king
-        @current_pieces << @white_pawn1
-        # @current_pieces << @black_rook
-        # @current_pieces << @black_queen
-        # @current_pieces << @black_rook2
-
-        
-        @white_king.current_pieces = @current_pieces
-        @white_pawn1.current_pieces = @current_pieces
-        # @black_rook.current_pieces = @current_pieces
-        # @black_queen.current_pieces = @current_pieces
-        # @black_rook2.current_pieces = @current_pieces
-
         add_black_to_promotion_array()
         add_white_to_promotion_array()
-
-
-        # save_current_pieces()
-        # update_current_pieces()
+        save_current_pieces()
+        update_current_pieces()
         @valid_start_coordinates = false 
         @start_valid = false 
         @game_end = false 
-        # @black_king.move(5,1)
-        # @black_king.current_position = [5,1]
-        # @white_pawn1.check_for_check(@current_player) #cjecl
         @king_in_check = true 
         @checkmate = false 
-
-
-
-
-        # # pre_game_check()
-        # # puts "FINAL KIC#{@king_in_check}"
-        # @black_rook1.move(5,0)
-
-        # @black_rook1.current_position = [5,0]
-        # @black_rook2.move(5,2)
-        # @black_rook2.current_position = [5,2]
-
-        # @black_queen.move(5,1)
-        # @black_queen.current_position = [5,1]
-        # @current_board.show_board()
-
-        # check_mate_check()
-        # # pre_game_check()
-        # puts "--------===="
-        # puts "CHECK:"
-        # puts @king_in_check
-        # puts "========"
-        # puts "--------===="
-        # puts "CHECKMATE:"
-        # puts @checkmate
-        # puts "========"
-
-
         @current_board.show_board()
 
     end 
@@ -200,7 +115,7 @@ class Game
         @black_promoted_queen_5.change_colour()
         @black_promoted_queen_6.change_colour()
         @black_promoted_queen_7.change_colour()
-        @black_promoted_queen_8 = change_colour()
+        @black_promoted_queen_8.change_colour()
     end 
 
     def set_up_white
@@ -827,34 +742,34 @@ class Game
     
     def start_of_round 
 
-        # @checkmate = false # move to methods later
-        # @king_in_check = false # move to methods later
+        @checkmate = false # move to methods later
+        @king_in_check = false # move to methods later
 
-        # pre_game_check(@current_pieces)
+        pre_game_check(@current_pieces)
 
-        # puts "CHECK?#{@king_in_check}"
+        puts "CHECK?#{@king_in_check}"
 
         
 
-        # if @king_in_check == true 
-        #     puts "WARNING! CHECK!"
-        #     check_mate_check()
-        # end 
+        if @king_in_check == true 
+            puts "WARNING! CHECK!"
+            check_mate_check()
+        end 
 
 
 
-        # if @checkmate == true 
-        #     puts "ALMOST CHECKMATE! "
-        #     #player_x_wins  = true            
-        # end 
+        if @checkmate == true 
+            puts "ALMOST CHECKMATE! "
+            #player_x_wins  = true            
+        end 
 
 
-        # check_if_piece_checking_king_can_be_taken()
+        check_if_piece_checking_king_can_be_taken()
 
-        # if @king_definitely_in_checkmate == true 
-        #     puts "CHECKMATE!"
+        if @king_definitely_in_checkmate == true 
+            puts "CHECKMATE!"
 
-        # end 
+        end 
 
         @continue = false 
 
@@ -998,16 +913,9 @@ class Game
 
         @current_pieces.each do |piece|
 
-            if piece.class == Pawn 
-                p "ENDPOS#{piece.end_positions}, CP: #{piece.current_position}"
-            end 
-            
-
             if piece.class == Pawn && piece.end_positions.include?(piece.current_position) 
-                puts "IN IF "
                 @pawn_at_end = true 
                 @pawn_to_be_promoted = piece
-                puts "PAE TRUE "
             end 
         end 
 
@@ -1033,8 +941,6 @@ class Game
 
     def pawn_promotion 
 
-        #pointy
-        puts "PP CALLED "
 
         check_if_pawn_at_end()
 
@@ -1052,7 +958,9 @@ class Game
                 @current_pieces << promoted_pawn
                 change_to_black_or_white_square(@location_of_promotion)
                 promoted_pawn.move(@location_of_promotion_x,@location_of_promotion_y)
+
                 @current_board.show_board()
+                
 
             else 
                 @current_pieces.delete(@current_board.board[@location_of_promotion_x][@location_of_promotion_y])
@@ -1105,11 +1013,9 @@ class Game
 
 ### pawn stuff 
             check_if_pawn_can_take(@end_co_ordinates)
-            puts "BLOCK AFTER CHECK IF PAWN CAN TAKE #{@block}"
 
 ### end of pawn stuff 
             @piece_selected.check_destination(@end_co_ordinates, @current_player)
-            puts "BLOCK AFTER CHECK DEST #{@block}"
 
             error_messages()
 
@@ -1256,10 +1162,16 @@ game.game()
 #then confirm checkmate if that piece cannot be taken to stop prelim checkmate
 
 #add in en passant
-# add in pawn promotion 
 
 # add in save
 
 
 # checkmate should be done - check with black as well !!!!
 # check promotion array being altered
+##
+
+
+#big to do 
+#add in en passant
+
+# add in save
