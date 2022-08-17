@@ -86,11 +86,13 @@ class Rook < Piece
 
             move_x = @path[0][0]
             move_y = @path[0][1]
-            
+            new_move = []
+        new_move << move_x
+        new_move << move_y
 
             if @current_board[move_x][move_y] != @black_square || @current_board[move_x][move_y] != @white_square
             
-                    @destination_player = find_player(move)
+                    @destination_player = find_player(new_move)
             end 
 
             
