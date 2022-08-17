@@ -172,26 +172,19 @@ class Pawn < Piece
         @checking_king = false 
 
         find_moves_to_check()
-        p {}
-        p @final_positions_to_check
-        p "{}"
+       
 
         if current_player.colour == "white"
             current_king = white_king
-            p "WHITE"
         else 
             current_king = black_king
-            p "BLACK"
         end 
 
 
-        p "++++++++++++++++++++++++++="
-        puts current_king 
+        
         king_found =  @final_positions_to_check.include?(current_king.current_position)
 
-        p @final_positions_to_check.include?(current_king.current_position)
-        p "++++++++++++++++++++++++++="
-
+      
         if king_found == true 
             @checking_king = true 
 

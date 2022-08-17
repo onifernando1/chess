@@ -111,13 +111,11 @@ class Piece
 
         if @current_board[end_x][end_y] != @black_square && @current_board[end_x][end_y] != @white_square
             @destination_player = find_player(end_co_ordinates)  
-            p "below me "
-            p @destination_player
+            
             if @destination_player.colour == current_player.colour  # find piece 
                 @path_blocked = true 
                 "Puts path blocked :("
             elsif @destination_player.colour != current_player.colour # take 
-                puts "Piece taken !"
                 @path_blocked = false 
                 @take = true 
             end  
@@ -190,50 +188,23 @@ class Piece
         @checking_king = false 
 
         find_moves_to_check()
-        p {}
-        p @final_positions_to_check
-        p "{}"
+        
 
         if current_player.colour == "white"
             current_king = white_king
-            p "WHITE"
         else 
             current_king = black_king
-            p "BLACK"
         end 
-
-
-        p "++++++++++++++++++++++++++="
-        puts current_king 
+        
         king_found =  @final_positions_to_check.include?(current_king.current_position)
 
-        p @final_positions_to_check.include?(current_king.current_position)
-        p "++++++++++++++++++++++++++="
 
         if king_found == true 
             @checking_king = true 
 
         end 
 
-        # @final_positions_to_check.each do |co_ords|
-            
-
-        #     @potential_king = find_a_king(co_ords, current_player)
-
-
-        #         # puts "five one 4,1"
-        #         # puts @potential_king
-        #         # puts self.class
-        #         # puts "pk above me "
-                
-            
-        #     if @potential_king != nil 
-        #             @checking_king = true 
-        #         # end 
-        #     # else 
-        #     #     puts "NOT IN CHECK!"
-        #     end 
-        # end 
+       
 
          
     end 

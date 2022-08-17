@@ -40,6 +40,9 @@ class Game
         @black_rook1.move(5,0)
 
         @black_rook1.current_position = [5,0]
+        @black_rook2.move(5,2)
+        @black_rook2.current_position = [5,2]
+
         @black_queen.move(5,1)
         @black_queen.current_position = [5,1]
         @current_board.show_board()
@@ -47,8 +50,14 @@ class Game
         check_mate_check()
         # pre_game_check()
         puts "--------===="
+        puts "CHECK:"
         puts @king_in_check
         puts "========"
+        puts "--------===="
+        puts "CHECKMATE:"
+        puts @checkmate
+        puts "========"
+
 
         @current_board.show_board()
 
@@ -259,61 +268,31 @@ class Game
             check_piece_distance(piece, co_ord)
              
             if @need_to_check_path == true  
-                puts "________ IN TRUE NTCP"
-                p "______________"
-                p piece.current_position
-                p co_ord
-                p "______________"
+                
                 piece.plot_path(piece.current_position[0],piece.current_position[1],co_ord[0],co_ord[1])
-                puts "PROBLEM AFTER PPP___________"
                 
             else 
                 piece.path_blocked = false 
             end 
 
         
-            # if co_ord == [5,1]
-            #     puts "___#{piece.class}"
-            #     puts piece.path_blocked
-            #     puts piece.checking_king
-            #     puts"___++++!++!+!"
-            #     # path blocked should be false but true 
-            # end 
-
-            puts piece.path_blocked 
-            puts "()()( PB ABAOVE"
-            puts piece.checking_king 
-            puts "()()( CK ABAOVE"
-
+          
             if piece.path_blocked == false && piece.checking_king == true 
                 
                 @king_in_check = true 
             end 
 
-        # end 
     end 
 
     def check_other_pieces_for_check(piece)
 
         if piece.checking_king == true 
-            puts "IN CHECK!"
-            puts "OKAY LOOK WERE IN CHECK "
+            
             @king_in_check = true 
 
         end 
     end 
 
-    # def check_path_pieces_for_check(piece)
-
-        
-    #     @check_path_co_ords = piece.check_for_check(@current_player)    
-
-    #     @legal_check_path_co_ords = []
-
-    #     get_legal_check_co_ords(@check_path_co_ords)
-
-    #     path_pieces_plot_path(piece)
-    # end 
 
     
 
@@ -335,9 +314,7 @@ class Game
                     if piece.string == " \u265D " || piece.string == " \u265C " || piece.string == " \u265B "
 
                         if @current_player.colour == "white"
-                            puts "999"
-                            p @white_king.current_position
-                            puts "999"
+                         
                             path_pieces_check(piece, @white_king.current_position)
                         else 
                             path_pieces_check(piece, @black_king.current_position)
@@ -350,15 +327,7 @@ class Game
                     end 
 
                 end
-                # only to check bug : 
-                # else 
-                #     puts "______"
-                #     puts piece 
-                #     puts piece.class
-                #     puts piece.checking_king
-                #     puts "-------"
-                # end 
-
+            
             end 
 
 
@@ -405,6 +374,7 @@ class Game
         else 
             puts "NOT CHECKMATE"
             p @checkmate_array
+
         end 
 
         @current_king.current_position = remember_king_current_position
