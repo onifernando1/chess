@@ -7,7 +7,7 @@ require_relative 'player_white.rb'
 require 'colorize'
 
 class Piece
-    attr_accessor :string, :symbol, :current_position, :colour, :take, :black_square, :white_square, :checking_king, :final_positions_to_check, :potential_king
+    attr_accessor :string, :symbol, :current_position, :colour, :take, :black_square, :white_square, :checking_king, :final_positions_to_check, :potential_king, :sorted_moves
 
     def initialize(current_board, colour="white", current_pieces="default")
         @current_board = current_board.board
@@ -161,6 +161,30 @@ class Piece
 
 
         @final_positions_to_check
+
+    end 
+
+    def sort_king_moves(current_player)
+
+        find_moves_to_check()
+
+        @sorted_moves = []
+        
+        @final_positions_to_check.each do |co_ord|
+
+            if @current_board[co_ord[0]][co_ord[1]] == @black_square || @current_board[co_ord[0]][co_ord[1]] == @white_square
+
+                @sorted_moves << co_ord
+            else 
+
+                found_piece = find_player(co_ord)
+
+                if found_piece.colour != current_player.colour 
+                    @sorted_moves << co_ord
+                end 
+            end 
+        end 
+        @sorted_moves 
 
     end 
 

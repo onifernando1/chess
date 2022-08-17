@@ -351,13 +351,15 @@ class Game
         
 
         @checkmate_array = []
-        @current_king.find_moves_to_check()
+        @current_king.sort_king_moves(@current_player)
         
         remember_king_current_position = @current_king.current_position
 
         # final pos to check -> remove if piece of own colour in the way 
+        p"________________________"
+        p @current_king.sorted_moves
 
-        @current_king.final_positions_to_check.each do |co_ords|
+        @current_king.sorted_moves.each do |co_ords|
             @current_king.current_position = co_ords
             pre_game_check()
 
@@ -383,13 +385,13 @@ class Game
 
     end 
 
-    def check_mate_check_method_to_be_changed_end
+    # def check_mate_check_method_to_be_changed_end
 
-        if @king_in_check == true 
-            check_mate_check()
-        end 
+    #     if @king_in_check == true 
+    #         check_mate_check()
+    #     end 
 
-    end 
+    # end 
 
 
     
@@ -660,8 +662,14 @@ class Game
     
     def start_of_round 
 
+        @checkmate = false # move to methods later
+        @king_in_check = false # move to methods later
+
         pre_game_check()
-        check_mate_check()
+
+        if @king_in_check == true 
+            check_mate_check()
+        end 
 
         if @king_in_check == true 
             puts "WARNING! CHECK!"
