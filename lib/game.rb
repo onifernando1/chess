@@ -20,7 +20,7 @@ class Game
         set_up_players()
         @current_player = @player_white
         intro()
-        @current_board.show_board()
+        # @current_board.show_board()
 
         @current_pieces = []
         save_current_pieces()
@@ -28,35 +28,35 @@ class Game
         @valid_start_coordinates = false 
         @start_valid = false 
         @game_end = false 
-        # @white_king.move(2,1)
-        # @white_king.current_position = [2,1]
+        # @black_king.move(5,1)
+        # @black_king.current_position = [5,1]
         # @white_pawn1.check_for_check(@current_player) #cjecl
-        # @king_in_check = true 
+        @king_in_check = true 
         @checkmate = false 
-        @white_king.move(3,1) #3,1    #5,1 nw 
-        @white_king.current_position = [3,1] #3,1 
-        # pre_game_check()
-        # puts "FINAL KIC#{@king_in_check}"
-        @black_rook1.move(5,0)
+        # @white_king.move(3,1) #3,1    #5,1 nw 
+        # @white_king.current_position = [3,1] #3,1 
+        # # pre_game_check()
+        # # puts "FINAL KIC#{@king_in_check}"
+        # @black_rook1.move(5,0)
 
-        @black_rook1.current_position = [5,0]
-        @black_rook2.move(5,2)
-        @black_rook2.current_position = [5,2]
+        # @black_rook1.current_position = [5,0]
+        # @black_rook2.move(5,2)
+        # @black_rook2.current_position = [5,2]
 
-        @black_queen.move(5,1)
-        @black_queen.current_position = [5,1]
-        @current_board.show_board()
+        # @black_queen.move(5,1)
+        # @black_queen.current_position = [5,1]
+        # @current_board.show_board()
 
-        check_mate_check()
-        # pre_game_check()
-        puts "--------===="
-        puts "CHECK:"
-        puts @king_in_check
-        puts "========"
-        puts "--------===="
-        puts "CHECKMATE:"
-        puts @checkmate
-        puts "========"
+        # check_mate_check()
+        # # pre_game_check()
+        # puts "--------===="
+        # puts "CHECK:"
+        # puts @king_in_check
+        # puts "========"
+        # puts "--------===="
+        # puts "CHECKMATE:"
+        # puts @checkmate
+        # puts "========"
 
 
         @current_board.show_board()
@@ -355,30 +355,31 @@ class Game
         
         remember_king_current_position = @current_king.current_position
 
+        # final pos to check -> remove if piece of own colour in the way 
+
         @current_king.final_positions_to_check.each do |co_ords|
             @current_king.current_position = co_ords
             pre_game_check()
 
             @checkmate_array << @king_in_check
 
-            if @king_in_check == false 
-                p co_ords
-                puts "KIC _____ FALSE ABOVE ____"
-            end 
+            # if @king_in_check == false 
+            #     p co_ords
+            #     puts "KIC _____ FALSE ABOVE ____"
+            # end 
 
         end 
 
         if @checkmate_array.all?(true)
             @checkmate = true 
-            puts "CHECKMATE"
+            # puts "CHECKMATE"
         else 
-            puts "NOT CHECKMATE"
-            p @checkmate_array
+            # puts "NOT CHECKMATE"
+            # p @checkmate_array
 
         end 
 
         @current_king.current_position = remember_king_current_position
-        # puts @current_king.current_position
 
     end 
 
@@ -656,7 +657,20 @@ class Game
         end
     end 
 
+    
     def start_of_round 
+
+        pre_game_check()
+        check_mate_check()
+
+        if @king_in_check == true 
+            puts "WARNING! CHECK!"
+        end 
+
+        if @checkmate == true 
+            puts "CHECKMATE! "
+            #player_x_wins  = true            
+        end 
 
         @continue = false 
 
@@ -996,3 +1010,27 @@ game.game()
 
 
 # queen at 5,1 and king at 3,0 doesnt say it is in check therefore issue not with check for check
+# check it works for black as well as white (Check)
+
+##########to do 
+######Dont let king move somewhere if it is being blocked by his own colour !!!! Cant escape check like that !
+### co ords to move .each |corord| if board[coord0][coord1].colour (if not black or white square) == currentplayer.colour then remove from coords to move before pregamecheck! (or include it in pregame?)
+#################
+
+
+
+
+
+# if check, ensure next move removes check ?
+# change checkmate to prelim checkmate
+# check preliminary checkmate,
+# if prelim checkmate true 
+# if piece.taking king == true 
+#array of pieces taking the king 
+# check if that piece can be taken 
+# remove that piece from current pos and check for checkmate again (only remove one piece at a time)
+#then confirm checkmate if that piece cannot be taken to stop prelim checkmate
+
+
+#add in en passant
+# add in pawn promotion 
