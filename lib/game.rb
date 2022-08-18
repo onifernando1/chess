@@ -1038,9 +1038,10 @@ class Game
         @current_pieces.each do |piece|
 
             if piece.class == Pawn && piece.end_positions.include?(piece.current_position)# && piece.promoted == false  
+                
                 @pawn_at_end = true 
                 @pawn_to_be_promoted = piece
-                # piece.end_positions.delete(piece.current_position) # added in deletion
+                piece.end_positions.delete(piece.current_position) # added in deletion
                 piece.promoted = true 
             end 
         end 
@@ -1098,7 +1099,6 @@ class Game
     def black_pawn_promotion
         @current_pieces.delete(@current_board.board[@location_of_promotion_x][@location_of_promotion_y])
         @promoted_pawn = @black_promotion_array[0] 
-        @promoted_pawn = @black_promotion_array[0]
         @black_promotion_array.delete_at(0)
         @current_pieces << @promoted_pawn
         change_to_black_or_white_square(@location_of_promotion)
@@ -1126,6 +1126,7 @@ class Game
 
             else 
                 puts "BLACK PAWN PROMOTION CALLED " 
+                black_pawn_promotion()
 
             end 
         end 
@@ -1276,7 +1277,7 @@ class Game
         end 
 
 
-
+        puts "------------"
         @current_board.show_board()
 
         @previous_move_start = @start_co_ordinates
@@ -1303,6 +1304,8 @@ class Game
             end_of_round()
             reset()
             swap_player()
+            
+
         end 
 
     end 
@@ -1325,3 +1328,7 @@ game.game()
 
 #save 
 #stalemate
+
+# promoted pawn can take own pieces 
+# promoted pawn classified as other colour ?
+# promoted pawn duplicates on move 
