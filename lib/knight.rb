@@ -16,11 +16,6 @@ class Knight < Piece
         @current_position = [0,0]
         potential_moves()
         @path_blocked = false 
-
-
-        # @current_board = current_board.board
-        # @white_square = "   ".colorize(background: :light_cyan)
-        # @black_square = "   ".colorize(background: :light_magenta)
     end 
 
     def possible_moves(xx, yy)

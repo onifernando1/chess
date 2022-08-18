@@ -101,13 +101,7 @@ class Piece
         @take = false 
 
 
-        #e.g youre given start coordinates E1
-        # end coordinates E2 
-        # piece in your way ;. cant move 
-        # start coords unecessaary but for ease of using method all the time keep all methods the same 
-        # take out once sorted if x== queen / rook / bishop
-        # start_x = start_co_ordinates[0]
-        # start_y = start_co_ordinates[1]
+     
         end_x = end_co_ordinates[0]
         end_y = end_co_ordinates[1]  
 
@@ -149,10 +143,7 @@ class Piece
             next_move_x = current_x + @potential_x[i]
             next_move_y = current_y + @potential_y[i]
 
-            # if self.class == Queen
-            #     p "CURRENT POS #{current_position}"
-            #     p "#{next_move_x}, #{next_move_y}"
-            # end 
+         
 
             if next_move_x <= 7 && next_move_x >=0 && next_move_y <=7 && next_move_y >= 0 
 
@@ -162,7 +153,6 @@ class Piece
 
                 @final_positions_to_check << @co_ords_to_check
 
-                # p "FPTCS#{@final_positions_to_check.sort()}"
 
             end 
 
@@ -249,17 +239,9 @@ class Piece
                 @checking_king = true 
 
 
-            # else 
-
-                # p "FINAL POS TO CHECK #{final_positions_to_check}"
             end 
         end 
 
-       
-
-        # if king_found == true 
-        #     @checking_king = true 
-        # end 
 
        
 

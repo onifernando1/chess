@@ -25,10 +25,6 @@ class King < Piece
         @current_position = [0,0]
         potential_moves()
         @path_blocked = false 
-        # @current_pieces = []
-        # @current_board = current_board.board
-        # @white_square = "   ".colorize(background: :light_cyan)
-        # @black_square = "   ".colorize(background: :light_magenta)
     end 
 
     def move(x=7, y=4)
@@ -48,6 +44,3 @@ class King < Piece
    
 end 
 
-class KingTree < Tree
-
-end 

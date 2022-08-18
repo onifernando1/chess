@@ -141,11 +141,7 @@ def minim_steps(x_start, y_start, x_end, y_end)
 
     @cross = false 
     @diagonal = false 
-    #possible moves of queen base  # if it starts using diagonals to cut, if x increase then do these moves: etc. 
-
-    # if diagonal 
-
-    # if up or down or left or right 
+    
     
     x_change = x_end - x_start
     y_change = y_end - y_start   
@@ -229,10 +225,8 @@ def minim_steps(x_start, y_start, x_end, y_end)
             
         end 
 
-        #move to next node in @nodes
             node_number += 1 
             @current_node = @queue[node_number]
-            # visited = matrix
 
        
 
@@ -247,5 +241,4 @@ end
 
 
 
-#minim steps only works if i change the name frome mini to minim wtf 
 

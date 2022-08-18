@@ -14,18 +14,10 @@ class Bishop < Piece
     def initialize(current_board, colour="white")
         super
         @string = " \u265D " 
-        # @colour = colour 
         @symbol =  @string.encode("utf-8").light_white
         @current_position = [0,0]
         potential_moves()
         @path_blocked = nil 
-
-
-
-
-        # @current_board = current_board.board
-        # @white_square = "   ".colorize(background: :light_cyan)
-        # @black_square = "   ".colorize(background: :light_magenta)
     end 
 
 
@@ -209,7 +201,3 @@ class BishopTree < Tree
 
 end 
 
-
-# tree.new - > BishopTree.new
-# @x
-#@y

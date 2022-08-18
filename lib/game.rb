@@ -1231,10 +1231,8 @@ class Game
 
             check_for_any_blocks(@piece_selected, @start_co_ordinates, @end_co_ordinates) # legal move() in this "
 
-### pawn stuff 
             check_if_pawn_can_take(@end_co_ordinates)
 
-### end of pawn stuff 
             @piece_selected.check_destination(@end_co_ordinates, @current_player)
 
             error_messages()
@@ -1267,8 +1265,8 @@ class Game
         @piece_selected.delete_old_move()
 
         take_piece()
-        # @current_board.show_board()
-        puts "#{@piece_selected.colour}"
+
+
         @piece_selected.move(@end_co_ordinates[0],@end_co_ordinates[1])
 
         if @piece_selected.class == Pawn 
@@ -1277,7 +1275,6 @@ class Game
         end 
 
 
-        puts "------------"
         @current_board.show_board()
 
         @previous_move_start = @start_co_ordinates
@@ -1316,6 +1313,11 @@ class Game
         end 
     end 
 
+    def win_message
+
+        puts "GAME OVER!"
+
+    end 
  
     
 
@@ -1325,6 +1327,7 @@ end
 
 game = Game.new()
 game.game()
+game.win_message()
 
 #save 
 #stalemate
@@ -1332,3 +1335,4 @@ game.game()
 # promoted pawn can take own pieces 
 # promoted pawn classified as other colour ?
 # promoted pawn duplicates on move 
+# can a multiple pawns be promoted on same spot??

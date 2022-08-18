@@ -18,10 +18,6 @@ class Pawn < Piece
         @first_move = true 
         @path_blocked = false 
         @checking_king = false 
-
-        # @current_board = current_board.board
-        # @white_square = "   ".colorize(background: :light_cyan)
-        # @black_square = "   ".colorize(background: :light_magenta)
         potential_moves()
         get_end_positions()
         @second_move = nil 
@@ -160,27 +156,6 @@ class Pawn < Piece
     
     end 
 
-    # def check_for_check(current_player, white_king, black_king) # add in stuff form piece method later
-
-    #     @checking_king = false 
-
-    #     find_moves_to_check()
-
-    #     @final_positions_to_check.each do |co_ords|
-
-    #         @potential_king = find_a_king(co_ords, current_player)
-
-
-    #         if @potential_king != nil 
-    #             @checking_king = true 
-    #         end 
-
-
-
-    #     end 
-
-         
-    # end 
 
     def check_for_check(current_player, white_king, black_king)
 
@@ -216,13 +191,7 @@ class Pawn < Piece
         @take = false 
 
 
-        #e.g youre given start coordinates E1
-        # end coordinates E2 
-        # piece in your way ;. cant move 
-        # start coords unecessaary but for ease of using method all the time keep all methods the same 
-        # take out once sorted if x== queen / rook / bishop
-        # start_x = start_co_ordinates[0]
-        # start_y = start_co_ordinates[1]
+       
         end_x = end_co_ordinates[0]
         end_y = end_co_ordinates[1]  
 
