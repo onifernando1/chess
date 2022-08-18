@@ -16,38 +16,72 @@ class Game
     def initialize 
         @current_board = Board.new()
     
-        set_up_white()        
-        set_up_black()
+        # set_up_white()        
+        # set_up_black()
         set_up_players()
         @current_player = @player_white
         intro()
         @current_pieces = []
         add_black_to_promotion_array()
         add_white_to_promotion_array()
-        save_current_pieces()
-        update_current_pieces()
+        # save_current_pieces()
+        # update_current_pieces()
+
+        ##################
+        @white_pawn1 = Pawn.new(@current_board,"white")
+        @white_king = King.new(@current_board, "white")
+        # @white_bishop1 = Bishop.new(@current_board, "white")
+        @black_bishop1 = Bishop.new(@current_board,"black")
+        @black_rook1 = Rook.new(@current_board, "black")
+        @black_rook2 = Rook.new(@current_board, "black")
+        @black_bishop1.change_colour()
+        @black_rook1.change_colour()
+        @black_rook2.change_colour()
+        @white_pawn1.move(6,2)
+        @white_king .move(7,2)
+        # @white_bishop1.move(7,4)
+        @black_bishop1.move(4,5)
+        @black_rook1.move(4,3)
+        @black_rook2.move(3,1)
+        @white_pawn1.current_position = [6,2]
+        @white_king.current_position = [7,2]
+        # @white_bishop1.current_position = [7,4]
+        @black_bishop1.current_position = [4,5]
+        @black_rook1.current_position = [4,3]#
+        @black_rook2.current_position = [3,1]
+
+        @current_pieces << @white_pawn1 
+        @current_pieces << @white_king 
+        # @current_pieces << @white_bishop1
+        @current_pieces << @black_bishop1
+        @current_pieces << @black_rook1
+        @current_pieces << @black_rook2
+        @white_pawn1.current_pieces = @current_pieces
+        @white_king.current_pieces = @current_pieces
+        # @white_bishop1.current_pieces = @current_pieces
+        @black_bishop1.current_pieces = @current_pieces
+        @black_rook1.current_pieces = @current_pieces
+        @black_rook2.current_pieces = @current_pieces
+
+
+
+
+
+
+
+
+
+
+
+
+
+
         @generic_piece = Piece.new(@current_board, "white", @current_pieces)
         @valid_start_coordinates = false 
         @start_valid = false 
         @game_end = false 
         @king_in_check = true 
         @checkmate = false 
-
-        @white_pawn3.move(5,3)
-        @white_pawn3.current_pieces = @current_pieces
-
-        @white_pawn3.current_position = [5,3]
-        
-        @black_pawn8.move(4,7)
-        @black_pawn8.current_position = [4,7]
-        @black_pawn8.current_pieces = @current_pieces
-
-
-
-
-
-
-
         @current_board.show_board()
         @previous_move_start = []
         @previous_move_end = []
@@ -351,6 +385,7 @@ class Game
         
         current_pieces.each do |piece|
 
+
             if piece.colour != @current_player.colour # e.g if white only chgeck black pieces
                
 
@@ -392,6 +427,97 @@ class Game
 
     end 
 
+    
+    def find_path_of_piece_to_block
+
+        if @pieces_that_are_checking.length == 1 
+            @piece_checking_king = @pieces_that_are_checking[0]
+
+            if @piece_checking_king.class == Queen ||@piece_checking_king.class == Bishop ||@piece_checking_king.class == Rook 
+
+                @new_path = @piece_checking_king.set_up_path(@piece_checking_king.current_position[0],@piece_checking_king.current_position[1], @current_king.current_position[0],@current_king.current_position[1])
+                @new_path 
+                #check if any players (of opposite colour can move here)
+            end 
+        end  
+    end 
+
+    def check_if_checkmate_can_be_blocked
+
+        #mark
+
+
+        find_pieces_checking_king()
+
+
+        find_path_of_piece_to_block()
+
+
+        if @new_path != nil 
+
+
+            puts "WE CHECKING FOR BLOCKS BRO"
+
+            @pieces_that_could_block = []
+
+            @current_pieces.each do |piece|
+                if piece.colour == @current_player.colour && piece.class != King
+                    @pieces_that_could_block << piece
+                    p piece.colour 
+                end 
+            end 
+
+
+
+            @new_path.each do |path_co_ord|
+
+                @pieces_that_could_block.each do |piece| 
+
+
+                legal_move_generator(piece.current_position, piece)
+
+
+                
+                legal_move(path_co_ord,@legal_end_x,@legal_end_y) # @legal_move = true 
+
+
+                if @legal_move == true 
+
+                    puts "LEGAL MOVE TRUE "
+                
+                        check_for_any_blocks(piece, piece.current_position, path_co_ord) # @block = false 
+
+                        puts "BLOCK: #{@block}"
+
+                        if @block == false 
+
+                    
+                            piece.check_destination(path_co_ord, @current_player)
+
+                            if piece.path_blocked == false
+
+                                puts "PATH BLOCKED FALSE "
+                                # could be taken, check path if needed  
+
+                                @checkmate_array << false 
+                                
+                            elsif piece.path_blocked == true 
+                                puts "Can't be taken, checkmate:("
+                                # @checkmate = true 
+                                # @checkmate_array << true 
+                            end 
+
+                        end 
+                    end 
+                end 
+            end 
+        end 
+       
+
+
+
+    end 
+
     def check_mate_check
         @checkmate = false 
         #checkmate
@@ -405,9 +531,15 @@ class Game
                 @current_king = piece 
             end 
         end 
-        
+
 
         @checkmate_array = []
+
+
+        check_if_checkmate_can_be_blocked()
+
+        
+
         @current_king.sort_king_moves(@current_player)
         
         remember_king_current_position = @current_king.current_position
@@ -422,6 +554,7 @@ class Game
             @checkmate_array << @king_in_check
 
         end 
+
 
         if @checkmate_array.all?(true)
             @checkmate = true 
@@ -508,6 +641,7 @@ class Game
 
     def find_pieces_checking_king
 
+
         @pieces_that_are_checking = []
 
             @current_pieces.each do |piece|
@@ -548,6 +682,8 @@ class Game
 
     def check_if_piece_checking_king_can_be_taken
 
+        # ma
+
         if @checkmate == true 
 
             find_pieces_checking_king()
@@ -568,7 +704,7 @@ class Game
 
     end 
 
-    def legal_move_generator(co_ordinates)
+    def legal_move_generator(co_ordinates, piece_selected)
 
 
         @co_ordinates = co_ordinates
@@ -576,15 +712,15 @@ class Game
         @legal_end_y = []
 
         
-        if  @piece_selected == [] || @piece_selected.colour != @current_player.colour
+        if  piece_selected == [] || piece_selected.colour != @current_player.colour
             puts "Silly goose. Pick a proper player"
         else 
-            @piece_selected.potential_moves()
+            piece_selected.potential_moves()
 
-            length_of_potential_array = @piece_selected.potential_x.length - 1 
+            length_of_potential_array = piece_selected.potential_x.length - 1 
             for i in (0..length_of_potential_array) do 
-                move_x = @co_ordinates[0] + @piece_selected.potential_x[i]
-                move_y = @co_ordinates[1] + @piece_selected.potential_y[i]
+                move_x = @co_ordinates[0] + piece_selected.potential_x[i]
+                move_y = @co_ordinates[1] + piece_selected.potential_y[i]
                 if move_x <=7 && move_y <=7 && move_x >=0 && move_y >=0
                     @legal_end_x  << move_x
                     @legal_end_y << move_y
@@ -612,31 +748,31 @@ class Game
         end 
     end 
 
-    def check_for_any_blocks # returns @block
-
+    def check_for_any_blocks(piece_selected, start_co_ordinates, end_co_ordinates) # returns @block
+            #mark3 
         @block = true 
-        if @piece_selected.string == " \u265B " || @piece_selected.string == " \u265D " || @piece_selected.string == " \u265C " 
+        if piece_selected.string == " \u265B " || piece_selected.string == " \u265D " || piece_selected.string == " \u265C " 
             
-            check_piece_distance(@piece_selected, @end_co_ordinates)
+            check_piece_distance(piece_selected, end_co_ordinates)
 
             if @need_to_check_path == true  
-                @piece_selected.plot_path(@start_co_ordinates[0],@start_co_ordinates[1],@end_co_ordinates[0],@end_co_ordinates[1])
+                piece_selected.plot_path(start_co_ordinates[0],start_co_ordinates[1],end_co_ordinates[0],end_co_ordinates[1])
             else 
-                @piece_selected.path_blocked = false 
+                piece_selected.path_blocked = false 
             end 
 
         end 
 
-        if @piece_selected.class == Pawn && @piece_selected.first_move == true 
+        if piece_selected.class == Pawn && piece_selected.first_move == true 
             check_pawn_distance(@piece_selected)
             if @need_to_check_path == true 
-                @piece_selected.plot_path()
+                piece_selected.plot_path()
             else 
-                @piece_selected.path_blocked = false # unecessary?
+                piece_selected.path_blocked = false # unecessary?
             end 
         end
 
-        if @piece_selected.path_blocked == true 
+        if piece_selected.path_blocked == true 
             @block = true  
             puts "Someone is in your way :("
             puts "Try again"
@@ -661,18 +797,6 @@ class Game
 
     end 
 
-    # def check_piece_distance(current_piece) # returns need to check path
-    #     @need_to_check_path = false 
-
-    #     end_x = @end_co_ordinates[0]
-    #     end_y = @end_co_ordinates[1]
-
-    #     current_x = current_piece.current_position[0]
-    #     current_y = current_piece.current_position[1]
-    #     if end_x - current_x <= -2 ||  end_x - current_x >= 2|| end_x - current_x <= -2||  end_x - current_x >= 2 || end_y - current_y <= -2 ||  end_y - current_y >= 2|| end_y - current_y <= -2||  end_y - current_y >= 2 
-    #         @need_to_check_path = true 
-    #     end 
-    # end 
 
     def check_piece_distance(current_piece,end_co_ordinates) # returns need to check path
         @need_to_check_path = false 
@@ -1113,6 +1237,8 @@ class Game
 
     def get_valid_end_co_ords
 
+        #mark2
+
 
         until @block == false && @legal_move == true && @piece_selected.path_blocked == false
 
@@ -1124,7 +1250,7 @@ class Game
             
             legal_move(@end_co_ordinates,@legal_end_x, @legal_end_y)
 
-            check_for_any_blocks() # legal move() in this "
+            check_for_any_blocks(@piece_selected, @start_co_ordinates, @end_co_ordinates) # legal move() in this "
 
 ### pawn stuff 
             check_if_pawn_can_take(@end_co_ordinates)
@@ -1155,7 +1281,7 @@ class Game
 
         @piece_selected.potential_moves() # ensure pawn moves updated in case second move 
 
-        legal_move_generator(@start_co_ordinates) #legal_move_gen_valid 
+        legal_move_generator(@start_co_ordinates, @piece_selected) #legal_move_gen_valid 
 
         get_valid_end_co_ords()
 
