@@ -967,6 +967,27 @@ class Game
 
     end 
 
+    def en_pass_colour_change(co_ords)
+
+        p "COORDS#{co_ords}"
+
+        x = co_ords[0]
+        y = co_ords[1]
+
+        white_square_coords = [[3,1],[3,3],[3,5],[3,7],[4,0],[4,2],[4,4],[4,6]]
+        black_square_coords = [[3,0],[3,2],[3,4],[3,6],[4,1],[4,3],[4,5],[4,7]]
+
+        if white_square_coords.include?(co_ords)
+            @current_board.board[x][y] = @white_king.white_square
+        elsif black_square_coords.include?(co_ords)
+            @current_board.board[x][y] = @white_king.black_square
+        end 
+
+
+
+    end 
+
+
     def pawn_promotion 
 
 
@@ -1011,7 +1032,9 @@ class Game
 
         @en_passant_possible = false 
 
-        @potential_pawn = @generic_piece.find_player([@previous_move_start[0],@previous_move_end[0]])
+        puts "PMSPME#{@previous_move_start},#{@previous_move_end}"
+
+        @potential_pawn = @generic_piece.find_player([@previous_move_end[0],@previous_move_end[1]])
         
         start_x_pawn =  @previous_move_start[0]
         end_x_pawn = @previous_move_end[0]
@@ -1034,8 +1057,16 @@ class Game
 
         if @potential_pawn.class == Pawn && @potential_pawn.colour != @current_player.colour && pawn_moved_two_spots == true && location_relative_to_current_piece == 0 && piece_selected.class == Pawn
             @en_passant_possible = true 
-            puts "ENPASS TIME "
         end 
+
+    end 
+
+    def en_passant_take 
+        @potential_pawn.delete_destination([@previous_move_end[0],@previous_move_end[1]]) 
+        en_pass_colour_change(@potential_pawn.current_position)
+        @current_pieces.delete(@potential_pawn)
+
+        puts "TAKE"
 
     end 
 
@@ -1045,7 +1076,7 @@ class Game
             
             @block = false 
 
-            puts "BLOCK FALSE !!!"
+            en_passant_take()
         end 
        
 
