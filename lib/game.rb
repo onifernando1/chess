@@ -781,7 +781,10 @@ class Game
                 reset()
             end 
 
-            check_colour()
+            if @piece_selected != nil 
+
+                check_colour()
+            end 
 
             if @correct_colour == false 
                 puts "Select the correct colour!"
@@ -954,73 +957,23 @@ class Game
             @current_position_y = current_position[1]
 
             if @piece_selected.colour == "white"
-                # up_right_x = current_position_x - 1 
-                # up_right_y = current_position_y + 1 
-                # up_right_co_ords = []
-                # up_right_co_ords << up_right_x
-                # up_right_co_ords << up_right_y
-
-                # up_left_x = current_position_x - 1 
-                # up_left_y = current_position_y - 1    
-                # up_left_co_ords = []
-                # up_left_co_ords << up_left_x
-                # up_left_co_ords << up_left_y  
+               
                 white_pawn_take_moves()
 
             elsif @piece_selected.colour == "black"
-
-
-                # up_right_x = current_position_x + 1 
-                # up_right_y = current_position_y - 1 
-                # up_right_co_ords = []
-                # up_right_co_ords << up_right_x
-                # up_right_co_ords << up_right_y
-
-                # up_left_x = current_position_x + 1 
-                # up_left_y = current_position_y + 1    
-                # up_left_co_ords = []
-                # up_left_co_ords << up_left_x
-                # up_left_co_ords << up_left_y  
+ 
                 black_pawn_take_moves()
 
             end 
 
             if @up_right_co_ords == co_ordinates 
 
-    
-    
-                # if @current_board.board[up_right_x][up_right_y] != @piece_selected.black_square && @current_board.board[up_right_x][up_right_y] != @piece_selected.white_square
-                #     @pawn_attack_piece_up = find_pawn_players(up_right_co_ords)
-                #     if @pawn_attack_piece.colour == @current_player.colour 
-                #         #blocked 
-                #     else 
-                #         #take()
-                #         @block = false 
-                #     end 
-                # elsif @current_board.board[up_right_x][up_right_y] == @piece_selected.black_square || @current_board.board[up_right_x][up_right_y] == @piece_selected.white_square
-                #     @block = true 
-                #     en_passant()
-                # end 
+
                     
                 up_right_pawn_takes()
 
             elsif @up_left_co_ords == co_ordinates
 
-
-                # if @current_board.board[up_left_x][up_left_y] != @piece_selected.black_square && @current_board.board[up_left_x][up_left_y] != @piece_selected.white_square
-                #     @pawn_attack_piece_up = find_pawn_players(up_left_co_ords)
-                #     if @pawn_attack_piece.colour == @current_player.colour 
-                #         #blocked 
-                #     else 
-                #         #take()
-                #         @block = false 
-
-                #     end 
-                # elsif @current_board.board[up_left_x][up_left_y] == @piece_selected.black_square || @current_board.board[up_left_x][up_left_y] == @piece_selected.white_square
-                #     @block = true 
-                #     en_passant()
-
-                # end 
 
                 up_left_pawn_takes()
             end 
@@ -1244,7 +1197,6 @@ class Game
 
         if @piece_selected.take == true 
             @end_piece = select_player(@end_co_ordinates)
-            puts "EPCC#{@end_piece.class} #{@end_piece.colour }"
             @end_piece.delete_destination(@end_co_ordinates) 
             @current_pieces.delete(@end_piece)
             @piece_selected.take = false #reset take
@@ -1331,8 +1283,5 @@ game.win_message()
 
 #save 
 #stalemate
-
-# promoted pawn can take own pieces 
-# promoted pawn classified as other colour ?
-# promoted pawn duplicates on move 
 # can a multiple pawns be promoted on same spot??
+#castle swap
