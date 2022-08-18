@@ -1037,10 +1037,11 @@ class Game
 
         @current_pieces.each do |piece|
 
-            if piece.class == Pawn && piece.end_positions.include?(piece.current_position) 
+            if piece.class == Pawn && piece.end_positions.include?(piece.current_position)# && piece.promoted == false  
                 @pawn_at_end = true 
                 @pawn_to_be_promoted = piece
-                piece.end_positions.delete(piece.current_position) # added in deletion
+                # piece.end_positions.delete(piece.current_position) # added in deletion
+                piece.promoted = true 
             end 
         end 
 
@@ -1085,9 +1086,7 @@ class Game
 
     def white_pawn_promotion
         @current_pieces.delete(@current_board.board[@location_of_promotion_x][@location_of_promotion_y])
-        @promoted_pawn =  @white_promotion_array[0]
-        puts "PP COLOUR #{@promoted_pawn.colour}" 
-        puts "PP WHITEPP #{@promoted_pawn}" 
+        @promoted_pawn =  @white_promotion_array[0] 
         @white_promotion_array.delete_at(0)
         @current_pieces << @promoted_pawn
         change_to_black_or_white_square(@location_of_promotion)
@@ -1098,9 +1097,8 @@ class Game
 
     def black_pawn_promotion
         @current_pieces.delete(@current_board.board[@location_of_promotion_x][@location_of_promotion_y])
+        @promoted_pawn = @black_promotion_array[0] 
         @promoted_pawn = @black_promotion_array[0]
-        puts "PP BLACKPP #{@promoted_pawn}" 
-
         @black_promotion_array.delete_at(0)
         @current_pieces << @promoted_pawn
         change_to_black_or_white_square(@location_of_promotion)
@@ -1124,10 +1122,11 @@ class Game
             if @current_player.colour == "white"
                 
                 white_pawn_promotion()
-                puts "WHITE PAWN PROMOTION CALLED "
+                
+
             else 
-                puts "BLACK PAWN PROMOTION CALLED "
-                black_pawn_promotion()
+                puts "BLACK PAWN PROMOTION CALLED " 
+
             end 
         end 
 
