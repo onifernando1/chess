@@ -21,17 +21,33 @@ class Game
         set_up_players()
         @current_player = @player_white
         intro()
-        @generic_piece = Piece.new(@current_board, "white")
         @current_pieces = []
         add_black_to_promotion_array()
         add_white_to_promotion_array()
         save_current_pieces()
         update_current_pieces()
+        @generic_piece = Piece.new(@current_board, "white", @current_pieces)
         @valid_start_coordinates = false 
         @start_valid = false 
         @game_end = false 
         @king_in_check = true 
         @checkmate = false 
+
+        @white_pawn3.move(5,3)
+        @white_pawn3.current_pieces = @current_pieces
+
+        @white_pawn3.current_position = [5,3]
+        
+        @black_pawn8.move(4,7)
+        @black_pawn8.current_position = [4,7]
+        @black_pawn8.current_pieces = @current_pieces
+
+
+
+
+
+
+
         @current_board.show_board()
         @previous_move_start = []
         @previous_move_end = []
@@ -797,6 +813,11 @@ class Game
         end 
         @continue = true 
 
+        if @previous_move_start != []
+            check_if_en_passant_possible(@piece_selected) # delete later 
+            puts "ENPA IN ROUND "
+        end 
+
 
     end 
 
@@ -872,16 +893,13 @@ class Game
                     @pawn_attack_piece_up = find_pawn_players(up_right_co_ords)
                     if @pawn_attack_piece.colour == @current_player.colour 
                         #blocked 
-                        puts "#blocked"
                     else 
                         #take()
-                        puts "#take"
                         @block = false 
                     end 
                 elsif @current_board.board[up_right_x][up_right_y] == @piece_selected.black_square || @current_board.board[up_right_x][up_right_y] == @piece_selected.white_square
                     @block = true 
-                    puts "IN ELSIF"
-                    puts "BLOCK #{@block}"
+                    en_passant()
                 end 
                     
             
@@ -901,7 +919,8 @@ class Game
                     end 
                 elsif @current_board.board[up_left_x][up_left_y] == @piece_selected.black_square || @current_board.board[up_left_x][up_left_y] == @piece_selected.white_square
                     @block = true 
-                    puts "IN ELSIF 2"
+                    en_passant()
+
                 end 
             end 
 
@@ -988,39 +1007,50 @@ class Game
 
     end 
 
-    def check_if_en_passant_possible(end_co_ord)
+    def check_if_en_passant_possible(piece_selected)
 
         @en_passant_possible = false 
 
-        @potential_pawn = @generic_piece.find_player(end_co_ord)
+        @potential_pawn = @generic_piece.find_player([@previous_move_start[0],@previous_move_end[0]])
         
         start_x_pawn =  @previous_move_start[0]
         end_x_pawn = @previous_move_end[0]
 
+        pawn_moved_two_spots = false 
         x_pawn_difference = start_x_pawn - end_x_pawn
 
-        if @potential_pawn.class == Pawn && @potential_pawn.colour != @current_player.colour && x_pawn_difference == -2 || x_pawn_difference == 2 
+
+        if x_pawn_difference == 2
+            pawn_moved_two_spots = true 
+        elsif x_pawn_difference == -2 
+            pawn_moved_two_spots = true 
+        end 
+
+
+        current_piece_x = piece_selected.current_position[0]
+        location_relative_to_current_piece = current_piece_x - end_x_pawn
+      
+
+
+        if @potential_pawn.class == Pawn && @potential_pawn.colour != @current_player.colour && pawn_moved_two_spots == true && location_relative_to_current_piece == 0 && piece_selected.class == Pawn
             @en_passant_possible = true 
+            puts "ENPASS TIME "
         end 
 
     end 
 
-    def en_passant
-
-        # only call if @piece_selected.class == Pawn
-
-        check_if_en_passant_possible(@previous_move_end)
-
-         # if @potential_pawn.current_position[0] - pawn.current_position[0] == +1 / -1  
-
+    def en_passant()
 
         if @en_passant_possible == true 
+            
+            @block = false 
 
-            #can_move diagonally into same x as potential pawn and take potential pawn 
-
+            puts "BLOCK FALSE !!!"
         end 
+       
 
     end 
+
 
 ## end of pawn stuff 
 
@@ -1125,6 +1155,7 @@ class Game
 
     def round 
         start_of_round()
+
         if @continue == true 
             end_of_round()
             reset()
