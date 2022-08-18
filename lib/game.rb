@@ -15,7 +15,7 @@ class Game
 
     def initialize 
         @current_board = Board.new()
-    
+        @win = false 
         set_up_white()        
         set_up_black()
         set_up_players()
@@ -118,6 +118,7 @@ class Game
         @black_promoted_queen_6.change_colour()
         @black_promoted_queen_7.change_colour()
         @black_promoted_queen_8.change_colour()
+       
     end 
 
     def set_up_white
@@ -254,6 +255,14 @@ class Game
          @white_bishop2.current_pieces = @current_pieces
          @white_queen.current_pieces = @current_pieces
          @white_king.current_pieces = @current_pieces
+         @white_promoted_queen_1.current_pieces = @current_pieces
+         @white_promoted_queen_2.current_pieces = @current_pieces
+         @white_promoted_queen_3.current_pieces = @current_pieces
+         @white_promoted_queen_4.current_pieces = @current_pieces
+         @white_promoted_queen_5.current_pieces = @current_pieces
+         @white_promoted_queen_6.current_pieces = @current_pieces
+         @white_promoted_queen_7.current_pieces = @current_pieces
+         @white_promoted_queen_8.current_pieces = @current_pieces
          @black_pawn1.current_pieces = @current_pieces
          @black_pawn2.current_pieces = @current_pieces
          @black_pawn3.current_pieces = @current_pieces
@@ -270,6 +279,14 @@ class Game
          @black_rook2.current_pieces = @current_pieces
          @black_queen.current_pieces = @current_pieces
          @black_king.current_pieces = @current_pieces
+         @black_promoted_queen_1.current_pieces = @current_pieces
+         @black_promoted_queen_2.current_pieces = @current_pieces
+         @black_promoted_queen_3.current_pieces = @current_pieces
+         @black_promoted_queen_4.current_pieces = @current_pieces
+         @black_promoted_queen_5.current_pieces = @current_pieces
+         @black_promoted_queen_6.current_pieces = @current_pieces
+         @black_promoted_queen_7.current_pieces = @current_pieces
+         @black_promoted_queen_8.current_pieces = @current_pieces
 
     end 
 
@@ -299,8 +316,6 @@ class Game
                 piece.path_blocked = false 
             end 
 
-        
-          
             if piece.path_blocked == false && piece.checking_king == true 
                 
                 @king_in_check = true 
@@ -363,6 +378,7 @@ class Game
     
     def find_path_of_piece_to_block
 
+
         if @pieces_that_are_checking.length == 1 
             @piece_checking_king = @pieces_that_are_checking[0]
 
@@ -375,6 +391,20 @@ class Game
         end  
     end 
 
+    def find_pieces_that_could_save_the_king
+
+        @pieces_that_could_block = []
+
+        @current_pieces.each do |piece|
+            if piece.colour == @current_player.colour && piece.class != King
+                @pieces_that_could_block << piece
+            end 
+        end 
+
+        @pieces_that_could_block
+
+    end 
+
     def check_if_checkmate_can_be_blocked
 
         find_pieces_checking_king()
@@ -383,13 +413,7 @@ class Game
 
         if @new_path != nil 
 
-            @pieces_that_could_block = []
-
-            @current_pieces.each do |piece|
-                if piece.colour == @current_player.colour && piece.class != King
-                    @pieces_that_could_block << piece
-                end 
-            end 
+            find_pieces_that_could_save_the_king()
 
             @new_path.each do |path_co_ord|
 
@@ -424,51 +448,51 @@ class Game
 
     end 
 
-    def check_mate_check
-        @checkmate = false 
-   
+    def find_current_king
+
         @current_pieces.each do |piece|
             if piece.colour == @current_player.colour && piece.class == King
                 @current_king = piece 
             end 
         end 
+        @current_king
+    end 
 
-
-        @checkmate_array = []
-
-
-        check_if_checkmate_can_be_blocked()
-
-        
-
-        @current_king.sort_king_moves(@current_player)
-        
-        remember_king_current_position = @current_king.current_position
+    def see_if_king_can_escape_check
 
         @current_king.sorted_moves.each do |co_ords|
             @current_king.current_position = co_ords
             pre_game_check(@current_pieces)
             @checkmate_array << @king_in_check
-
         end 
+    end 
 
+    def check_mate_check
+
+        @checkmate = false 
+   
+        @current_king = find_current_king()
+
+        @checkmate_array = []
+
+        check_if_checkmate_can_be_blocked()
+
+        @current_king.sort_king_moves(@current_player)
+        
+        remember_king_current_position = @current_king.current_position
+
+
+        see_if_king_can_escape_check()
 
         if @checkmate_array.all?(true)
             @checkmate = true 
-            # puts "CHECKMATE"
-        else 
-            # puts "NOT CHECKMATE"
-
         end 
 
         @current_king.current_position = remember_king_current_position
 
     end 
 
-  
-
-
-    
+      
     def get_start_coordinates
         puts "#{@current_player.name} 1.Please type the co-ordinates of the piece you would like to move e.g A1"
         @player_start_coords = gets.chomp
@@ -507,10 +531,8 @@ class Game
 
     def select_player(co_ordinates)
         @valid_piece = false
-        # @piece_selected = []
         @current_pieces.each do |piece|
             if piece.current_position == co_ordinates
-                # @piece_selected = piece
                 @piece = piece
                 @valid_piece = true
             end 
@@ -520,18 +542,6 @@ class Game
 
     end 
 
-    # def select_end_player(co_ordinates)
-    #    @end_piece = []
-    #    @current_pieces.each do |piece|
-    #     if piece.current_position == co_ordinates
-    #         @end_piece = piece
-
-    #     end 
-    #     end 
-
-    #     @end_piece
-
-    # end 
 
     def find_pieces_checking_king
 
@@ -578,8 +588,6 @@ class Game
 
             find_pieces_checking_king()
             current_pieces_duplicate = @current_pieces
-            # go through array, see if removing that person still keeps them in check 
-            #remove the first piece from current pieces dupl
             remove_player(current_pieces_duplicate)
 
         end 
@@ -622,6 +630,7 @@ class Game
     end 
 
     def legal_move(co_ordinates, legal_end_x, legal_end_y) # returns @legal_move
+       
         @co_ordinates = co_ordinates
         @legal_move = false 
 
@@ -629,15 +638,15 @@ class Game
 
         for i in (0..legal_move_array_length) do 
             
-            if legal_end_x[i] == co_ordinates[0] && legal_end_y[i] == co_ordinates[1] # @ commented out 
+            if legal_end_x[i] == co_ordinates[0] && legal_end_y[i] == co_ordinates[1]
                 @legal_move = true 
             end 
         end 
     end 
 
-    def check_for_any_blocks(piece_selected, start_co_ordinates, end_co_ordinates) 
+    def path_pieces_block_check(piece_selected,start_co_ordinates,end_co_ordinates)
 
-        @block = true 
+
         if piece_selected.string == " \u265B " || piece_selected.string == " \u265D " || piece_selected.string == " \u265C " 
             
             check_piece_distance(piece_selected, end_co_ordinates)
@@ -650,6 +659,10 @@ class Game
 
         end 
 
+    end 
+
+    def pawn_block_check(piece_selected)
+
         if piece_selected.class == Pawn && piece_selected.first_move == true 
             check_pawn_distance(@piece_selected)
             if @need_to_check_path == true 
@@ -659,12 +672,22 @@ class Game
             end 
         end
 
+    end
+
+    def check_for_any_blocks(piece_selected, start_co_ordinates, end_co_ordinates) 
+
+        @block = true 
+
+        path_pieces_block_check(piece_selected,start_co_ordinates,end_co_ordinates)
+
+        pawn_block_check(piece_selected)
+
+
         if piece_selected.path_blocked == true 
             @block = true  
             puts "Someone is in your way :("
             puts "Try again"
         else 
-            # legal_move(@end_co_ordinates,@legal_end_x, @legal_end_y)
             @block = false 
 
         end
@@ -693,6 +716,7 @@ class Game
 
         current_x = current_piece.current_position[0]
         current_y = current_piece.current_position[1]
+
         if end_x - current_x <= -2 ||  end_x - current_x >= 2|| end_x - current_x <= -2||  end_x - current_x >= 2 || end_y - current_y <= -2 ||  end_y - current_y >= 2|| end_y - current_y <= -2||  end_y - current_y >= 2 
             @need_to_check_path = true 
         end 
@@ -723,21 +747,25 @@ class Game
     def swap_player 
         if @current_player == @player_black
             @current_player = @player_white
-            round()
+            check_win()
+            if @win != true 
+                round()
+            end 
         elsif @current_player == @player_white
             @current_player = @player_black
-            round()
-
+            check_win()
+            if @win != true 
+                round()
+            end 
         end 
 
     end 
 
     def get_valid_input
 
+        get_start_coordinates()
 
-            get_start_coordinates()
-
-            check_valid_start_input(@player_start_coords)      
+        check_valid_start_input(@player_start_coords)      
 
     end
 
@@ -750,10 +778,7 @@ class Game
 
             if @valid_piece == false 
                 puts "Please pick a valid piece!"
-               
-
                 reset()
-
             end 
 
             check_colour()
@@ -761,22 +786,20 @@ class Game
             if @correct_colour == false 
                 puts "Select the correct colour!"
                 reset()
-
             end 
         end
     end 
 
-    
-    def start_of_round 
-
-
+    def reset_check
         @checkmate = false # move to methods later
         @king_in_check = false # move to methods later
+    end 
+
+    def standard_check_function
+        
+        reset_check()
 
         pre_game_check(@current_pieces)
-
-        puts "CHECK?#{@king_in_check}"
-
         
 
         if @king_in_check == true 
@@ -784,29 +807,39 @@ class Game
             check_mate_check()
         end 
 
+    end 
 
-
-        if @checkmate == true 
-            puts "ALMOST CHECKMATE! "
-            #player_x_wins  = true            
-        end 
-
+    def check_mate_functions
 
         check_if_piece_checking_king_can_be_taken()
 
         if @king_definitely_in_checkmate == true 
             puts "CHECKMATE!"
-
         end 
+    end 
+
+    def beginning_of_round_checks_and_reset
+        
+        standard_check_function()
+
+        check_mate_functions()
+
 
         @continue = false 
-
         @valid_piece = false 
         @correct_colour = false 
+    end 
 
+    
+    def start_of_round 
+
+
+        beginning_of_round_checks_and_reset()
 
         until @valid_piece == true  && @correct_colour == true && @piece_selected.class != Array
+            
             @start_valid = false 
+            
             until @start_valid == true 
                 get_valid_input()
             end 
@@ -817,13 +850,11 @@ class Game
 
             report_start_errors()
             
-
-
         end 
         @continue = true 
 
         if @previous_move_start != []
-            check_if_en_passant_possible(@piece_selected) # delete later 
+            check_if_en_passant_possible(@piece_selected) 
         end 
 
 
@@ -839,6 +870,7 @@ class Game
             puts "Seems like this move isn't legal..."
         end 
     end 
+
 ## pawn stuff 
     def find_pawn_players(co_ordinates)
 
@@ -852,88 +884,146 @@ class Game
     
          @pawn_attack_piece
     end 
+
+    def white_pawn_take_moves
+        @up_right_x = @current_position_x - 1 
+        @up_right_y = @current_position_y + 1 
+        @up_right_co_ords = []
+        @up_right_co_ords << @up_right_x
+        @up_right_co_ords << @up_right_y
+
+        @up_left_x = @current_position_x - 1 
+        @up_left_y = @current_position_y - 1    
+        @up_left_co_ords = []
+        @up_left_co_ords << @up_left_x
+        @up_left_co_ords << @up_left_y  
+    end 
+
+    def black_pawn_take_moves
+        @up_right_x = @current_position_x + 1 
+        @up_right_y = @current_position_y - 1 
+        @up_right_co_ords = []
+        @up_right_co_ords << @up_right_x
+        @up_right_co_ords << @up_right_y
+
+        @up_left_x = @current_position_x + 1 
+        @up_left_y = @current_position_y + 1    
+        @up_left_co_ords = []
+        @up_left_co_ords << @up_left_x
+        @up_left_co_ords << @up_left_y  
+    end 
+
+    def up_right_pawn_takes
+        if @current_board.board[@up_right_x][@up_right_y] != @piece_selected.black_square && @current_board.board[@up_right_x][@up_right_y] != @piece_selected.white_square
+            @pawn_attack_piece_up = find_pawn_players(@up_right_co_ords)
+            if @pawn_attack_piece.colour == @current_player.colour 
+                #blocked 
+            else 
+                #take()
+                @block = false 
+            end 
+        elsif @current_board.board[@up_right_x][@up_right_y] == @piece_selected.black_square || @current_board.board[@up_right_x][@up_right_y] == @piece_selected.white_square
+            @block = true 
+            en_passant()
+        end 
+    end 
     
+    def up_left_pawn_takes
+        if @current_board.board[@up_left_x][@up_left_y] != @piece_selected.black_square && @current_board.board[@up_left_x][@up_left_y] != @piece_selected.white_square
+            @pawn_attack_piece_up = find_pawn_players(@up_left_co_ords)
+            if @pawn_attack_piece.colour == @current_player.colour 
+                #blocked 
+            else 
+                #take()
+                @block = false 
+
+            end 
+        elsif @current_board.board[@up_left_x][@up_left_y] == @piece_selected.black_square || @current_board.board[@up_left_x][@up_left_y] == @piece_selected.white_square
+            @block = true 
+            en_passant()
+
+        end 
+    end 
     
     def check_if_pawn_can_take(co_ordinates)
     
     
-        if @piece_selected.class == Pawn #&& @piece_selected.colour == "white"
+        if @piece_selected.class == Pawn 
             current_position = @piece_selected.current_position 
-            current_position_x = current_position[0]
-            current_position_y = current_position[1]
+            @current_position_x = current_position[0]
+            @current_position_y = current_position[1]
 
             if @piece_selected.colour == "white"
-                up_right_x = current_position_x - 1 
-                up_right_y = current_position_y + 1 
-                up_right_co_ords = []
-                up_right_co_ords << up_right_x
-                up_right_co_ords << up_right_y
+                # up_right_x = current_position_x - 1 
+                # up_right_y = current_position_y + 1 
+                # up_right_co_ords = []
+                # up_right_co_ords << up_right_x
+                # up_right_co_ords << up_right_y
 
-                up_left_x = current_position_x - 1 
-                up_left_y = current_position_y - 1    
-                up_left_co_ords = []
-                up_left_co_ords << up_left_x
-                up_left_co_ords << up_left_y  
+                # up_left_x = current_position_x - 1 
+                # up_left_y = current_position_y - 1    
+                # up_left_co_ords = []
+                # up_left_co_ords << up_left_x
+                # up_left_co_ords << up_left_y  
+                white_pawn_take_moves()
 
             elsif @piece_selected.colour == "black"
 
 
-                up_right_x = current_position_x + 1 
-                up_right_y = current_position_y - 1 
-                up_right_co_ords = []
-                up_right_co_ords << up_right_x
-                up_right_co_ords << up_right_y
+                # up_right_x = current_position_x + 1 
+                # up_right_y = current_position_y - 1 
+                # up_right_co_ords = []
+                # up_right_co_ords << up_right_x
+                # up_right_co_ords << up_right_y
 
-                up_left_x = current_position_x + 1 
-                up_left_y = current_position_y + 1    
-                up_left_co_ords = []
-                up_left_co_ords << up_left_x
-                up_left_co_ords << up_left_y  
-
+                # up_left_x = current_position_x + 1 
+                # up_left_y = current_position_y + 1    
+                # up_left_co_ords = []
+                # up_left_co_ords << up_left_x
+                # up_left_co_ords << up_left_y  
+                black_pawn_take_moves()
 
             end 
 
-            if up_right_co_ords == co_ordinates 
+            if @up_right_co_ords == co_ordinates 
 
     
     
-                if @current_board.board[up_right_x][up_right_y] != @piece_selected.black_square && @current_board.board[up_right_x][up_right_y] != @piece_selected.white_square
-                    @pawn_attack_piece_up = find_pawn_players(up_right_co_ords)
-                    if @pawn_attack_piece.colour == @current_player.colour 
-                        #blocked 
-                    else 
-                        #take()
-                        @block = false 
-                    end 
-                elsif @current_board.board[up_right_x][up_right_y] == @piece_selected.black_square || @current_board.board[up_right_x][up_right_y] == @piece_selected.white_square
-                    @block = true 
-                    en_passant()
-                end 
+                # if @current_board.board[up_right_x][up_right_y] != @piece_selected.black_square && @current_board.board[up_right_x][up_right_y] != @piece_selected.white_square
+                #     @pawn_attack_piece_up = find_pawn_players(up_right_co_ords)
+                #     if @pawn_attack_piece.colour == @current_player.colour 
+                #         #blocked 
+                #     else 
+                #         #take()
+                #         @block = false 
+                #     end 
+                # elsif @current_board.board[up_right_x][up_right_y] == @piece_selected.black_square || @current_board.board[up_right_x][up_right_y] == @piece_selected.white_square
+                #     @block = true 
+                #     en_passant()
+                # end 
                     
-            
-            elsif up_left_co_ords == co_ordinates
+                up_right_pawn_takes()
+
+            elsif @up_left_co_ords == co_ordinates
 
 
-                if @current_board.board[up_left_x][up_left_y] != @piece_selected.black_square && @current_board.board[up_left_x][up_left_y] != @piece_selected.white_square
-                    @pawn_attack_piece_up = find_pawn_players(up_left_co_ords)
-                    if @pawn_attack_piece.colour == @current_player.colour 
-                        #blocked 
-                    else 
-                        #take()
-                        @block = false 
+                # if @current_board.board[up_left_x][up_left_y] != @piece_selected.black_square && @current_board.board[up_left_x][up_left_y] != @piece_selected.white_square
+                #     @pawn_attack_piece_up = find_pawn_players(up_left_co_ords)
+                #     if @pawn_attack_piece.colour == @current_player.colour 
+                #         #blocked 
+                #     else 
+                #         #take()
+                #         @block = false 
 
-                    end 
-                elsif @current_board.board[up_left_x][up_left_y] == @piece_selected.black_square || @current_board.board[up_left_x][up_left_y] == @piece_selected.white_square
-                    @block = true 
-                    en_passant()
+                #     end 
+                # elsif @current_board.board[up_left_x][up_left_y] == @piece_selected.black_square || @current_board.board[up_left_x][up_left_y] == @piece_selected.white_square
+                #     @block = true 
+                #     en_passant()
 
-                end 
+                # end 
+
+                up_left_pawn_takes()
             end 
-
-
-
-
-
 
 
 
@@ -950,6 +1040,7 @@ class Game
             if piece.class == Pawn && piece.end_positions.include?(piece.current_position) 
                 @pawn_at_end = true 
                 @pawn_to_be_promoted = piece
+                piece.end_positions.delete(piece.current_position) # added in deletion
             end 
         end 
 
@@ -992,6 +1083,31 @@ class Game
 
     end 
 
+    def white_pawn_promotion
+        @current_pieces.delete(@current_board.board[@location_of_promotion_x][@location_of_promotion_y])
+        @promoted_pawn =  @white_promotion_array[0]
+        puts "PP COLOUR #{@promoted_pawn.colour}" 
+        puts "PP WHITEPP #{@promoted_pawn}" 
+        @white_promotion_array.delete_at(0)
+        @current_pieces << @promoted_pawn
+        change_to_black_or_white_square(@location_of_promotion)
+        @promoted_pawn.move(@location_of_promotion_x,@location_of_promotion_y)
+
+        @current_board.show_board()
+    end 
+
+    def black_pawn_promotion
+        @current_pieces.delete(@current_board.board[@location_of_promotion_x][@location_of_promotion_y])
+        @promoted_pawn = @black_promotion_array[0]
+        puts "PP BLACKPP #{@promoted_pawn}" 
+
+        @black_promotion_array.delete_at(0)
+        @current_pieces << @promoted_pawn
+        change_to_black_or_white_square(@location_of_promotion)
+        @promoted_pawn.move(@location_of_promotion_x,@location_of_promotion_y)
+        @current_board.show_board()
+    end 
+
 
     def pawn_promotion 
 
@@ -1006,25 +1122,12 @@ class Game
 
 
             if @current_player.colour == "white"
-                @current_pieces.delete(@current_board.board[@location_of_promotion_x][@location_of_promotion_y])
-                promoted_pawn =  @white_promotion_array[0]
-                @white_promotion_array.delete_at(0)
-                @current_pieces << promoted_pawn
-                change_to_black_or_white_square(@location_of_promotion)
-                promoted_pawn.move(@location_of_promotion_x,@location_of_promotion_y)
-
-                @current_board.show_board()
                 
-
+                white_pawn_promotion()
+                puts "WHITE PAWN PROMOTION CALLED "
             else 
-                @current_pieces.delete(@current_board.board[@location_of_promotion_x][@location_of_promotion_y])
-                promoted_pawn = @black_promotion_array[0]
-                @black_promotion_array.delete_at(0)
-                @current_pieces << promoted_pawn
-                change_to_black_or_white_square(@location_of_promotion)
-                promoted_pawn.move(@location_of_promotion_x,@location_of_promotion_y)
-                @current_board.show_board()
-
+                puts "BLACK PAWN PROMOTION CALLED "
+                black_pawn_promotion()
             end 
         end 
 
@@ -1164,7 +1267,7 @@ class Game
         @piece_selected.delete_old_move()
 
         take_piece()
-        @current_board.show_board()
+        # @current_board.show_board()
         puts "#{@piece_selected.colour}"
         @piece_selected.move(@end_co_ordinates[0],@end_co_ordinates[1])
 
@@ -1186,6 +1289,14 @@ class Game
        
     end
 
+    def check_win
+
+        if @king_definitely_in_checkmate == true 
+            @win = true 
+        end 
+
+    end 
+
     def round 
         start_of_round()
 
@@ -1198,13 +1309,9 @@ class Game
     end 
 
     def game 
-        round()
-        round()
-        round()
-        round()
-        round()
-        round()
-        round()
+        until @win == true 
+            round()
+        end 
     end 
 
  
@@ -1217,85 +1324,5 @@ end
 game = Game.new()
 game.game()
 
-# check pawn stuff - should be fine 
-
-#add in en passsant s
-
-
-# add in checks 
-
-# add in save 
-
-#check:
-# the king can be taken by a piece in the next move, if the king doesn't escape 
-
-#checkmate
-# the king will be taken next move, regardless of where it moves
-
-# Stalemate
-# When a player cannot make any legal move, but he is not in check, 
-#then the player is said to be stalemated. 
-#In a case of a stalemate, the game is a draw.
-
-# pawn can turn to queen at end 
-
-#back - a7 (empty square) crashes - goes on to next step when it shouldnt 
-
-# update current pieces on each player!
-# reset all current pieces in check to false
-
-#reset path blocked to false 
-# change in check to checking_king
-
-# check seems to be working 
-# if check == true, then only allow piece selected at start to be king 
-# only let it move into a position that is not in check 
-# until king not in check, make them move out of the way
-
-
-#checkmate
-#if someone in check
-# check potential mvoes of king (legal)
-# if all of these would also be in check 
-#then checkmate
-
-# if check, ensure next move removes check ?
-# change checkmate to prelim checkmate
-# check preliminary checkmate,
-# if prelim checkmate true 
-# if piece.taking king == true 
-#array of pieces taking the king 
-# check if that piece can be taken 
-# remove that piece from current pos and check for checkmate again (only remove one piece at a time)
-#then confirm checkmate if that piece cannot be taken to stop prelim checkmate
-
-#add in en passant
-
-# add in save
-
-
-# checkmate should be done - check with black as well !!!!
-# check promotion array being altered
-##
-
-
-#big to do 
-#add in en passant
-# add in save
-# check if path can be blocked in checkmate
-
-#en passant pseudo:
-
-# find piece(A) to left/right of pawn (B)
-# if it is a pawn(A)
-# and if it(A) just moved two spaces (i.e first move = false && previous move was moving that pawn by two ???)
-# pawn(B) can move diagonally in front of +-x that pawn (A)
-# pawn (A) is taken 
-# 
-# remember previous move? # at end of turn prev move = current pos of piece moved
-# find_piece(prev move ) if == pawn && first_move = false 
-# can do en passant 
-#
-#
-
-# black pawn doesnt take white knight diagonally 
+#save 
+#stalemate
