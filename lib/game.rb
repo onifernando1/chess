@@ -9,6 +9,8 @@ require_relative 'rook.rb'
 require_relative 'player.rb'
 require_relative 'player_white.rb'
 require_relative 'player_black.rb'
+require 'yaml'
+
 
 class Game 
     attr_accessor :co_ordinates 
@@ -32,7 +34,6 @@ class Game
         @game_end = false 
         @king_in_check = true 
         @checkmate = false 
-        @current_board.show_board()
         @previous_move_start = []
         @previous_move_end = []
 
@@ -548,7 +549,7 @@ class Game
 
       
     def get_start_coordinates
-        puts "#{@current_player.name} 1.Please type the co-ordinates of the piece you would like to move e.g A1"
+        puts "#{@current_player.name} 1.Please type the co-ordinates of the piece you would like to move e.g A1 /Type load to load saved game"
         @player_start_coords = gets.chomp
        
     end 
@@ -651,7 +652,7 @@ class Game
 
     def get_end_coordinates
 
-        puts "#{@current_player.name} 2.Please enter the co-ordinates of your move E.g: 'A1'(type back to go back)"
+        puts "#{@current_player.name} 2.Please enter the co-ordinates of your move E.g: 'A1'(type back to go back/save to save)"
         @player_end_coords = gets.chomp()
 
     end 
@@ -818,6 +819,15 @@ class Game
     def get_valid_input
 
         get_start_coordinates()
+
+        if @player_start_coords == "load"
+            load_game()
+        end 
+
+        if @player_start_coords == "save"
+            save_game()
+        end 
+
 
         check_valid_start_input(@player_start_coords)      
 
@@ -1202,6 +1212,14 @@ class Game
     def get_valid_end_input
 
             get_end_coordinates()
+
+            if @player_end_coords == "save" ||@player_end_coords == "SAVE"
+                save_game()
+            end 
+
+            if @player_end_coords == "load" ||@player_end_coords == "LOAD"
+                load_game()
+            end 
             
 
             if @player_end_coords == "back" ||@player_end_coords == "BACK"
@@ -1301,6 +1319,24 @@ class Game
 
     end 
 
+    def save_game
+        if File.exist?('save_game.yml')
+            File.delete('save_game.yml')
+        end 
+
+        File.open('save_game.yml', 'w') { |file| file.write(YAML.dump(self)) }
+        puts 'GAME SAVED'
+    end
+
+    def load_game
+        file = File.open('save_game.yml', 'r')
+        game = YAML.unsafe_load(file)
+        puts 'GAME LOADED'
+        reset()
+        game.game()
+        game.win_message()
+    end
+
     def round 
         start_of_round()
 
@@ -1315,6 +1351,9 @@ class Game
     end 
 
     def game 
+
+        @current_board.show_board()
+
         until @win == true 
             round()
         end 
@@ -1336,22 +1375,10 @@ game = Game.new()
 game.game()
 game.win_message()
 
+
 #save 
-#stalemate
+#clean up code 
+# make methods private 
+#rubocop
 # can a multiple pawns be promoted on same spot??
 #castle swap
-
-
-# stalemate pseudocode 
-# if check!= true 
-# check for stalemate()
-# check all of king potential legal moves 
-# check for check 
-# if check/checkmate would = true for all of them 
-# stalemate = true 
-#
-#
-#
-#
-#
-#
