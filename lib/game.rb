@@ -36,6 +36,9 @@ class Game
         @previous_move_start = []
         @previous_move_end = []
 
+
+
+
     end 
 
     def intro
@@ -492,6 +495,57 @@ class Game
 
     end 
 
+    def check_for_stalemate
+
+        @stalemate = false 
+   
+        @current_king = find_current_king()
+
+        @checkmate_array = []
+
+        @current_king.find_moves_to_check()
+
+        @current_king.sort_king_moves(@current_player)
+
+        remember_king_current_position = @current_king.current_position
+
+        see_if_king_can_escape_check()
+
+        if @checkmate_array.empty? == false && @checkmate_array.all?(true)
+            @stalemate = true 
+            puts "STALEMATE"
+            p @checkmate_array
+        end 
+
+        @current_king.current_position = remember_king_current_position
+
+
+    end 
+
+
+    def stalemate
+
+        pre_game_check(@current_pieces) # unecessary maybe 
+
+        if @king_in_check != true 
+
+
+            check_for_stalemate()
+
+        end 
+
+
+    end 
+
+
+
+
+
+
+
+
+
+
       
     def get_start_coordinates
         puts "#{@current_player.name} 1.Please type the co-ordinates of the piece you would like to move e.g A1"
@@ -827,6 +881,7 @@ class Game
 
         check_mate_functions()
 
+        stalemate() # pointer
 
         @continue = false 
         @valid_piece = false 
@@ -1240,7 +1295,7 @@ class Game
 
     def check_win
 
-        if @king_definitely_in_checkmate == true 
+        if @king_definitely_in_checkmate == true || @stalemate == true 
             @win = true 
         end 
 
@@ -1285,3 +1340,18 @@ game.win_message()
 #stalemate
 # can a multiple pawns be promoted on same spot??
 #castle swap
+
+
+# stalemate pseudocode 
+# if check!= true 
+# check for stalemate()
+# check all of king potential legal moves 
+# check for check 
+# if check/checkmate would = true for all of them 
+# stalemate = true 
+#
+#
+#
+#
+#
+#

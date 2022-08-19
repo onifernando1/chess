@@ -1,3 +1,5 @@
+
+
 class Node attr_accessor :x, :y, :distance, :co_ordinates, :parent
 
     def initialize(x=nil, y=nil, distance=0, parent=nil)
