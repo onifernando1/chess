@@ -462,7 +462,10 @@ class Game
   end
 
   def get_start_coordinates
-    puts "#{@current_player.name} 1.Please type the co-ordinates of the piece you would like to move e.g A1 /Type load to load saved game"
+    puts "\n"
+    puts "#{@current_player.name} 1.Please type the co-ordinates of the piece you would like to move e.g A1"
+    puts "\n" 
+    puts "Type load to load saved game"
     @player_start_coords = gets.chomp
   end
 
@@ -542,7 +545,10 @@ class Game
   end
 
   def get_end_coordinates
-    puts "#{@current_player.name} 2.Please enter the co-ordinates of your move E.g: 'A1'(type back to go back/save to save)"
+    puts "\n"
+    puts "#{@current_player.name} 2.Please enter the co-ordinates of your move E.g: 'A1'"
+    puts "\n"
+    puts "(type back to go back/save to save)"
     @player_end_coords = gets.chomp
   end
 
@@ -1119,9 +1125,9 @@ class Game
   end
 end
 
-game = Game.new
-game.game
-game.win_message
+# game = Game.new
+# game.game
+# game.win_message
 
 # save
 # clean up code
