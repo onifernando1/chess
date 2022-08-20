@@ -1,22 +1,18 @@
-require_relative "player.rb"
+# frozen_string_literal: true
 
-class PlayerBlack < Player 
+require_relative 'player'
 
-    attr_accessor :name
-    attr_reader :colour
+class PlayerBlack < Player
+  attr_accessor :name
+  attr_reader :colour
 
+  def initialize
+    super
+    @colour = 'black'
+  end
 
-
-    def initialize
-        super 
-        @colour = "black"
-    end 
-
-    def get_name
-
-        puts "Black: Enter your name"
-        super 
-
-    end 
-
-end 
+  def get_name
+    puts 'Black: Enter your name'
+    super
+  end
+end

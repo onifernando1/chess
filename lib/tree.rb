@@ -1,56 +1,44 @@
-require_relative 'node.rb'
+# frozen_string_literal: true
 
-class Tree attr_accessor :queue, :moves, :path, :continue, :distance, :current_node, :node
+require_relative 'node'
 
-    def initialize 
-        @queue = []
-        @moves = []
-        @path = []
-        @continue = true 
-    end 
+class Tree
+  attr_accessor :queue, :moves, :path, :continue, :distance, :current_node, :node
 
-    def add_node(x, y, distance, parent=nil)
-        node = Node.new(x, y, distance, parent)
-        @queue << node 
-        node
-    end 
+  def initialize
+    @queue = []
+    @moves = []
+    @path = []
+    @continue = true
+  end
 
-    def move_valid? (x, y)
+  def add_node(x, y, distance, parent = nil)
+    node = Node.new(x, y, distance, parent)
+    @queue << node
+    node
+  end
 
-        if x < 8 && x >= 0 && y < 8 && y >= 0 
-            return true 
-        else 
-            return false 
-        end 
+  def move_valid?(x, y)
+    if x < 8 && x >= 0 && y < 8 && y >= 0
+      true
+    else
+      false
+    end
+  end
 
-    end 
+  def print_path
+    current = @current_node
 
-            
-           
+    (0..@current_node.distance).each do |_i|
+      @path.prepend(current.co_ordinates)
+      current = current.parent
+    end
 
-    
-    def print_path
+    # remove first (starting) move
+    @path.shift
+    # # remove end move (dealt with in findpathfunction)
+    @path.pop if @path.length > 1
 
-
-        current = @current_node
-
-
-        for i in (0..@current_node.distance)
-            @path.prepend(current.co_ordinates)
-            current = current.parent
-        end 
-
-
-        # remove first (starting) move
-        @path.shift()
-        # # remove end move (dealt with in findpathfunction)
-        if @path.length > 1 
-            @path.pop()
-        end 
-
-        @path
-        
-    end 
-
-
-end 
+    @path
+  end
+end

@@ -1,11 +1,10 @@
-require_relative 'bishop.rb'
-require_relative 'board.rb'
-require_relative 'knight.rb'
-require_relative 'pawn.rb'
-require_relative 'piece.rb'
-require_relative 'queen.rb'
-require_relative 'king.rb'
-require_relative 'rook.rb'
+# frozen_string_literal: true
 
-
-
+require_relative 'bishop'
+require_relative 'board'
+require_relative 'knight'
+require_relative 'pawn'
+require_relative 'piece'
+require_relative 'queen'
+require_relative 'king'
+require_relative 'rook'

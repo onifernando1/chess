@@ -1,14 +1,11 @@
-class Player 
+# frozen_string_literal: true
 
-    def initialize 
-        @name = '' 
+class Player
+  def initialize
+    @name = ''
+  end
 
-    end 
-
-    def get_name 
-        
-        @name = gets.chomp
-        
-    end 
-
-end 
+  def get_name
+    @name = gets.chomp
+  end
+end
