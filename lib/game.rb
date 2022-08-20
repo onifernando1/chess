@@ -497,12 +497,32 @@ class Game
   end
 
   def select_player(co_ordinates)
+    puts "SP"
+    puts "WK CP SP #{@white_knight1.current_position}"
+    puts "WK IN @CP? #{@current_pieces.include?(@white_knight1)}"
     @valid_piece = false
     @current_pieces.each do |piece|
       if piece.current_position == co_ordinates
         @piece = piece
         @valid_piece = true
-      end
+        puts "VALID PIECE!"
+        puts "VALID #{piece.class} #{piece.colour} #{piece.current_position}"
+        puts co_ordinates
+
+      else 
+        puts "ELSE"
+        puts "WK CP = PIECE.CP? #{@white_knight1.current_position == co_ordinates}"
+
+        puts self.class
+        puts "NOT VP"
+        puts ": #{piece.class}, #{piece.colour}"
+        puts "DESIRED COORDS: #{co_ordinates}"
+        puts "PIECE COORDS: #{piece.current_position}"
+        puts "ELSE "
+        puts"----"
+        puts "WK CP SP  ELSE #{@white_knight1.current_position}"
+
+      end 
     end
 
     @piece
@@ -522,6 +542,8 @@ class Game
     @king_definitely_in_checkmate_array = []
 
     @pieces_that_are_checking.each do |piece|
+      puts "DELETING DUPLICATE"
+      puts "CP LENGTH #{@current_pieces.length}"
       current_pieces_duplicate.delete(piece)
 
       pre_game_check(current_pieces_duplicate)
@@ -533,12 +555,13 @@ class Game
                                       else
                                         true
                                       end
+    @current_pieces << piece
     end
   end
 
-  def check_if_piece_checking_king_can_be_taken
+  def check_if_piece_checking_king_can_be_taken # markk
     if @checkmate == true
-
+      puts "checkmate"
       find_pieces_checking_king
       current_pieces_duplicate = @current_pieces
       remove_player(current_pieces_duplicate)
@@ -666,6 +689,8 @@ class Game
       @correct_colour = true
     else
       puts 'Must pick own colour! cheeky!'
+      puts self.class 
+      puts self 
     end
   end
 
@@ -708,7 +733,7 @@ class Game
 
       if @valid_piece == false
         puts 'Please pick a valid piece!'
-        reset
+        reset()
       end
 
       check_colour unless @piece_selected.nil?
@@ -1077,6 +1102,9 @@ class Game
       @piece_selected.first_move = false
     end
 
+    puts "WK CP EOR #{@white_knight1.current_position}"
+
+
     @current_board.show_board
 
     @previous_move_start = @start_co_ordinates
@@ -1139,3 +1167,6 @@ end
 # rubocop
 # can a multiple pawns be promoted on same spot??
 # castle swap
+
+# check seems to be removing knight from current pieces
+# b2 a3 b5 d6 (check) knight removed from cp 
