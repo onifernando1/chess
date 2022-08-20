@@ -9,7 +9,7 @@ require 'colorize'
 
 class Queen < Piece
   attr_accessor :symbol, :colour, :string, :current_position, :potential_x, :potential_y, :current_pieces,
-                :path_blocked, :string, :checking_king, :position_to_check_path
+                :path_blocked, :string, :checking_king, :position_to_check_path, :path
 
   def initialize(current_board, colour = 'white')
     super
@@ -19,6 +19,7 @@ class Queen < Piece
     @current_position = [0, 0]
     potential_moves
     @path_blocked = nil
+    @path = nil # new add 
   end
 
   def move(x = 7, y = 3)

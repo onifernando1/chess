@@ -9,7 +9,7 @@ require_relative 'node'
 
 class Rook < Piece
   attr_accessor :string, :symbol, :current_position, :potential_x, :potential_y, :current_pieces, :path_blocked,
-                :checking_king, :position_to_check_path
+                :checking_king, :position_to_check_path, :path
 
   def initialize(current_board, colour = 'white')
     super
@@ -18,6 +18,8 @@ class Rook < Piece
     @current_position = [0, 0]
     potential_moves
     @path_blocked = nil
+    @path = nil # new add 
+
   end
 
   def move(x = 7, y = 0)

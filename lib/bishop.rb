@@ -9,7 +9,7 @@ require_relative 'bst'
 
 class Bishop < Piece
   attr_accessor :symbol, :colour, :string, :current_position, :potential_x, :potential_y, :path_blocked,
-                :current_pieces, :checking_king, :position_to_check_path
+                :current_pieces, :checking_king, :position_to_check_path, :path
 
   def initialize(current_board, colour = 'white')
     super
@@ -18,6 +18,8 @@ class Bishop < Piece
     @current_position = [0, 0]
     potential_moves
     @path_blocked = nil
+    @path = nil # new add 
+
   end
 
   def move(x = 7, y = 2)
