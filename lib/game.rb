@@ -466,6 +466,8 @@ class Game
     puts "#{@current_player.name} 1.Please type the co-ordinates of the piece you would like to move e.g A1"
     puts "\n" 
     puts "Type load to load saved game"
+    puts "\n" 
+
     @player_start_coords = gets.chomp
   end
 
@@ -549,6 +551,8 @@ class Game
     puts "#{@current_player.name} 2.Please enter the co-ordinates of your move E.g: 'A1'"
     puts "\n"
     puts "(type back to go back/save to save)"
+    puts "\n"
+
     @player_end_coords = gets.chomp
   end
 
