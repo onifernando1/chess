@@ -1212,6 +1212,8 @@ class Game
         @piece_selected.check_destination(@end_co_ordinates, @current_player)
 
         error_messages
+
+
       end 
 
     end
@@ -1291,12 +1293,15 @@ class Game
 
         start_of_round
 
-        if @continue == true
-          end_of_round
-          reset
-          swap_player
+        if @win == false 
 
-        end
+          if @continue == true
+            end_of_round
+            reset
+            swap_player
+
+          end
+        end 
 
       else 
         win_message()
@@ -1351,3 +1356,5 @@ end
 # legal move not working right 
 
 #bishop d3 - f6 crashes # stop calling minim steps if not a legal move 
+
+# king not in check if next to queen? (can be taken but still should be in check )
