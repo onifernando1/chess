@@ -44,26 +44,26 @@ class Game
     @white_king = King.new(@current_board, "white")
     @white_queen = Queen.new(@current_board, "white")
     @black_queen = Queen.new(@current_board, "black")
-    @black_rook = Rook.new(@current_board, "black")
-    @black_rook2 = Rook.new(@current_board, "black")
+    # @black_rook = Rook.new(@current_board, "black")
+    # @black_rook2 = Rook.new(@current_board, "black")
     @black_queen.change_colour()
-    @black_rook.change_colour()
-    @black_rook2.change_colour()
+    # @black_rook.change_colour()
+    # @black_rook2.change_colour()
     @white_king.move(7,3)
-    @white_queen.move(7,2)
+    @white_queen.move(0,3)
     @black_queen.move(3,3)
-    @black_rook.move(3,4)
-    @black_rook2.move(3,2)
+    # @black_rook.move(3,4)
+    # @black_rook2.move(3,2)
     @current_pieces << @white_king
     @current_pieces << @white_queen
     @current_pieces << @black_queen
-    @current_pieces << @black_rook
-    @current_pieces << @black_rook2
+    # @current_pieces << @black_rook
+    # @current_pieces << @black_rook2
     @white_king.current_pieces = @current_pieces
     @white_queen.current_pieces = @current_pieces
     @black_queen.current_pieces = @current_pieces
-    @black_rook.current_pieces = @current_pieces
-    @black_rook2.current_pieces = @current_pieces
+    # @black_rook.current_pieces = @current_pieces
+    # @black_rook2.current_pieces = @current_pieces
 
 
 
@@ -463,7 +463,7 @@ class Game
           @check_mate_can_be_blocked = true if piece.path_blocked == false 
 
           @pieces_that_can_block_checkmate << piece 
-          
+
 
         end
       end
@@ -636,7 +636,7 @@ class Game
     end
   end
 
-  def check_if_piece_checking_king_can_be_taken # markk
+  def check_if_piece_checking_king_can_be_blocked # markk
     
     find_pieces_checking_king()
 
@@ -646,22 +646,70 @@ class Game
 
     check_if_checkmate_can_be_blocked() # new add 
 
+
+    puts "CIBCKCBT FUNCTION RESUKLT: KDIC? = #{@king_definitely_in_checkmate}"
+
     if @check_mate_can_be_blocked == true 
 
-      @checkmate = true 
+      @king_definitely_in_checkmate = false  
 
     end 
-    
+
     if @pieces_that_are_checking.empty? == false  #pieccanbetakne == true - add in && @check_mate_can_be_blocked == true 
 
       remove_player(current_pieces_duplicate)
 
     end 
 
-    puts "CIBCKCBT FUNCTION RESUKLT: KDIC? = #{@king_definitely_in_checkmate}"
-
 
   end
+
+  def check_if_piece_checking_king_can_be_taken # pointer 
+
+    @piece_checking_king_can_still_be_taken = false 
+
+
+    # check if pieces can take king 
+
+        find_current_king()
+
+        end_co_ords = @current_king.current_position 
+    
+        @pieces_that_are_checking.each do |piece|
+        #######################
+
+        legal_move_generator(piece.current_position, piece)
+
+        legal_move(end_co_ords, @legal_end_x, @legal_end_y) # @legal_move = true
+
+
+        next unless @legal_move == true
+
+        check_for_any_blocks(piece, piece.current_position, path_co_ord) # @block = false
+
+        if piece.class == Pawn
+
+          check_if_pawn_can_take(path_co_ord, piece)
+        end 
+
+        next unless @block == false
+
+
+        piece.check_destination(path_co_ord, @current_player)
+
+        # @checkmate_array << false if piece.path_blocked == false
+
+        @piece_checking_king_can_still_be_taken = true if piece.path_blocked == false 
+
+        # @pieces_that_can_block_checkmate << piece 
+
+      end 
+
+        #############################
+
+
+
+  end 
 
   def get_end_coordinates
     puts "\n"
@@ -866,11 +914,23 @@ class Game
     end
   end
 
-  def check_mate_functions
+  def check_mate_functions # pointer mark 
     
 
     if @checkmate == true 
-      check_if_piece_checking_king_can_be_taken
+      check_if_piece_checking_king_can_be_blocked
+
+      if @check_mate_can_be_blocked == false && @pieces_that_are_checking.length == 1
+        #pointer
+        #check if piece checking king can be taken
+        check_if_piece_checking_king_can_be_taken() 
+
+        if @piece_checking_king_can_still_be_taken= true 
+          @king_definitely_in_checkmate = false 
+        end 
+
+      end 
+    
     end 
 
   end
