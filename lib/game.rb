@@ -19,16 +19,16 @@ class Game
   def initialize
     @current_board = Board.new
     @win = false
-    set_up_white
-    set_up_black
+    # set_up_white
+    # set_up_black
     set_up_players
     @current_player = @player_white
     intro
     @current_pieces = []
     add_black_to_promotion_array
     add_white_to_promotion_array
-    save_current_pieces
-    update_current_pieces
+    # save_current_pieces
+    # update_current_pieces
     @generic_piece = Piece.new(@current_board, 'white', @current_pieces)
     @valid_start_coordinates = false
     @start_valid = false
@@ -39,6 +39,35 @@ class Game
     @previous_move_end = []
     @king_alive = true  
     @king_definitely_in_checkmate = false
+
+    ##################################################
+    @white_king = King.new(@current_board, "white")
+    @white_queen = Queen.new(@current_board, "white")
+    @black_queen = Queen.new(@current_board, "black")
+    @black_rook = Rook.new(@current_board, "black")
+    @black_rook2 = Rook.new(@current_board, "black")
+    @black_queen.change_colour()
+    @black_rook.change_colour()
+    @black_rook2.change_colour()
+    @white_king.move(7,3)
+    @white_queen.move(7,2)
+    @black_queen.move(3,3)
+    @black_rook.move(3,4)
+    @black_rook2.move(3,2)
+    @current_pieces << @white_king
+    @current_pieces << @white_queen
+    @current_pieces << @black_queen
+    @current_pieces << @black_rook
+    @current_pieces << @black_rook2
+    @white_king.current_pieces = @current_pieces
+    @white_queen.current_pieces = @current_pieces
+    @black_queen.current_pieces = @current_pieces
+    @black_rook.current_pieces = @current_pieces
+    @black_rook2.current_pieces = @current_pieces
+
+
+
+    ##################################################
 
 
   end
@@ -320,7 +349,10 @@ class Game
   def pre_game_check(current_pieces)
     @king_in_check = false
 
+
     current_pieces.each do |piece|
+
+
       next unless piece.colour != @current_player.colour # e.g if white only chgeck black pieces
 
       piece.check_for_check(@current_player, @white_king, @black_king)
@@ -385,6 +417,8 @@ class Game
 
   def check_if_checkmate_can_be_blocked # marker 
 
+    @pieces_that_can_block_checkmate = []
+
     @check_mate_can_be_blocked = false 
 
     find_pieces_checking_king
@@ -427,6 +461,10 @@ class Game
           # @checkmate_array << false if piece.path_blocked == false
 
           @check_mate_can_be_blocked = true if piece.path_blocked == false 
+
+          @pieces_that_can_block_checkmate << piece 
+          
+
         end
       end
     end
@@ -483,7 +521,6 @@ class Game
 
   def check_for_stalemate
 
-    puts "CHECKING FOR STALEMATE"
     @stalemate = false
 
     @current_king = find_current_king
@@ -571,24 +608,22 @@ class Game
   end
 
   def remove_player(current_pieces_duplicate) # error in this method! KDIC pointer
-    # @king_definitely_in_checkmate = false
-    puts "RP CALLED "
     @king_definitely_in_checkmate_array = []
 
-    @pieces_that_are_checking.each do |piece|
-      puts "PIECES CHECKING RM: #{piece.colour} #{piece.class}"
+    @pieces_that_can_block_checkmate.each do |piece|
+
+      puts current_pieces_duplicate.length 
 
       current_pieces_duplicate.delete(piece)
 
+      puts current_pieces_duplicate.length 
       
       pre_game_check(current_pieces_duplicate)
 
-      if @king_in_check == false 
-        puts "KIC FALSE PIECE #{piece.class} #{piece.colour}"
-      end 
-
+      puts "KIC AFTER PGC RP #{@king_in_check}" 
 
       @king_definitely_in_checkmate_array << @king_in_check
+
 
       @king_definitely_in_checkmate = if @king_definitely_in_checkmate_array.any?(false)
                                         false
@@ -596,7 +631,6 @@ class Game
                                         true
                                       end
 
-      puts "KDIC?????? #{@king_definitely_in_checkmate}"
                                     
     @current_pieces << piece
     end
@@ -612,9 +646,13 @@ class Game
 
     check_if_checkmate_can_be_blocked() # new add 
 
+    if @check_mate_can_be_blocked == true 
 
+      @checkmate = true 
+
+    end 
     
-    if @pieces_that_are_checking.empty? == false  && @check_mate_can_be_blocked == true 
+    if @pieces_that_are_checking.empty? == false  #pieccanbetakne == true - add in && @check_mate_can_be_blocked == true 
 
       remove_player(current_pieces_duplicate)
 
@@ -1055,7 +1093,6 @@ class Game
         white_pawn_promotion
 
       else
-        puts 'BLACK PAWN PROMOTION CALLED '
         black_pawn_promotion
 
       end
@@ -1194,7 +1231,6 @@ class Game
   def check_win
     @win = true if @king_definitely_in_checkmate == true || @stalemate == true #|| @checkmate == true 
 
-    puts "WIN: #{@win}, KDIC #{@king_definitely_in_checkmate}"
  
   end
 
@@ -1256,7 +1292,7 @@ class Game
   def game
     @current_board.show_board
 
-    round #until @win == true || @king_alive == false 
+    round 
   end
 
   def win_message
