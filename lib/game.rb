@@ -38,6 +38,8 @@ class Game
     @previous_move_start = []
     @previous_move_end = []
     @king_alive = true  
+    @king_definitely_in_checkmate = false
+
 
   end
 
@@ -307,9 +309,7 @@ class Game
       piece.path_blocked = false
     end
 
-    puts "KIC BEFORE IF IN PPC#{@king_in_check}"
     @king_in_check = true if piece.path_blocked == false && piece.checking_king == true
-    puts "KIC AFTER IF IN PPC#{@king_in_check}"
 
   end
 
@@ -326,6 +326,7 @@ class Game
       piece.check_for_check(@current_player, @white_king, @black_king)
 
       if piece.checking_king == true
+
 
         if piece.string == " \u265D " || piece.string == " \u265C " || piece.string == " \u265B "
 
@@ -345,9 +346,14 @@ class Game
 
         end
       end
+
+      
+
+
     end
 
-    puts "#{@king_in_check} KIC END OF PGC"
+  
+
   end
 
   def find_path_of_piece_to_block
@@ -378,35 +384,31 @@ class Game
   end
 
   def check_if_checkmate_can_be_blocked # marker 
+
+    @check_mate_can_be_blocked = false 
+
     find_pieces_checking_king
 
     find_path_of_piece_to_block
 
-    p "NEW PATH CIFCB #{@new_path}" 
 
     unless @new_path.nil?
 
 
       find_pieces_that_could_save_the_king
 
-      p "PTCB#{@pieces_that_could_block[0].class}"
-      p "PTCB#{@pieces_that_could_block[0].colour}"
-      p "PTCB#{@pieces_that_could_block[0].current_position}"
+      # p "PTCB#{@pieces_that_could_block[0].class}"
+      # p "PTCB#{@pieces_that_could_block[0].colour}"
+      # p "PTCB#{@pieces_that_could_block[0].current_position}"
 
 
       @new_path.each do |path_co_ord|
         @pieces_that_could_block.each do |piece|
-          puts "PC #{piece.class}"
-          puts "PC #{piece.current_position}"
 
           legal_move_generator(piece.current_position, piece)
 
           legal_move(path_co_ord, @legal_end_x, @legal_end_y) # @legal_move = true
 
-          if piece.class == Pawn
-
-            p "PATH CO ORD #{path_co_ord}"
-          end 
 
           next unless @legal_move == true
 
@@ -415,17 +417,16 @@ class Game
           if piece.class == Pawn
 
             check_if_pawn_can_take(path_co_ord, piece)
-            puts @block
-            puts "___"
           end 
 
           next unless @block == false
 
-          puts "PIECE NOT BLOCKED! #{piece.class} #{piece.colour }"
 
           piece.check_destination(path_co_ord, @current_player)
 
-          @checkmate_array << false if piece.path_blocked == false
+          # @checkmate_array << false if piece.path_blocked == false
+
+          @check_mate_can_be_blocked = true if piece.path_blocked == false 
         end
       end
     end
@@ -443,7 +444,9 @@ class Game
       @current_king.current_position = co_ords
       pre_game_check(@current_pieces)
       @checkmate_array << @king_in_check
+      p "____"
       p @checkmate_array
+      p "____"
       if @king_in_check == false 
         p co_ords
       end 
@@ -457,7 +460,6 @@ class Game
 
     @checkmate_array = []
 
-    check_if_checkmate_can_be_blocked
 
     @current_king.sort_king_moves(@current_player)
 
@@ -470,12 +472,18 @@ class Game
 
     @checkmate = true if @checkmate_array.all?(true)
 
+    check_if_checkmate_can_be_blocked # this needs to be moved 
+
+
     p "#{@checkmate}"
 
     @current_king.current_position = remember_king_current_position
+
   end
 
   def check_for_stalemate
+
+    puts "CHECKING FOR STALEMATE"
     @stalemate = false
 
     @current_king = find_current_king
@@ -501,7 +509,6 @@ class Game
 
   def stalemate
     pre_game_check(@current_pieces) # unecessary maybe
-
     check_for_stalemate if @king_in_check != true
   end
 
@@ -563,22 +570,22 @@ class Game
     @pieces_that_are_checking
   end
 
-  def remove_player(current_pieces_duplicate)
-    @king_definitely_in_checkmate = false
+  def remove_player(current_pieces_duplicate) # error in this method! KDIC pointer
+    # @king_definitely_in_checkmate = false
+    puts "RP CALLED "
     @king_definitely_in_checkmate_array = []
 
     @pieces_that_are_checking.each do |piece|
-  
+      puts "PIECES CHECKING RM: #{piece.colour} #{piece.class}"
+
       current_pieces_duplicate.delete(piece)
 
-      puts "RP BEFORE PGC #{piece.class} #{piece.colour}"
-      puts "RP BEFORE PGC #{@king_in_check}"
-
-
+      
       pre_game_check(current_pieces_duplicate)
 
-      puts "RP AFTER PGC #{piece.class} #{piece.colour}"
-      puts "RP aFTER#{@king_in_check}"
+      if @king_in_check == false 
+        puts "KIC FALSE PIECE #{piece.class} #{piece.colour}"
+      end 
 
 
       @king_definitely_in_checkmate_array << @king_in_check
@@ -588,31 +595,34 @@ class Game
                                       else
                                         true
                                       end
+
+      puts "KDIC?????? #{@king_definitely_in_checkmate}"
+                                    
     @current_pieces << piece
     end
   end
 
   def check_if_piece_checking_king_can_be_taken # markk
-    if @checkmate == true
-      find_pieces_checking_king
-      current_pieces_duplicate = @current_pieces
-      # only remove player if there are pieces checking king right
-      
-      puts "KDIC BEFORE RP#{@king_definitely_in_checkmate}"
-      if @pieces_that_are_checking.empty? == false 
-        # puts "PIECES CHECKING #{@pieces_that_are_checking.length}"
-        puts "PIECES CHECKING #{@pieces_that_are_checking[0].class}"
-        puts "PIECES CHECKING #{@pieces_that_are_checking[0].colour}"
-        # puts "PIECES CHECKING #{@pieces_that_are_checking[1].class}"
-        # puts "PIECES CHECKING #{@pieces_that_are_checking[1].colour}"
+    
+    find_pieces_checking_king()
 
-        remove_player(current_pieces_duplicate)
-        # puts "RP"
-      end 
-      puts "KDIC BEFORE RP#{@king_definitely_in_checkmate}"
+    current_pieces_duplicate = @current_pieces
+
+    @king_definitely_in_checkmate = true 
+
+    check_if_checkmate_can_be_blocked() # new add 
 
 
-    end
+    
+    if @pieces_that_are_checking.empty? == false  && @check_mate_can_be_blocked == true 
+
+      remove_player(current_pieces_duplicate)
+
+    end 
+
+    puts "CIBCKCBT FUNCTION RESUKLT: KDIC? = #{@king_definitely_in_checkmate}"
+
+
   end
 
   def get_end_coordinates
@@ -630,7 +640,7 @@ class Game
     @legal_end_x = []
     @legal_end_y = []
 
-    p "COORDS LMG: #{co_ordinates}"
+    # p "COORDS LMG: #{co_ordinates}"
 
     # if piece_selected == [] || piece_selected.colour != @current_player.colour
     #   puts 'Silly goose. Pick a proper player'
@@ -645,12 +655,12 @@ class Game
           @legal_end_x << move_x
           @legal_end_y << move_y
 
-          if piece_selected.class == Pawn
-            puts "B"
-            p "MX = C + PSPX #{@move_x} = #{co_ordinates[0]} plus#{piece_selected.potential_x[i]}"
-            p "I #{i}"
-            p "LEEY#{@move_y}"
-          end 
+          # if piece_selected.class == Pawn
+          #   puts "B"
+          #   p "MX = C + PSPX #{@move_x} = #{co_ordinates[0]} plus#{piece_selected.potential_x[i]}"
+          #   p "I #{i}"
+          #   p "LEEY#{@move_y}"
+          # end 
         end
       end
     # end
@@ -762,11 +772,11 @@ class Game
   def swap_player
     if @current_player == @player_black
       @current_player = @player_white
-      check_win
+      # check_win()
       round if @win != true 
     elsif @current_player == @player_white
       @current_player = @player_black
-      check_win
+      # check_win()
       round if @win != true 
 
     end
@@ -814,34 +824,38 @@ class Game
 
     if @king_in_check == true
       puts 'WARNING! CHECK!'
-      check_mate_check
+      check_mate_check()
     end
   end
 
   def check_mate_functions
-    check_if_piece_checking_king_can_be_taken
+    
 
+    if @checkmate == true 
+      check_if_piece_checking_king_can_be_taken
+    end 
 
-    puts "KDIC#{@king_definitely_in_checkmate}"
-
-    puts 'CHECKMATE!' if @king_definitely_in_checkmate == true
   end
 
   def beginning_of_round_checks_and_reset
-    standard_check_function
+    
+    standard_check_function()
 
-    check_mate_functions
+    check_mate_functions()
 
+  
     stalemate # pointer
 
     @continue = false
     @valid_piece = false
     @correct_colour = false
 
+    check_win()
+
   end
 
   def start_of_round
-    beginning_of_round_checks_and_reset
+    # beginning_of_round_checks_and_reset
 
     until @valid_piece == true && @correct_colour == true && @piece_selected.class != Array
 
@@ -915,11 +929,9 @@ class Game
         # take()
         @block = false
       end
-      puts "IN URIF"
     else#if @current_board.board[@up_right_x][@up_right_y] == @piece_selected.black_square || @current_board.board[@up_right_x][@up_right_y] == @piece_selected.white_square
       @block = true
       en_passant
-      puts "INUREL"
     end
   end
 
@@ -935,17 +947,14 @@ class Game
         @block = false
 
       end
-      puts "IN IF "
     else#if @current_board.board[@up_left_x][@up_left_y] == @piece_selected.black_square || @current_board.board[@up_left_x][@up_left_y] == @piece_selected.white_square
       @block = true
       en_passant
-      puts "INELSE"
     end
   end
 
   def check_if_pawn_can_take(co_ordinates, piece_selected) # add in ps #pointer
 
-    puts "IN CIPCT"
     if piece_selected.instance_of?(Pawn)
       current_position = piece_selected.current_position
       @current_position_x = current_position[0]
@@ -953,21 +962,17 @@ class Game
 
       case piece_selected.colour
       when 'white'
-        puts "WHITE"
         white_pawn_take_moves
 
       when 'black'
-        puts "BLACK"
         black_pawn_take_moves
 
       end
 
       if @up_right_co_ords == co_ordinates
-        puts "URC"
         up_right_pawn_takes
 
       elsif @up_left_co_ords == co_ordinates
-        puts "ULC"
         up_left_pawn_takes
       end
 
@@ -1120,7 +1125,6 @@ class Game
 
   def restart_round
     round
-    puts "RESTART ROUND "
   end
 
   def get_valid_end_co_ords
@@ -1176,7 +1180,6 @@ class Game
       @piece_selected.first_move = false
     end
 
-    puts "WK CP EOR #{@white_knight1.current_position}"
 
     check_if_king_alive()
 
@@ -1189,7 +1192,10 @@ class Game
   end
 
   def check_win
-    @win = true if @king_definitely_in_checkmate == true || @stalemate == true
+    @win = true if @king_definitely_in_checkmate == true || @stalemate == true #|| @checkmate == true 
+
+    puts "WIN: #{@win}, KDIC #{@king_definitely_in_checkmate}"
+ 
   end
 
   def save_game
@@ -1212,17 +1218,22 @@ class Game
 
     if @king_alive == true 
 
-    
+      beginning_of_round_checks_and_reset
 
+      if @win == false 
 
-      start_of_round
+        start_of_round
 
-      if @continue == true
-        end_of_round
-        reset
-        swap_player
+        if @continue == true
+          end_of_round
+          reset
+          swap_player
 
-      end
+        end
+
+      else 
+        win_message()
+      end 
     
     end 
 
@@ -1249,6 +1260,11 @@ class Game
   end
 
   def win_message
+    if @checkmate == true 
+      puts "CHECKMATE! WELL DONE!"
+    elsif @stalemate == true 
+      puts "STALEMATE! DRAW!"
+    end 
     puts 'GAME OVER!'
   end
 end

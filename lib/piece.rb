@@ -164,9 +164,18 @@ class Piece
     find_moves_to_check
 
     king_position = current_king.current_position
+    # # puts "KING POS #{king_position}"
+    # puts "#{@final_positions_to_check}"
 
     @final_positions_to_check.each do |location|
       next unless location == king_position
+      # puts "CFC FPTC"
+      # puts self.class 
+      # puts self.colour 
+      # p location 
+      # p king_position
+      # puts "CFC FPTC"
+
 
       king_found = true
       @checking_king = true
