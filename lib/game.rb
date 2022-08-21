@@ -19,16 +19,16 @@ class Game
   def initialize
     @current_board = Board.new
     @win = false
-    # set_up_white
-    # set_up_black
+    set_up_white
+    set_up_black
     set_up_players
     @current_player = @player_white
     intro
     @current_pieces = []
     add_black_to_promotion_array
     add_white_to_promotion_array
-    # save_current_pieces
-    # update_current_pieces
+    save_current_pieces
+    update_current_pieces
     @generic_piece = Piece.new(@current_board, 'white', @current_pieces)
     @valid_start_coordinates = false
     @start_valid = false
@@ -39,35 +39,6 @@ class Game
     @previous_move_end = []
     @king_alive = true  
     @king_definitely_in_checkmate = false
-
-    ##################################################
-    @white_king = King.new(@current_board, "white")
-    @white_queen = Queen.new(@current_board, "white")
-    @black_queen = Queen.new(@current_board, "black")
-    # @black_rook = Rook.new(@current_board, "black")
-    # @black_rook2 = Rook.new(@current_board, "black")
-    @black_queen.change_colour()
-    # @black_rook.change_colour()
-    # @black_rook2.change_colour()
-    @white_king.move(7,3)
-    @white_queen.move(0,3)
-    @black_queen.move(3,3)
-    # @black_rook.move(3,4)
-    # @black_rook2.move(3,2)
-    @current_pieces << @white_king
-    @current_pieces << @white_queen
-    @current_pieces << @black_queen
-    # @current_pieces << @black_rook
-    # @current_pieces << @black_rook2
-    @white_king.current_pieces = @current_pieces
-    @white_queen.current_pieces = @current_pieces
-    @black_queen.current_pieces = @current_pieces
-    # @black_rook.current_pieces = @current_pieces
-    # @black_rook2.current_pieces = @current_pieces
-
-
-
-    ##################################################
 
 
   end
@@ -332,6 +303,7 @@ class Game
     check_piece_distance(piece, co_ord)
 
     if @need_to_check_path == true
+      "PPC #{piece.current_position}"
       piece.plot_path(piece.current_position[0], piece.current_position[1], co_ord[0], co_ord[1])
 
     else
@@ -398,7 +370,7 @@ class Game
         @piece_checking_king.set_up_path(@piece_checking_king.current_position[0],
                                                      @piece_checking_king.current_position[1], @current_king.current_position[0], @current_king.current_position[1])
         @new_path = @piece_checking_king.path 
-        p "NEW PATH #{@new_path}"
+        # p "NEW PATH #{@new_path}"
         @new_path
 
       end
@@ -482,12 +454,12 @@ class Game
       @current_king.current_position = co_ords
       pre_game_check(@current_pieces)
       @checkmate_array << @king_in_check
-      p "____"
-      p @checkmate_array
-      p "____"
-      if @king_in_check == false 
-        p co_ords
-      end 
+      # p "____"
+      # p @checkmate_array
+      # # p "____"
+      # if @king_in_check == false 
+      #   p co_ords
+      # end 
     end
   end
 
@@ -505,15 +477,15 @@ class Game
 
     see_if_king_can_escape_check
 
-    p @checkmate_array
-    p @checkmate_array.all?(true)
+    # p @checkmate_array
+    # p @checkmate_array.all?(true)
 
     @checkmate = true if @checkmate_array.all?(true)
 
     check_if_checkmate_can_be_blocked # this needs to be moved 
 
 
-    p "#{@checkmate}"
+    # p "#{@checkmate}"
 
     @current_king.current_position = remember_king_current_position
 
@@ -612,15 +584,12 @@ class Game
 
     @pieces_that_can_block_checkmate.each do |piece|
 
-      puts current_pieces_duplicate.length 
 
       current_pieces_duplicate.delete(piece)
 
-      puts current_pieces_duplicate.length 
       
       pre_game_check(current_pieces_duplicate)
 
-      puts "KIC AFTER PGC RP #{@king_in_check}" 
 
       @king_definitely_in_checkmate_array << @king_in_check
 
@@ -647,7 +616,6 @@ class Game
     check_if_checkmate_can_be_blocked() # new add 
 
 
-    puts "CIBCKCBT FUNCTION RESUKLT: KDIC? = #{@king_definitely_in_checkmate}"
 
     if @check_mate_can_be_blocked == true 
 
@@ -925,7 +893,7 @@ class Game
         #check if piece checking king can be taken
         check_if_piece_checking_king_can_be_taken() 
 
-        if @piece_checking_king_can_still_be_taken= true 
+        if @piece_checking_king_can_still_be_taken == true 
           @king_definitely_in_checkmate = false 
         end 
 
@@ -1229,19 +1197,22 @@ class Game
 
     until @block == false && @legal_move == true && @piece_selected.path_blocked == false
 
+      
       get_valid_end_input
 
       @end_co_ordinates = co_ordinate_converter(@player_end_coords)
 
       legal_move(@end_co_ordinates, @legal_end_x, @legal_end_y)
 
-      check_for_any_blocks(@piece_selected, @start_co_ordinates, @end_co_ordinates) # legal move() in this "
+      if @legal_move == true 
+        check_for_any_blocks(@piece_selected, @start_co_ordinates, @end_co_ordinates) # legal move() in this "
 
-      check_if_pawn_can_take(@end_co_ordinates, @piece_selected)
+        check_if_pawn_can_take(@end_co_ordinates, @piece_selected)
 
-      @piece_selected.check_destination(@end_co_ordinates, @current_player)
+        @piece_selected.check_destination(@end_co_ordinates, @current_player)
 
-      error_messages
+        error_messages
+      end 
 
     end
   end
@@ -1378,3 +1349,5 @@ end
 
 # queen minim steps crashing trtying to move forawrd pawn in way fixed 
 # legal move not working right 
+
+#bishop d3 - f6 crashes # stop calling minim steps if not a legal move 
